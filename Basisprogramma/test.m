@@ -37,7 +37,7 @@ for i = 1:n
     end
 end
 
-for k = 3:1000
+for k = 3:T
     a = F(x(:,k-1,:),m,D);
     v(:,k,:) = v(:,k-1,:) + a * dt;
     x(:,k,:) = x(:,k-1,:) + v(:,k,:) * dt;

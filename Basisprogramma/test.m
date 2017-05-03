@@ -1,13 +1,14 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 M = 1.99 * 10^30/(5.97 * 10^24); %massa zon in aardmassa's
-n = 2 + 1; %aantal hemellichamen: zon + aantal planeten
+n = 1 + 3; %aantal hemellichamen: zon + aantal planeten
 dt = 1; %tijdstapgrootte in maanden
-T = 100; %aantal tijdstappen
+T = 50; %aantal tijdstappen
 
 A = zeros(5,n); %m,x,y,vx,vy
 A(:,1) = [M,0,0,0,0]; %zon
 A(:,2) = [1,-3,-2,baansnelheid([-3,-2])];
-A(:,3) = [1,1,1,baansnelheid([1,1])];
+A(:,3) = [50,0,1.1,baansnelheid([0,1.1])];
+A(:,4) = [1,1,0,baansnelheid([1,0])];
 
 m = zeros(n,1); %massavector
 r = zeros(n,1); %straalvector
@@ -59,6 +60,8 @@ for k = 3:T
                     x(j,k-1,:)=(x(j,k-1,:)+x(i,k-1,:))/2;
                     m(i)=0;
                 end
+                r(i) = straal(m(i));
+                r(j) = straal(m(j));
             end
         end
     end
@@ -73,12 +76,16 @@ for k = 3:T
 end
 
 figure;
-
 for i = 1:n
     plot(x(i,:,1),x(i,:,2));
     hold on;
 end
 axis([-4 4 -4 4]);
 
-
+figure;
+for k = 1:T
+    scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^4*r(m>0 & m<10^5),linspace(1,10,2));
+    hold on;
+end
+axis([-4 4 -4 4]);
 

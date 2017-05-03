@@ -17,7 +17,8 @@ D = zeros(n); %onderlinge afstand^2 array
 
 for i = 1:n
     m(i) = A(1,i); %massa
-    r(i) = straal(m(i));
+    r(i) = straal(m(i)); %straal planeten
+    r(1) = 6.96 * 10^8/(1.5*10^11); %straal zon
     x(i,1,1) = A(2,i); %x coordinaat
     x(i,1,2) = A(3,i); %y coordinaat
     v(i,1,1) = A(4,i); %snelheid x richting
@@ -40,8 +41,8 @@ for i = 1:n
 end
 
 for k = 3:T
-    a = F(x(:,k-1,:),m,D); %versnelling op t = (k - 1) dt
-    v(:,k,:) = v(:,k-1,:) + a * dt; %snelheid op t = (k - 1/2) dt
+    a = F(x((m > 0),k-1,:),m,D((m > 0),(m > 0))); %versnelling op t = (k - 1) dt
+    v((m > 0),k,:) = v((m > 0),k-1,:) + a * dt; %snelheid op t = (k - 1/2) dt
     
     for i = 1:n-1
         for j = i+1:n
@@ -51,7 +52,7 @@ for k = 3:T
         end
     end
     
-    x(:,k,:) = x(:,k-1,:) + v(:,k,:) * dt; %plaats op t = k dt
+    x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * dt; %plaats op t = k dt
     for i = 1:n
         for j = 1:n
             D(i,j) = (x(i,k,1)-x(j,k,1))^2 + (x(i,k,2)-x(j,k,2))^2;

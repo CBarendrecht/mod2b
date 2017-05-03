@@ -30,7 +30,7 @@ for i = 1:n
     end
 end
 
-a = F(x(:,1,:),m,D); %versnelling op t = 0
+a = F(x((m>0),1,:),m,D); %versnelling op t = 0
 v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
 x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
 
@@ -44,10 +44,21 @@ for k = 3:T
     a = F(x((m > 0),k-1,:),m,D((m > 0),(m > 0))); %versnelling op t = (k - 1) dt
     v((m > 0),k,:) = v((m > 0),k-1,:) + a * dt; %snelheid op t = (k - 1/2) dt
     
+    %botsen
     for i = 1:n-1
         for j = i+1:n
             if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
-                
+                if m(i)>m(j)
+                    v(i,k,:)=(m(i)*v(i,k,:)+m(j)*v(j,k,:))/(m(i)+m(j));
+                    m(i)= m(i)+m(j); %nog aanpassen
+                    x(i,k-1,:)=(x(i,k-1,:)+x(j,k-1,:))/2;
+                    m(j)=0;
+                else
+                    v(j,k,:)=(m(j)*v(j,k,:)+m(i)*v(i,k,:))/(m(j)+m(i));
+                    m(j)= m(i)+m(j); %nog aanpassen
+                    x(j,k-1,:)=(x(j,k-1,:)+x(i,k-1,:))/2;
+                    m(i)=0;
+                end
             end
         end
     end

@@ -10,12 +10,14 @@ A(:,2) = [1,-3,-2,baansnelheid([-3,-2])];
 A(:,3) = [1,1,1,baansnelheid([1,1])];
 
 m = zeros(n,1); %massavector
+r = zeros(n,1); %straalvector
 x = zeros(n,T,2); %plaatsarray: deeltjes - tijd - dimensie
 v = zeros(n,T,2); %snelheidarray: deeltjes - tijd - dimensie
 D = zeros(n); %onderlinge afstand^2 array
 
 for i = 1:n
     m(i) = A(1,i); %massa
+    r(i) = straal(m(i));
     x(i,1,1) = A(2,i); %x coordinaat
     x(i,1,2) = A(3,i); %y coordinaat
     v(i,1,1) = A(4,i); %snelheid x richting
@@ -40,12 +42,22 @@ end
 for k = 3:T
     a = F(x(:,k-1,:),m,D); %versnelling op t = (k - 1) dt
     v(:,k,:) = v(:,k-1,:) + a * dt; %snelheid op t = (k - 1/2) dt
+    
+    for i = 1:n-1
+        for j = i+1:n
+            if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
+                
+            end
+        end
+    end
+    
     x(:,k,:) = x(:,k-1,:) + v(:,k,:) * dt; %plaats op t = k dt
     for i = 1:n
         for j = 1:n
-            D(i,j) = (x(i,k,1)-x(j,k,1)).^2 + (x(i,k,2)-x(j,k,2)).^2;
+            D(i,j) = (x(i,k,1)-x(j,k,1))^2 + (x(i,k,2)-x(j,k,2))^2;
         end
     end
+
 end
 
 figure;

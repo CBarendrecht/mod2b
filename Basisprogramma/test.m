@@ -1,14 +1,15 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 M = 1.99 * 10^30/(5.97 * 10^24); %massa zon in aardmassa's
-n = 1 + 3; %aantal hemellichamen: zon + aantal planeten
-dt = 1; %tijdstapgrootte in maanden
-T = 50; %aantal tijdstappen
+n = 1 + 4; %aantal hemellichamen: zon + aantal planeten
+dt = 0.5; %tijdstapgrootte in maanden
+T = 300; %aantal tijdstappen
 
 A = zeros(5,n); %m,x,y,vx,vy
 A(:,1) = [M,0,0,0,0]; %zon
-A(:,2) = [1,-3,-2,baansnelheid([-3,-2])];
-A(:,3) = [50,0,1.1,baansnelheid([0,1.1])];
-A(:,4) = [1,1,0,baansnelheid([1,0])];
+A(:,2) = [1,-1.5,-1,baansnelheid([-1.5,-1])];
+A(:,3) = [50,0,1.08,baansnelheid([0,1.1])];
+A(:,4) = [50,1,0,baansnelheid([1,0])];
+A(:,5) = [150,-0.7,-0.71,baansnelheid([-0.7,-0.7])];
 
 m = zeros(n,1); %massavector
 r = zeros(n,1); %straalvector
@@ -31,6 +32,14 @@ for i = 1:n
     end
 end
 
+figure;
+scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
+hold on;
+scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+axis([-2 2 -2 2]);
+hold on;
+pause(0.25);
+
 a = F(x((m>0),1,:),m,D); %versnelling op t = 0
 v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
 x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
@@ -40,6 +49,11 @@ for i = 1:n
         D(i,j) = (x(i,2,1)-x(j,2,1)).^2 + (x(i,2,2)-x(j,2,2)).^2;
     end
 end
+
+cla;
+scatter(x(1,2,1),x(1,2,2),10^4*r(1),[1,1,0],'filled');
+scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+pause(0.25);
 
 for k = 3:T
     a = F(x((m > 0),k-1,:),m,D((m > 0),(m > 0))); %versnelling op t = (k - 1) dt
@@ -72,20 +86,19 @@ for k = 3:T
             D(i,j) = (x(i,k,1)-x(j,k,1))^2 + (x(i,k,2)-x(j,k,2))^2;
         end
     end
-
+    
+    cla;
+    scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
+    scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+    pause(0.25);
 end
+hold off;
 
 figure;
 for i = 1:n
     plot(x(i,:,1),x(i,:,2));
     hold on;
 end
-axis([-4 4 -4 4]);
+axis([-2 2 -2 2]);
 
-figure;
-for k = 1:T
-    scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^4*r(m>0 & m<10^5),linspace(1,10,2));
-    hold on;
-end
-axis([-4 4 -4 4]);
 

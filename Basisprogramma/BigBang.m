@@ -1,4 +1,4 @@
-function [m,r,x,v] = BigBang(n,minR,maxR)
+function [m,r,x,v] = BigBang(n,minR,maxR,T)
    
     m = zeros(n,1); %massavector
     r = zeros(n,1); %straalvector

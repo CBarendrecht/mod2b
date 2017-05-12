@@ -24,7 +24,4 @@ function [massa,middelx,middely] = Boomvullen(B,m,x,knoop)
         middelx = B.array(knoop,6);
         middely =  B.array(knoop,7);
     end
-            
-
-
 end

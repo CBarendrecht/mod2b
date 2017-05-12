@@ -1,4 +1,3 @@
-
 function teller = Boommaken(B,A, midx, midy, L, knoop, knoptel, m, x)
     n = length(A);
     if sum(A) == 1

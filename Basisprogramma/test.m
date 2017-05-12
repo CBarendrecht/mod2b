@@ -1,8 +1,8 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 
 
-[p,dt,T,minR,maxR]=Menu();
-n = 1 + p; %aantal hemellichamen: zon + aantal planeten
+[p,dt,T,minR,maxR] = Menu();
+n = 1+p; %aantal hemellichamen: zon + aantal planeten
 [m,r,x,v] = BigBang(n,minR,maxR,T);
 
 D = zeros(n);

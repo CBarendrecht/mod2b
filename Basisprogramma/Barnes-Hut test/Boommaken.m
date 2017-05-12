@@ -1,4 +1,3 @@
-
 function teller = Boommaken(B,A, midx, midy, L, knoop, knoptel, m, x)
     n = length(A);
     if sum(A) == 1
@@ -36,9 +35,10 @@ function teller = Boommaken(B,A, midx, midy, L, knoop, knoptel, m, x)
                 end
             end
         end
-       teller = Boommaken(B,A1,(midx-L)/2,(midy+L)/2,L/2,knoptel+1,teller,m,x);
-       teller = Boommaken(B,A2,(midx+L)/2,(midy+L)/2,L/2,knoptel+2,teller,m,x);
-       teller = Boommaken(B,A3,(midx+L)/2,(midy-L)/2,L/2,knoptel+3,teller,m,x);
-       teller = Boommaken(B,A4,(midx-L)/2,(midy-L)/2,L/2,knoptel+4,teller,m,x);
+       teller = Boommaken(B,A1,midx-L/2,midy+L/2,L/2,knoptel+1,teller,m,x);
+       teller = Boommaken(B,A2,midx+L/2,midy+L/2,L/2,knoptel+2,teller,m,x);
+       teller = Boommaken(B,A3,midx+L/2,midy-L/2,L/2,knoptel+3,teller,m,x);
+       teller = Boommaken(B,A4,midx-L/2,midy-L/2,L/2,knoptel+4,teller,m,x);
     end
+end
         

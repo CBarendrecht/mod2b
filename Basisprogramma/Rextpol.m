@@ -2,9 +2,9 @@ clear all; %we hebben tijd in maanden en afstand in AE
 %[p,dt,T,minR,maxR] = Menu(); %aantal planeten, tijdstap, aantal stappen en
 %min en max afstand tot zon
 tel=1;
-for dt = [0.5,0.25,0.125]
+for dt = [0.5,0.25]
     p=1;
-    T=24/dt;
+    T=240/dt;
     minR=1;
     maxR=1;
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
@@ -108,8 +108,8 @@ for dt = [0.5,0.25,0.125]
     AantalPlaneten(tel)=sum(m>=0.06)-sum(m>=318);%eisen planeten
 end
 Q = atan(Qx./Qy);
-Mx=(4*Qx(:,1)-Q(:,2))/3;
-My=(4*Qy(:,1)-Q(:,2))/3;
+Mx=(4*Qx(:,1)-Qx(:,2))/3;
+My=(4*Qy(:,1)-Qy(:,2))/3;
 %px = round(log((Qx(2)-Qx(1))/(Qx(3)-Qx(2)))/log(2)); Orde is 2,want leapfrog, hoeft p
 %niet te berekenen
 %py = round(log((Qy(2)-Qy(1))/(Qy(3)-Qy(2)))/log(2));

@@ -1,5 +1,6 @@
 function teller = Boommaken(B,A, midx, midy, L, knoop, knoptel, m, x)
     n = length(A);
+    B.array(knoop,8) = L;
     if sum(A) == 1
         for j=1:n
             if A(1,j) == 1

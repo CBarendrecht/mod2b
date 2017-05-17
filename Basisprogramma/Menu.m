@@ -7,7 +7,7 @@ function [p, dt, T, minR, maxR]= Menu()
   
   dlg_title = 'Input';
   num_lines = 1;
-  defaultans = {'10', '1','500', '0.2', '1.7'} ;
+  defaultans = {'20', '1','100', '1', '9'} ;
   options.Resize ='on';
   answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
   

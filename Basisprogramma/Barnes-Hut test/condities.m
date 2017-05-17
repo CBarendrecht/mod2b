@@ -1,8 +1,9 @@
-function voldaan = condities (Boom,knoop,p,x,theta) %theta<1/sqrt(3)
-voldaan = false;
-d = (x(p,1)-Boom.array(knoop,6))^2+(x(p,2)-Boom.array(knoop,7))^2;
-s = %lengte knoop
-if s/d < theta
+function a = condities(B,knoop,p,x)
+    D = (B.array(knoop,6)- x(p,1))^2+(B.array(knoop,7)- x(p,2))^2;
     
-end
+    if D > 5
+        a = true;
+    else 
+        a = false;
+    end
 end

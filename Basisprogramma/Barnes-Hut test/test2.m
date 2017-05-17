@@ -36,9 +36,9 @@ pause(0.25);
 
 for k = 3:T
     B.array=zeros(10*n,7);
-    Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,T-1,:));
-    Boomvullen(B,m,x(:,T-1,:),1);
-    a = F2(B,x(:,T-1,:)); %versnelling op t = (k - 1) dt
+    Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,k-1,:));
+    Boomvullen(B,m,x(:,k-1,:),1);
+    a = F2(B,x(:,k-1,:)); %versnelling op t = (k - 1) dt
     v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
     
     %botsen

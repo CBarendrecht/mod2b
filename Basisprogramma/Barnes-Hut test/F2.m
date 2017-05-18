@@ -11,7 +11,7 @@ function [y] = F2(Boom,x)
         A.array = zeros(1,size(n,1));
         Barnes(A,Boom,1,1,i,x); %A.array wordt gevuld met de indices van knopen
         
-        vwM = Boom.array(A.array(:),5);
+        vwM = Boom.array(A.array,5);
         D=zeros(length(A.array),2);
         D(:,1) = Boom.array(A.array(:),6);
         D(:,2) = Boom.array(A.array(:),7);
@@ -20,6 +20,6 @@ function [y] = F2(Boom,x)
         %afst=(sqrt(sum((D-fixdit(i,:)).^2,1))).^(-3);
         
         y(i,1,1) = sum(G * vwM .* (D(:,1) - x(i,1)).*fixdit(:,1));
-        y(i,1,2) = sum(G * vwM .* (D(:,1) - x(i,2)).*fixdit(:,1));
+        y(i,1,2) = sum(G * vwM .* (D(:,2) - x(i,2)).*fixdit(:,1));
     end
 end

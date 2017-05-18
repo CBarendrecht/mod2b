@@ -16,9 +16,9 @@ figure;
 scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
 hold on;
 scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-axis([-2 2 -2 2]);
+axis([-maxR-1 maxR+1 -maxR-1 maxR+1]);
 hold on;
-pause(0.25);
+pause(0.01);
 
 a = F(x((m>0),1,:),m(m>0),D((m > 0),(m > 0))); %versnelling op t = 0
 v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
@@ -37,7 +37,7 @@ end
 cla;
 scatter(x(1,2,1),x(1,2,2),10^4*r(1),[1,1,0],'filled');
 scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-pause(0.25);
+pause(0.01);
 
 for k = 3:T
     a = F(x((m > 0),k-1,:),m(m>0),D((m > 0),(m > 0))); %versnelling op t = (k - 1) dt
@@ -78,7 +78,7 @@ for k = 3:T
     cla;
     scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
     scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-    pause(0.25);
+    pause(0.01);
 end
 hold off;
 
@@ -87,6 +87,6 @@ for i = 1:n
     plot(x(i,:,1),x(i,:,2));
     hold on;
 end
-axis([-2 2 -2 2]);
+axis([-maxR-1 maxR+1 -maxR-1 maxR+1]);
 
 

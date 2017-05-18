@@ -11,7 +11,7 @@ figure;
 scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
 hold on;
 scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-axis([-maxR-1 maxR+1 -maxR-1 maxR+1]);
+axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
 hold on;
 pause(0.01);
 
@@ -20,7 +20,7 @@ B.array=zeros(10*n,8);
 A = largematrix;
 A.array = ones(1,n);
 Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
-Boomvullen(B,m,x(:,1,:),1);
+Boomvullen(B,1);
 
 
 a = F2(B,x(:,1,:)); %versnelling op t = 0
@@ -36,8 +36,8 @@ pause(0.01);
 
 for k = 3:T
     B.array=zeros(10*n,8);
-    Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,k-1,:));
-    Boomvullen(B,m,x(:,k-1,:),1);
+    Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:));
+    Boomvullen(B,1);
     a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
     v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
     
@@ -50,13 +50,13 @@ for k = 3:T
                     m(i) = m(i) + m(j); %nog aanpassen
                     x(i,k-1,:) = (x(i,k-1,:) + x(j,k-1,:))/2;
                     m(j) = 0;
-                    A.array(j) = 0;
+                    A.array(1,j) = 0;
                 else
                     v(j,k,:) = (m(j)*v(j,k,:) + m(i)*v(i,k,:))/(m(j)+m(i));
                     m(j)= m(i) + m(j); %nog aanpassen
                     x(j,k-1,:) = (x(j,k-1,:) + x(i,k-1,:))/2;
                     m(i) = 0;
-                    A.array(i) = 0;
+                    A.array(1,i) = 0;
                 end
                 r(i) = straal(m(i));
                 r(j) = straal(m(j));
@@ -71,6 +71,7 @@ for k = 3:T
     scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
     scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
     pause(0.01);
+    a=[];
 end
 hold off;
 

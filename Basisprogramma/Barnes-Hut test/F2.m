@@ -13,13 +13,12 @@ function [y] = F2(Boom,x)
         
         vwM = Boom.array(A.array,5);
         D=zeros(length(A.array),2);
-        D(:,1) = Boom.array(A.array(:),6);
-        D(:,2) = Boom.array(A.array(:),7);
-        fixdit = ones(size(D));
-        fixdit(:,1)=sqrt((D(:,1)-x(i,1)).^2+(D(:,2)-x(i,2)).^2).^(-3); 
+        D(:,1) = Boom.array(A.array,6);
+        D(:,2) = Boom.array(A.array,7);
+        fixdit = sqrt((D(:,1)-x(i,1)).^2+(D(:,2)-x(i,2)).^2).^(-3); 
         %afst=(sqrt(sum((D-fixdit(i,:)).^2,1))).^(-3);
         
-        y(i,1,1) = sum(G * vwM .* (D(:,1) - x(i,1)).*fixdit(:,1));
-        y(i,1,2) = sum(G * vwM .* (D(:,2) - x(i,2)).*fixdit(:,1));
+        y(i,1,1) = sum(G * vwM .* (D(:,1) - x(i,1)).*fixdit);
+        y(i,1,2) = sum(G * vwM .* (D(:,2) - x(i,2)).*fixdit);
     end
 end

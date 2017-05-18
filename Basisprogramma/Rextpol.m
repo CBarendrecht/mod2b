@@ -3,10 +3,10 @@ clear all; %we hebben tijd in maanden en afstand in AE
 %min en max afstand tot zon
 tel=1;
 for dt = [0.5,0.25]
-    p=1;
-    T=240/dt;
+    p=200;
+    T=120/dt;
     minR=1;
-    maxR=1;
+    maxR=1.02;
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
     [m,r,x,v] = BigBang(n,minR,maxR,T); %aanmaken massavector, straalvector
     %plaatsmatrix en snelheidsmatrix
@@ -104,8 +104,8 @@ for dt = [0.5,0.25]
     x(1,:,:)=[];
     Qx(:,tel)=x(:,T,1);
     Qy(:,tel)=x(:,T,2);
-    tel=tel+1;
     AantalPlaneten(tel)=sum(m>=0.06)-sum(m>=318);%eisen planeten
+    tel=tel+1;
 end
 Q = atan(Qx./Qy);
 Mx=(4*Qx(:,1)-Qx(:,2))/3;

@@ -1,15 +1,23 @@
-function datamaak()
+function [Qx,Qy,aantalplaneten,D] = datamaak()
 [p,dt,T,minR,maxR] = Menu();
-aantplaneten = zeros(11,1);
-regions = zeros(11,20);
 k = 1;
-for p=500:100:1500
-    [m,x,r] = simulatie(p,dt,T,minR,maxR);
-    aantplaneten(k) = sum(m>=0.06)-sum(m>=318*100);
-    for r=1:20
-        regions(k,r) = sum(x(m>=0.06&m<=318*100,floor(T/dt),1)^2+x(m>=0.06&m<=318*100,floor(T/dt),2)^2<=(r+1)^2 ...
-        & x(m>=0.06&m<=318*100,floor(T/dt),1)^2+x(m>=0.06&m<=318*100,floor(T/dt),2)^2 >= r^2);
+D = zeros(100,11);
+isplaneet = zeros(100,11);
+aantalplaneten = zeros(1,11);
+tel=1;
+    for p=50:10:100
+        n = 1+p;
+        [m1,r1,x1,v1] = BigBang(n,minR,maxR,T);
+        for h = [dt dt/2]
+            [m,r,x,v] = simulatie(p,h,T,maxR,m1,r1,x1,v1);
+            D(1:n,k) = x(:,T,1).^2+x(:,T,2).^2;
+            isplaneet(1:n,k) = (m>=0.06 & m<318*100);
+            aantalplaneten(k) = sum(isplaneet(:,k));
+            Qx(1:n,tel)=x(:,T,1);
+            Qy(1:n,tel)=x(:,T,2);
+            tel=tel+1;
+            k = k+1;
+            T = T*2;
+        end
     end
-    k = k+1;
-end
 end

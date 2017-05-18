@@ -43,23 +43,27 @@ for k = 3:T
     
     %botsen
     for i = 1:n-1
-        for j = i+1:n
-            if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
-                if m(i) > m(j)
-                    v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
-                    m(i) = m(i) + m(j); %nog aanpassen
-                    x(i,k-1,:) = (x(i,k-1,:) + x(j,k-1,:))/2;
-                    m(j) = 0;
-                    A.array(1,j) = 0;
-                else
-                    v(j,k,:) = (m(j)*v(j,k,:) + m(i)*v(i,k,:))/(m(j)+m(i));
-                    m(j)= m(i) + m(j); %nog aanpassen
-                    x(j,k-1,:) = (x(j,k-1,:) + x(i,k-1,:))/2;
-                    m(i) = 0;
-                    A.array(1,i) = 0;
+        if m(i) > 0
+            for j = i+1:n
+                if m(j) > 0 
+                    if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
+                        if m(i) > m(j)
+                            v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
+                            m(i) = m(i) + m(j); %nog aanpassen
+                            x(i,k-1,:) = (x(i,k-1,:) + x(j,k-1,:))/2;
+                            m(j) = 0;
+                            A.array(1,j) = 0;
+                        else
+                            v(j,k,:) = (m(j)*v(j,k,:) + m(i)*v(i,k,:))/(m(j)+m(i));
+                            m(j)= m(i) + m(j); %nog aanpassen
+                            x(j,k-1,:) = (x(j,k-1,:) + x(i,k-1,:))/2;
+                            m(i) = 0;
+                            A.array(1,i) = 0;
+                        end
+                        r(i) = straal(m(i));
+                        r(j) = straal(m(j));
+                    end
                 end
-                r(i) = straal(m(i));
-                r(j) = straal(m(j));
             end
         end
     end

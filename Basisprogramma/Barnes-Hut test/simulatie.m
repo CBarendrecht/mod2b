@@ -1,4 +1,4 @@
-function [m,r,x,v] = simulatie(p,dt,T,maxR,m,r,x,v)
+function [m,r,x,v,telbotsen] = simulatie(p,dt,T,maxR,m,r,x,v)
 %clear all; %we hebben tijd in maanden en afstand in AE
 
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
@@ -10,7 +10,7 @@ A = largematrix;
 A.array = ones(1,n);
 Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
 Boomvullen(B(:,1,:),1);
-
+telbotsen=0;
 
 a = F2(B,x(:,1,:)); %versnelling op t = 0
 v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
@@ -42,6 +42,7 @@ for k = 3:T
                 end
                 r(i) = straal(m(i));
                 r(j) = straal(m(j));
+                telbotsen=telbotsen+1;
             end
         end
     end

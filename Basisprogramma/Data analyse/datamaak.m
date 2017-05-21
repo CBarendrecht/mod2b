@@ -1,4 +1,3 @@
-
 clear all;
 %initialisatie
 [p, dt, T, minR, maxR, minM, maxM] = Menu();
@@ -9,7 +8,7 @@ beginm = m;
 %analyse stuff
 k2 = 1; %teller voor data arrays
 
-dat=10; %elke zoveel jaren wordt data verzameld.
+dat = 10; %elke zoveel jaren wordt data verzameld.
 telbots = zeros(1,dat); 
 D = zeros(1000,T/(12*dat));
 Qx = zeros(1+p,T/(12*dat));
@@ -26,7 +25,7 @@ scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0]
 axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
 hold off;
 
-h = dt;%kan weg?
+h = dt; %kan weg?
 
 %codes van simulaties
 B = largematrix;
@@ -41,7 +40,6 @@ a = F2(B,x(:,1,:)); %versnelling op t = 0
 v(:,2,:) = v(:,1,:) + h/2 * a; %snelheid op t = 1/2 dt
 x(:,2,:) = x(:,1,:) + v(:,2,:) * h; %plaats op t = dt
 
-
 for k = 3:T
     B.array = zeros(10*n,8);
     Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,k-1,:));
@@ -49,7 +47,7 @@ for k = 3:T
     a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
     v((m > 0),k,:) = v((m > 0),k-1,:) + a*h; %snelheid op t = (k - 1/2) dt
 
-%botsen
+    %botsen
     for i = 1:n-1
         if m(i) > 0
             for j = i+1:n
@@ -80,8 +78,8 @@ for k = 3:T
 
     x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * h; %plaats op t = k dt
     disp(num2str(k));
-    if(mod(k,12*dat)==0)%we maken observaties van ons zonnestelsel na elke 10 jaar
-        D(1:n,k2) = x(:,k,1).^2+x(:,k,2).^2;
+    if (mod(k,12*dat) == 0) %we maken observaties van ons zonnestelsel na elke 10 jaar
+        D(1:n,k2) = x(:,k,1).^2 + x(:,k,2).^2;
         isplaneet(1:n,k2) = (m>=0.06 & m<318*100);
         aantalplaneten(k2) = sum(isplaneet(:,k2));
         Qx(1:n,k2)=x(:,k,1);
@@ -99,7 +97,7 @@ for k = 3:T
         end
         telbotsen=0;
         disp('100 jaar later');
-        k2=k2+1;
+        k2 = k2+1;
     end
 end
 

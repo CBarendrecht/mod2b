@@ -1,23 +1,23 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 %[p,dt,T,minR,maxR] = Menu(); %aantal planeten, tijdstap, aantal stappen en
 %min en max afstand tot zon
-tel=1;
+tel = 1;
 for dt = [0.5,0.25]
-    p=200;
-    T=120/dt;
-    minR=1;
-    maxR=1.02;
+    p = 200;
+    T = 120/dt;
+    minR = 1;
+    maxR = 1.02;
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
     [m,r,x,v] = BigBang(n,minR,maxR,T); %aanmaken massavector, straalvector
     %plaatsmatrix en snelheidsmatrix
-    if tel==1
-    Qrstart=x(:,1,:);
-    Qvstart=v(:,1,:);
-    Qmstart=m(:,1);
+    if tel == 1
+        Qrstart=x(:,1,:);
+        Qvstart=v(:,1,:);
+        Qmstart=m(:,1);
     end
-    x(:,1,:)=Qrstart;%beginvoorwaarden moeten dezelfde zijn voor Richardson
-    v(:,1,:)=Qvstart;
-    m(:,1)=Qmstart;
+    x(:,1,:) = Qrstart;%beginvoorwaarden moeten dezelfde zijn voor Richardson
+    v(:,1,:) = Qvstart;
+    m(:,1) = Qmstart;
     D = zeros(n); %onderlinge afstandsmatrix
     for i = 1:n
         for j = 1:n
@@ -102,14 +102,14 @@ for dt = [0.5,0.25]
     end
     axis([-5 5 -5 5]);
     x(1,:,:)=[];
-    Qx(:,tel)=x(:,T,1);
-    Qy(:,tel)=x(:,T,2);
-    AantalPlaneten(tel)=sum(m>=0.06)-sum(m>=318);%eisen planeten
-    tel=tel+1;
+    Qx(:,tel) = x(:,T,1);
+    Qy(:,tel) = x(:,T,2);
+    AantalPlaneten(tel) = sum(m>=0.06) - sum(m>=318);%eisen planeten
+    tel = tel + 1;
 end
 Q = atan(Qx./Qy);
-Mx=(4*Qx(:,1)-Qx(:,2))/3;
-My=(4*Qy(:,1)-Qy(:,2))/3;
+Mx = (4*Qx(:,1)-Qx(:,2))/3;
+My = (4*Qy(:,1)-Qy(:,2))/3;
 %px = round(log((Qx(2)-Qx(1))/(Qx(3)-Qx(2)))/log(2)); Orde is 2,want leapfrog, hoeft p
 %niet te berekenen
 %py = round(log((Qy(2)-Qy(1))/(Qy(3)-Qy(2)))/log(2));

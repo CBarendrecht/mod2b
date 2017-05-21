@@ -10,7 +10,7 @@ function [p, dt, T, minR, maxR, minM, maxM] = Menu()
     dlg_title = 'Input';
     num_lines = 1;
     defaultans = {'20', '1','120', '1', '9','0.1','5'} ;
-    options.Resize ='on';
+    options.Resize = 'on';
     answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 
     p = str2num(answer{1});
@@ -20,5 +20,4 @@ function [p, dt, T, minR, maxR, minM, maxM] = Menu()
     maxR = str2num(answer{5});
     minM = str2num(answer{6});
     maxM = str2num(answer{7});
-
 end

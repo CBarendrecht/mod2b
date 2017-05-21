@@ -5,7 +5,7 @@ function [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
     x = zeros(n,T,2); %plaatsarray: deeltjes - tijd - dimensie
     v = zeros(n,T,2); %snelheidarray: deeltjes - tijd - dimensie
     
-    m(1)= 1.99 * 10^30/(5.97 * 10^24); %massa zon in aardmassa's
+    m(1) = 1.99 * 10^30/(5.97 * 10^24); %massa zon in aardmassa's
     r(1) = 6.96 * 10^8/(1.5*10^11); %straal zon
     
     for i = 2:n

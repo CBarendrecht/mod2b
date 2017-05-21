@@ -1,16 +1,16 @@
-p=1000;
-dt=1;
-T=1200;
-minR=1;
-maxR=7;
+p = 1000;
+dt = 1;
+T = 1200;
+minR = 1;
+maxR = 7;
 D = zeros(1000,10);
 isplaneet = zeros(1000,10);
 aantalplaneten = zeros(1,10);
-k2=1;
+k2 = 1;
 n = 1+p;
 telbots=zeros(1,10);
 [m,r,x,v] = BigBang(n,minR,maxR,T);
-h=dt;
+h = dt;
 %codes van simulaties
     B = largematrix;
     B.array=zeros(10*n,8);

@@ -1,4 +1,4 @@
-function [m,r,x,v] = BigBang(n,minR,maxR,T)
+function [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
    
     m = zeros(n,1); %massavector
     r = zeros(n,1); %straalvector
@@ -11,7 +11,7 @@ function [m,r,x,v] = BigBang(n,minR,maxR,T)
     for i = 2:n
         b = (maxR - minR)*rand + minR;
         c = 2*pi*rand;
-        m(i) = 4.9*rand + 0.1; %constante massa
+        m(i) = (maxM-minM)*rand + minM; %constante massa
         r(i) = straal(m(i)); %straal planeten
         x(i,1,1) = b*cos(c); %x coordinaat
         x(i,1,2) = b*sin(c); %y coordinaat

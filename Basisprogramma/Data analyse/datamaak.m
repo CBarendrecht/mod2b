@@ -1,24 +1,29 @@
 
 clear all;
-p=1000;
-dt=1;
-T=120000;
-minR=1;
-maxR=7;
+[p, dt, T, minR, maxR, minM, maxM] = Menu();
+%p=1000;
+%dt=1;
+%T=120000;
+%minR = 1;
+%maxR = 7;
+%minM = 0.01;
+%maxM = 0.02;
+
 n = 1+p;
 [m,r,x,v] = BigBang(n,minR,maxR,T);
-beginm=m;
+beginm = m;
 
-k2=1;
-dat=100;
+k2 = 1; %teller voor data arrays
+dat=100; %elke zoveel jarenw ordt data verzameld.
 
-telbots=zeros(1,dat);
+telbots=zeros(1,dat); 
 D = zeros(1000,T/(12*dat));
 Qx = zeros(1+p,T/(12*dat));
 Qy = zeros(1+p,T/(12*dat));
 isplaneet = zeros(p,dat);
 aantalplaneten = zeros(1,dat);
 h=dt;
+
 %codes van simulaties
     B = largematrix;
     B.array=zeros(10*n,8);

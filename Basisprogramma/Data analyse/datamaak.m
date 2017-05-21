@@ -72,6 +72,7 @@ for k = 3:T
         end
     end
 
+<<<<<<< HEAD
     x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * h; %plaats op t = k dt
     disp(num2str(k));
     if (mod(k,12*dat)==0)%we maken observaties van ons zonnestelsel na elke 10 jaar
@@ -96,3 +97,29 @@ for k = 3:T
         k2 = k2 + 1;
     end
 end
+=======
+        x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * h; %plaats op t = k dt
+        disp(num2str(k));
+           if(mod(k,12*dat)==0)%we maken observaties van ons zonnestelsel na elke 10 jaar
+               D(1:n,k2) = x(:,k,1).^2+x(:,k,2).^2;
+                    isplaneet(1:n,k2) = (m>=0.06 & m<318*100);
+                    aantalplaneten(k2) = sum(isplaneet(:,k2));
+                    Qx(1:n,k2)=x(:,k,1);
+                    Qy(1:n,k2)=x(:,k,2);
+                    telbots(1,k2)=telbotsen;
+                    
+                    if telbotsen > 0
+                        figure('Name', [num2str(k) ,' jaar later']);
+                        scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
+                        hold on;
+                        scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+                        axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
+                        hold on;
+                        pause(0.01);
+                    end
+                    telbotsen=0;
+                    disp('100 jaar later');
+                    k2=k2+1;
+           end
+    end
+>>>>>>> d7f4038ed430260d05c69a48a629c118114b81bb

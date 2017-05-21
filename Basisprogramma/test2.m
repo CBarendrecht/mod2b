@@ -3,14 +3,13 @@ clear all; %we hebben tijd in maanden en afstand in AE
 
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
-[m,r,x,v] = BigBang(n,minR,maxR,T);
+[m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
 
 figure('Name','Planets');
-scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
 hold on;
+scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
 scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
 axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
-hold on;
 pause(0.01);
 
 B = largematrix;
@@ -87,10 +86,12 @@ hold off;
 
 
 figure;
+hold on;
 for i = 1:n
     plot(x(i,:,1),x(i,:,2));
-    hold on;
+    
 end
+hold off;
 axis([-maxR-1 maxR+1 -maxR-1 maxR+1]);
 
 

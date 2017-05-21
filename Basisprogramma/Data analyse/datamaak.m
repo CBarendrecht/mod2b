@@ -1,28 +1,30 @@
 
 clear all;
+%initialisatie
 [p, dt, T, minR, maxR, minM, maxM] = Menu();
-%p=1000;
-%dt=1;
-%T=120000;
-%minR = 1;
-%maxR = 7;
-%minM = 0.01;
-%maxM = 0.02;
-
 n = 1+p;
 [m,r,x,v] = BigBang(n,minR,maxR,T);
 beginm = m;
 
+%analyse stuff
 k2 = 1; %teller voor data arrays
 dat=100; %elke zoveel jarenw ordt data verzameld.
-
 telbots=zeros(1,dat); 
 D = zeros(1000,T/(12*dat));
 Qx = zeros(1+p,T/(12*dat));
 Qy = zeros(1+p,T/(12*dat));
 isplaneet = zeros(p,dat);
 aantalplaneten = zeros(1,dat);
-h=dt;
+h=dt;% kan weg?
+
+%plot beginsituatie
+figure('Name', 'Beginsituatie');
+hold on;
+scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
+scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
+hold off;
+
 
 %codes van simulaties
     B = largematrix;
@@ -32,7 +34,6 @@ h=dt;
     Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
     Boomvullen(B(:,1,:),1);
     telbotsen=0;
-
     a = F2(B,x(:,1,:)); %versnelling op t = 0
     v(:,2,:) = v(:,1,:) + h/2 * a; %snelheid op t = 1/2 dt
     x(:,2,:) = x(:,1,:) + v(:,2,:) * h; %plaats op t = dt
@@ -84,11 +85,11 @@ h=dt;
                     
                     if telbotsen > 0
                         figure('Name', [num2str(k) ,' jaar later']);
-                        scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
                         hold on;
+                        scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
                         scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
                         axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
-                        hold on;
+                        hold off;
                         pause(0.01);
                     end
                     telbotsen=0;

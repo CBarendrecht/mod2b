@@ -83,7 +83,7 @@ h=dt;
                     telbots(1,k2)=telbotsen;
                     
                     if telbotsen > 0
-                        figure;
+                        figure('Name', [num2str(k) ,' jaar later']);
                         scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
                         hold on;
                         scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');

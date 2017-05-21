@@ -5,9 +5,7 @@ clear all; %we hebben tijd in maanden en afstand in AE
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
 [m,r,x,v] = BigBang(n,minR,maxR,T);
 
-
-
-figure;
+figure('Name','Planets');
 scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
 hold on;
 scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
@@ -31,7 +29,9 @@ x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
 
 cla;
 scatter(x(1,2,1),x(1,2,2),10^4*r(1),[1,1,0],'filled');
+
 scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+
 pause(0.01);
 
 for k = 3:T
@@ -75,9 +75,16 @@ for k = 3:T
     scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
     scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
     pause(0.01);
+    uicontrol('Style', 'text',...
+       'String', ['Generation:', num2str(k)],... %replace something with the text you want
+       'Units','normalized',...
+       'Position', [0.9 0.9 0.1 0.1]);
+
+    %disp(num2str(k));
     a=[];
 end
 hold off;
+
 
 figure;
 for i = 1:n

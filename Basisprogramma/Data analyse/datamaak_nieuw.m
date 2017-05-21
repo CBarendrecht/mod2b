@@ -6,13 +6,13 @@ defaultans = {'10'} ;
 options.Resize = 'on';
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 sim = str2num(answer{1}); %aantal simulaties
-[p,dt,T,minR,maxR] = Menu();
+[p,dt,T,minR,maxR,minM,maxM] = Menu();
 BPM = zeros(sim,T-1); %botsingen per maand elke simulatie
 BOTS = zeros(sim,1); %totaal aantal botsingen elke simulatie
 AP = zeros(sim,T); %aantal planeten elke simulatie
 
 for i = 1:sim
-    [m,r,x,v,bpm,ap] = simulatie_nieuw(p,dt,T,minR,maxR);
+    [m,r,x,v,bpm,ap] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM);
     BPM(i,:) = bpm;
     BOTS(i) = sum(bpm);
     AP(i,:) = ap;

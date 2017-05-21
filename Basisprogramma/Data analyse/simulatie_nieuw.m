@@ -1,8 +1,8 @@
-function [m,r,x,v,bpm,ap] = simulatie_nieuw(p,dt,T,minR,maxR)
+function [m,r,x,v,bpm,ap] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM)
     %clear all; %we hebben tijd in maanden en afstand in AE
 
     n = 1+p; %aantal hemellichamen: zon + aantal planeten
-    [m,r,x,v] = BigBang(n,minR,maxR,T);
+    [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
 
     B = largematrix;
     B.array=zeros(10*n,8);

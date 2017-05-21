@@ -11,15 +11,10 @@ function [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
     for i = 2:n
         b = (maxR - minR)*rand + minR;
         c = 2*pi*rand;
-        m(i) = (maxM-minM)*rand + minM; %constante massa
+        m(i) = (maxM - minM)*rand + minM; %constante massa
         r(i) = straal(m(i)); %straal planeten
         x(i,1,1) = b*cos(c); %x coordinaat
         x(i,1,2) = b*sin(c); %y coordinaat
         v(i,1,:) = baansnelheid([b*cos(c),b*sin(c)]); %snelheid
-
-
     end
-
-
-
 end

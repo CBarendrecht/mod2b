@@ -1,7 +1,7 @@
 function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM)
     %clear all; %we hebben tijd in maanden en afstand in AE
 
-    n = 1+p; %aantal hemellichamen: zon + aantal planeten
+    n = 1 + p; %aantal hemellichamen: zon + aantal planeten
     [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
     beginm = m;
     beginr = r;
@@ -12,14 +12,14 @@ function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,
     A.array = ones(1,n);
     Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
     Boomvullen(B(:,1,:),1);
-    bpm = zeros(T-1,1); %aantal botsingen per maand
+    bpm = zeros(T,1); %aantal botsingen per maand
     ap = zeros(T,1); %aantal planeten
     
     ap(1) = p;
     a = F2(B,x(:,1,:)); %versnelling op t = 0
     v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
     x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
-    ap(2) = sum(m>0) -1;
+    ap(2) = sum(m>0) - 1;
 
     for k = 3:T
         B.array=zeros(10*n,8);
@@ -49,7 +49,7 @@ function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,
                             end
                             r(i) = straal(m(i));
                             r(j) = straal(m(j));
-                            bpm(k-1) = bpm(k-1) + 1;
+                            bpm(k) = bpm(k) + 1;
                         end
                     end
                 end

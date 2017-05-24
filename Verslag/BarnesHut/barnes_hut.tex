@@ -91,4 +91,18 @@ M_\theta (2^D-1) := c(\theta)
 \]
 We have noted earlier that there is no upper bound for the number of levels. However, with the number of levels approximately $\orde{\log(N)}$, the total number of calculations for object $i$ should be $\orde{\log(N)}$. Therefore the total number of calculations on one time step is $\orde{N\log(N)}$, but again this is on average, not worst case.
 \subsubsection*{Conclusion}
-\textbf{In conclusion, we can not state the Barnes-Hut algorithm gives any reduction on the number of calculations, but on average, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.} 
+\textbf{In conclusion, we can not state the Barnes-Hut algorithm always gives a reduction on the number of calculations, but on average, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.}
+\subsection{Analysis: Precision and the Size of the Error}
+As one can expect, the precision of the Barnes-Hut algorithm is total dependent on it's sole parameter $\theta$. We will first make a few remarks.
+\begin{enumerate}
+\item Let $D$ be the dimension of the considered space, and suppose $\theta \geq \frac{1}{\sqrt{D}}$. Consider the condition $\frac{s}{d} < \theta$. This implies
+\[
+s < d\theta \geq \frac{d}{\sqrt{D}}
+\]
+Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. This results in that the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
+\item Consider a subspace represented by a node, that contains two objects, having maximum distance from each other. Consider the error in the force calculated
+\[
+E(m_1,m_2,d_1,d_2) = \frac{m}{d^2}-\frac{m_1}{d_1^2}-\frac{m_2}{d_2^2}
+\]
+where $m = m_1+m_2$ and $d = \frac{m_1d_1+m_2d_2}{m}$ is the center of mass. Now a third object is added to the node. The error will be less great than if we just added the third object's mass to one of the already present objects, in this case the one closest to the considered object.
+\end{enumerate}

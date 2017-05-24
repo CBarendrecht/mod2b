@@ -17,4 +17,6 @@ function [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
         x(i,1,2) = b*sin(c); %y coordinaat
         v(i,1,:) = baansnelheid([b*cos(c),b*sin(c)]); %snelheid
     end
+    v(1,1,:) = -sum(m(2:n).*v(2:n,1,:))/m(1);
+    x(1,1,:) = -sum(m(2:n).*x(2:n,1,:))/m(1);
 end

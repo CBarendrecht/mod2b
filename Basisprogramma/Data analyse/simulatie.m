@@ -1,7 +1,7 @@
 function [m,r,x,v,telbotsen] = simulatie(p,dt,T,maxR,m,r,x,v)
     %clear all; %we hebben tijd in maanden en afstand in AE
 
-    n = 1+p; %aantal hemellichamen: zon + aantal planeten
+    n = 1 + p; %aantal hemellichamen: zon + aantal planeten
     %[m,r,x,v] = BigBang(n,minR,maxR,T);
 
     B = largematrix;

@@ -1,9 +1,7 @@
 clear all; %we hebben tijd in maanden en afstand in AE
-
-
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
-[m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
 
 figure('Name','Planets');
 hold on;
@@ -24,13 +22,9 @@ a = F2(B,x(:,1,:)); %versnelling op t = 0
 v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
 x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
 
-
-
 cla;
 scatter(x(1,2,1),x(1,2,2),10^4*r(1),[1,1,0],'filled');
-
 scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-
 pause(0.01);
 
 for k = 3:T
@@ -49,18 +43,22 @@ for k = 3:T
                         if m(i) > m(j)
                             v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
                             m(i) = m(i) + m(j); %nog aanpassen
+                            M(i,:) = M(i,:) + M(j,:); 
                             x(i,k-1,:) = (x(i,k-1,:) + x(j,k-1,:))/2;
                             m(j) = 0;
+                            M(j,:) = 0;
                             A.array(1,j) = 0;
                         else
                             v(j,k,:) = (m(j)*v(j,k,:) + m(i)*v(i,k,:))/(m(j)+m(i));
-                            m(j)= m(i) + m(j); %nog aanpassen
+                            m(j) = m(i) + m(j); %nog aanpassen
+                            M(j,:) = M(i,:) + M(j,:); 
                             x(j,k-1,:) = (x(j,k-1,:) + x(i,k-1,:))/2;
                             m(i) = 0;
+                            M(i,:) = 0;
                             A.array(1,i) = 0;
                         end
-                        r(i) = straal(m(i));
-                        r(j) = straal(m(j));
+                        r(i) = straal(M(i,:));
+                        r(j) = straal(M(j,:));
                     end
                 end
             end

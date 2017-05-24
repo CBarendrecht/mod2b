@@ -1,4 +1,4 @@
-function [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
+function [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
    
     m = zeros(n,1); %massavector
     M = zeros(n,2); %steenmassa || gasmassa
@@ -12,13 +12,15 @@ function [m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
     for i = 2:n
         b = (maxR - minR)*rand + minR;
         c = 2*pi*rand;
+        kansopgas = gampdf(b,15,0.425)*4;
+        gas = (-rand+kansopgas > 0);
         m(i) = (maxM - minM)*rand + minM; 
         x(i,1,1) = b*cos(c); %x coordinaat
         x(i,1,2) = b*sin(c); %y coordinaat
         v(i,1,:) = baansnelheid([b*cos(c),b*sin(c)]); %snelheid
         if gas
-           M(i,1) = m(i)/10;
-           M(i,2) = m(i)-M(i,1);
+            M(i,1) = m(i)/10;
+            M(i,2) = m(i) - M(i,1);
         else
             M(i,1) = m(i);
         end

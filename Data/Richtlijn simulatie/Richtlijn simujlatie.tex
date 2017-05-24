@@ -1,0 +1,54 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\begin{document}
+We gaan ons richten op de volgende vier hoofdonderzoeksvragen, die in de inleiding zullen staan. Ze zijn niet allemaal exact geformuleerd. Het idee is dat we ze bij hun eigen hoofdstukken pas exact gaan formuleren\\
+\begin{enumerate}
+	\item  How many planets are there in total after 10000 years? How does the number of planets vary during this 10000 years of evolution?
+
+	\item What is the type, mass, radius, orbital period around the sun and the average distance of each planet to the sun after 10000 years?
+
+	\item How many bodies has escaped the solar system after 10000 years?
+\end{enumerate}
+En dat gaan we doen met in ieder geval de volgende parameters vastgekozen:
+\begin{enumerate}
+\item $T=60000$(5000 jaar) of $120000$(10000 jaar). De reden dat ik nog twijfelen over welke $T$ we gaan nemen is omdat bij onze eerste (echte) simulatie(die bij het mapje Data,1000plan10kjaardt1 staat), zagen we dat het aantal planeten steeds 9 is vanaf 1600 jaar, maar wordt pas 8 na 7100 jaar. Dus we zagen dat na 1600 jaar al vrijwel equilibrium is, maar toch niet helemaal. Maar die simulatie was voordat we woensdag gasplaneten hebben toegevoegd. Dus de equilibrium kan nu wel op een andere $T$ bereikt worden. Momenteel zal ik $T=120000$ nemen. Maar als jullie zien dat er bij ons nieuw programma ook binnen ongeveer $2000$ jaar equilibrium al bereikt wordt, dan kunnen we ook kortere jaar doen(maar ook wel lang genoeg om te laten zien dat er een equilibrium is, dus als equilibrium bereikt wordt na 2000 jaar, laat het dan lopen tot 3000 jaar bijv).
+\item $dt=1$. Dit is tot nu toe de beste keuze van $dt$. Voor planeten die ongeveer minder dan $1$AU van de oorsprong staan wordt dit onnauwkeurig. Vandaar nemen we ook de volgende paramter:
+\item $\text{min}R=1$.
+\end{enumerate}
+Nog een extra optie als vastgekozen paramter:\\ 
+Beginmassa's: We nemen aan dat er in het begin geen planeten zijn. Een hemellichaam in ons model wordt beschouwd als een planeet als zijn massa $m$ voldoet aan $0.06M_{\oplus}\leq m\leq 100\times 318M_{\oplus}$. Waarbij $M_{\oplus}$ de aardmassa is. Onze minimummassa hier is de massa van Mercury en de maximale is 100 keer Jupiter massa. Als we de massa ook als vastgekozen paramter doen, dan stel ik voor dat we gewoon als beginmassa
+\[0.01+0.001*rand\] 
+nemen.\\
+Aangezien we waarschijnlijk al heel veel data krijgen door volgende 2 paramters te gaan vari\"{e}ren, is het misschien wel handig om massa als vastgekozen parameter te doen.\\
+\\
+Nadat we de bovenstaande parameters hebben vastgelegd, gaan we ons model onderzoeken door de volgende twee parameters te vari\"{e}ren, namelijk het aantal begindeeltjes $p$ en de maxR. En we willen voor $p$ en maxR allebei steeds 10 keer vari\"{e}ren, zodat we 10 meetpunten krijgen.\\
+\\
+\textbf{Opmerking}: Ik geef hier een suggestie voor hoe we deze parameters gaan vari\"{e}ren. Maar misschien kan Caspers computer nog meer rekenen dan mijn voorstel. In principe, hoe meer begindeeltjes, hoe groter de maxR(tot 40 AU ongeveer), hoe realistischer ons model. Dus mijn suggesties kan het beste aangepast worden nadat we weten hoeveel rekenwerk Caspers computer aan kan.\\
+\\
+\textbf{Suggesties}:\\
+\\
+\textbf{Het aantal begindeeltjes: $p$}: \\
+We kiezen $p\in [100:100:1000]$. En voor elke gekozen waarde $p$, gaan we $10$ keer onze simulaties herhalen. We kiezen hier maxR=7.\\
+\\
+\textbf{De maxR}: Hier ben ik wel bang voor dat als we maxR te groot kiezen, dat er dan met $p=1000$ waarschijnlijk geen botsingen plaatsvinden. Dus ik denk dat we kunnen kiezen voor $\text{max}R\in [7:1:17]$. Ik weet niet hoe snel Caspers computer is, maar als het kan, dan is het natuurlijk fijn om maxR groot te kiezen en $p$ ook groot( dus we kunnen bijvoorbeeld ook $p\in [1000:100:2000]$ voor het vorige deel doen).\\
+\\
+Dus we gaan in ieder geval $p$ en maxR veranderen. Vervolgens onderzoeken we onze onderzoeksvragen op de volgende manier:\\
+Voor elke onderzoeksvraag doen we steeds ongeveer dezelfde aanpak: Voor elke $p$(met maxR=7) en elke maxR(met $p=1000$), doen we steeds 10 herhalingen, en maak een histogram). Daarna nemen we het gemiddelde, en plot het verband tussen de te onderzoeken eigenschap uitgezet tegen $p$ of maxR.\\
+\\
+\textbf{Aantal planeten}:\\
+We gaan steeds na een bepaalde aantal jaren(genoteerd als $dT$), een meting doen over ons zonnenstelsel. Daarbij bekijken we steeds hoeveel planeten er zijn. Een handige keuze van $dT$ moeten we nog bepalen nadat we eerst een paar proefsimulaties hebben gedaan. Want het is mogelijk dat er in het begin veel gebeurt maar later weinig gebeurt, dus een steeds constante $dT$ van bijvoorbeeld 100 jaar zal niet erg interessant zijn.\\
+\\
+Daarnaast is het handig om ongeveer 5 scatters te maken van onze zonnenstelsel in de loop van 10000 jaren. Zo kunnen we grafisch weergeven hoe ons zonnenstelsel heeft ge\"{e}volueerd. Dat is leuk voor het verslag en de presentatie.\\ 
+\textbf{Type, massa, straal, omlooptijd, gemiddelde afstand van elke planeten}.\\
+De type, massa en straal van elke planeten bepalen we aan het eind tijdstip. De omlooptijd van de planeet definieren we als de tijd die er nodig is om een keer de x-as(dus y=0) te passeren. Dus we gaan de tijd meten tussen het eerste moment dat de planeet de x-as passeert en het tweede moment dat de planeet de x-as passeert. Dit kunnen we 10 keer doen om een gemiddelde te bepalen. En uiteraard doen we dat nadat equilibrium wordt bereikt. (ik heb in het verslag geen equilibrium gedefinieerd, maar we zouden het kunnen definieren als dat het aantal planeten niet is veranderd na 1000 jaar ofzo).\\
+
+Als we de omlooptijd van elke planeet hebben, dan kunnen we ook de gemiddelde afstand bepalen nadat equilibrium bereikt wordt. Dan pakken we een tijdstip waarin equilibrium is, en meten vanaf dat moment na elke maand de afstand totdat we de omlooptijd bereikt. Voor de aarde doen we dus bijvoorbeeld 12 meetpunten.\\
+\\
+\textbf{Aantal weggeschoten hemellichamen}
+We beschouwen een hemellichaam weggeschoten als er vanaf een bepaalde tijdstip $T^*$ geldt dat zijn afstand $r$ tot de oorsprong voldoet aan $r>maxR$ voor alle $t\geq T^*$. En we willen aan het eind bekijken hoeveel van dit soort hemellichamen waren weggeschoten.\\
+\\
+\textbf{Opmerking}: Bewaar goed de beginconditie, voor het geval dat we ooit de data opnieuw willen simuleren.\\
+\textbf{Foutenanalyse}:
+We gaan alleen foutenanalyse doen op $p=1$, dus een twee bodies probleem. Hiermee krijgen we nog ongeveer een idee hoe nauwkeurig ons hele systeem met 1000 deeltjes is. Dit kan ik doen met mijn laptop. Dus we gaan geen Richardson doen op ons hele systeem.  
+\end{document}

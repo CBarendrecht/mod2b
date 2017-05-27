@@ -19,10 +19,9 @@
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
-
+\usepackage{epstopdf}
 \usepackage{import} % handig bij importeren van dingen uit andere mapjes
 \usepackage{wallpaper} %voorblad
-
 \usepackage{wrapfig} %plaatjes in tekst
 
 \newcommand*{\blankpage}{%
@@ -41,6 +40,8 @@
 
 \begin{document}
 \import{./Introduction/}{Introduction}
+\newpage
+\import{./Accuracy_model/}{Accuracy_model}
 \newpage
 \import{./BarnesHut/}{barnes_hut}
 \newpage

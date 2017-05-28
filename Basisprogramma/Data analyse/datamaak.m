@@ -3,7 +3,7 @@ clear all;
 prompt = {'Aantal Simulaties', 'Dataperiode' };
 dlg_title = 'Input';
 num_lines = 1;
-defaultans = {'10', '10'} ;
+defaultans = {'5', '10'} ;
 options.Resize = 'on';
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 sim = str2num(answer{1}); %aantal simulaties
@@ -36,12 +36,12 @@ WEG = zeros(p+1,sim);
 
 
 for i = 1:sim
-    [M,r,x,v,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
+    [M,r,x,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
     
     BEGINM(:,:,i) = beginM;
     BEGINR(:,i) = beginr;
     EINDM(:,:,i) = M;
-    EINDR(i) = r;
+    EINDR(:,i) = r;
     AP(:,i) = ap;
     
     %Als planneet verwegstaat is ie weg
@@ -74,8 +74,8 @@ for i = 1:sim
     %gemiddelde afstand tot de zon
     for j=2:p+1
         if OML(j,i) > 0
-            afst(1:OML(j,i)) = sqrt((x(j,T-OML(j,i):T,1)-x(1,T-OML(j,i):T,1))^2 + (x(j,T-OML(j,i):T,2)-x(1,T-OML(j,i):T,2))^2);
-            GEMafst(j,i) = sum(afst)/OMl(j,i);
+            afst(1:OML(j,i)) = sqrt((x(j,T+1-OML(j,i):T,1)-x(1,T+1-OML(j,i):T,1)).^2 + (x(j,T+1-OML(j,i):T,2)-x(1,T+1-OML(j,i):T,2)).^2);
+            GEMafst(j,i) = sum(afst)/OML(j,i);
         end
     end
     

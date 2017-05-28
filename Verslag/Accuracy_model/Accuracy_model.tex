@@ -3,12 +3,12 @@ It is certainly important to investigate the accuracy of our model. However, per
 \subsection{Elliptical orbit and conservation of energy}
 One way to investigate the accuracy of the model is to check whether the calculations make sense physically. Due to Kepler's law, we expect the orbit of our planet around the sun should be elliptical. Also, since we are dealing with an isolated system, the total energy of the system, must be conserved. Therefore, it is meaningful to investigate whether our model satisfies these two properties.\\ 
 \\
-\textbf{Remark}: In our case(with $\text{m}_{planet}=1 M_{\oplus}$), the total energy of the system is
+\textbf{Remark}: In our case(with $\text{m}_{planet}=1 M_{\oplus}$), the total energy of the system is \cite{Energy}
 \[E_{tot}=\frac{1}{2}v_{planet}^2-\frac{GM}{r}+\frac{1}{2}Mv_{sun}^2-\frac{GM}{r}=\frac{1}{2}v_{planet}^2-2\frac{GM}{r}\]
 With $M$ the mass of the sun, $r$ the distance between the planeet and the sun. Because the sun is at rest in our system, it's kinetic energy term drops out.\\
 
 
-Since we chose to numerically integrate Newton's equation with a time step of $dt=1$ month, we expect that the calculations with planets which are close to the sun would be inaccurate. Because these planets have a much shorter orbital period than the earth. For example, Mercury has only a orbital period of 88 days. If we integrate with $dt=1$ month, we would only have roughly 4 points for each turn around the sun, which is not very sufficient. Also, the stability of Leapfrog, when applied to an oscillatory system, is $\Delta t\leq 2/\omega$ claimed by Wikipedia, with $\omega$ the angular frequency. This would mean that for these planets that have a shorter orbital period(and thus larger $\omega$), the stability of Leapfrog is easily lost with large $\Delta t$.\\
+Since we chose to numerically integrate Newton's equation with a time step of $dt=1$ month, we expect that the calculations with planets which are close to the sun would be inaccurate. Because these planets have a much shorter orbital period than the earth. For example, Mercury has only a orbital period of 88 days. If we integrate with $dt=1$ month, we would only have roughly 4 points for each turn around the sun, which is not very sufficient. Also, the stability of Leapfrog, when applied to an oscillatory system, is $\Delta t\leq 2/\omega$, with $\omega$ the angular frequency \cite{StabLeapfrog}. Because the x and y coordinates of our planets are in oscillatory motion, we would expect that for these planets that have a shorter orbital period(and thus larger $\omega$), the stability of Leapfrog is easily lost with large $\Delta t$.\\
 
 Thus, we will first look at a planeet that is 1$M_{\oplus}$, starting at a distance less than $1$ AU. After performing the integration with $dt=1$ over $10$ years, we obtained the following result:\\
 \begin{figure}[H]
@@ -85,7 +85,7 @@ $E_{tot}$&-0.0816&   -0.0815&   -0.0815&   -0.0815&   -0.0815&   -0.0815&   -0.0
 \end{table}
 Since most of the bodies in our simulation is not too closed to the sun. The above results indicate that our model is not too inaccurate.
 \subsection{Richardson Extrapolation}
-Another more mathematical way to investigate the error of our integration is with Richardson Extrapolation. Let $Q(h)$ be the approximation using step size $h$. Then, the Richardson Extrapolation formula gives an estimate for the order $p$ of the used numerical method:
+Another more mathematical way to investigate the error of our integration is with Richardson Extrapolation. Let $Q(h)$ be the approximation using step size $h$. Then, the Richardson Extrapolation formula \cite{Richardson} gives an estimate for the order $p$ of the used numerical method:
 \[\frac{Q(2h)-Q(4h)}{Q(h)-Q(2h)}=2^p\]
 Therefore, we calculated the final position(thus after 10 years) of a planet which starts in a distance around 5AU from the sun, with $dt=1$, $dt=0.5$ and $dt=0.25$ and applied the Richardson Extrapolation formula. The result is shown in Table \ref{tab:Richardson5AU}:
 \begin{table}[htb]

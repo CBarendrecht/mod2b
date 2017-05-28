@@ -73,7 +73,7 @@ for k = 3:T
     scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
     pause(0.01);
     uicontrol('Style', 'text',...
-       'String', ['Generation:', num2str(k)],... %replace something with the text you want
+       'String', ['Maand:', num2str(k)],... %replace something with the text you want
        'Units','normalized',...
        'Position', [0.9 0.9 0.1 0.1]);
 

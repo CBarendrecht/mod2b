@@ -1,9 +1,9 @@
-function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM)
-    %clear all; %we hebben tijd in maanden en afstand in AE
+function [M,r,x,v,bpm,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat)
 
+    k2 = 1; % meetpuntteller
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
     [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
-    beginm = m;
+    beginM = M;
     beginr = r;
     
     B = largematrix;
@@ -13,17 +13,17 @@ function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,
     Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
     Boomvullen(B(:,1,:),1);
     bpm = zeros(T,1); %aantal botsingen per maand
-    ap = zeros(T,1); %aantal planeten
+    ap = zeros(T/(12*dat),1); %aantal planeten
     
-    ap(1) = p;
+    
     a = F2(B,x(:,1,:)); %versnelling op t = 0
     v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
     x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
-    ap(2) = sum(m>0) - 1;
+    
 
     for k = 3:T
         B.array = zeros(10*n,8);
-        Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,k-1,:));
+        Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:));
         Boomvullen(B,1);
         a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
         v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
@@ -59,8 +59,13 @@ function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,
                 end
             end
         end
-        ap(k) = sum(m>0) - 1;
         x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * dt; %plaats op t = k dt
         a = [];
+        if mod(k,12*dat) == 0 % een meting elke dat jaar
+            isplaneet(1:n) = (m>=0.06 & m<318*100);
+            ap(k2) = sum(isplaneet);
+            k2 = k2+1;
+            disp([num2str(k/12) ' jaar bezig']);
+        end
     end
 end

@@ -1,36 +1,45 @@
 clear all;
+
 prompt = {'Aantal Simulaties', 'Dataperiode' };
 dlg_title = 'Input';
 num_lines = 1;
-defaultans = {'10', '12'} ;
+defaultans = {'10', '10'} ;
 options.Resize = 'on';
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 sim = str2num(answer{1}); %aantal simulaties
 dat = str2num(answer{2}); %periode van dataafname
+
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
-BEGINM = zeros(sim,p+1); %beginsituatie opslaan voor elke simulatie
-BEGINR = zeros(sim,p+1);
-BEGINX = zeros(sim,p+1,2);
-BEGINV = zeros(sim,p+1,2);
-BPM = zeros(sim,T); %botsingen per maand elke simulatie 
-BPP = zeros(sim,T/dat); %botsingen per periode elke simulatie
-BOTS = zeros(sim,1); %totaal aantal botsingen elke simulatie
-AP = zeros(sim,T); %aantal planeten elke simulatie
+
+BEGINM = zeros(p+1,2,sim); %beginsituatie opslaan voor elke simulatie
+BEGINR = zeros(p+1,sim);
+BEGINX = zeros(p+1,2,sim);
+BEGINV = zeros(p+1,2,sim);
+BPM = zeros(T,sim); %botsingen per maand elke simulatie 
+BPP = zeros(T/dat,sim); %botsingen per periode elke simulatie
+BOTS = zeros(1,sim); %totaal aantal botsingen elke simulatie
+AP = zeros(T/(12*dat),sim); %aantal planeten elke simulatie
+EINDM = zeros(p+1,2,sim); %beginsituatie opslaan voor elke simulatie
+EINDR = zeros(p+1,sim);
+
 
 for i = 1:sim
-    [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM);
-    BEGINM(i,:) = beginm;
-    BEGINR(i,:) = beginr;
-    BEGINX(i,:,:) = x(:,1,:);
-    BEGINV(i,:,:) = v(:,1,:);
-    BPM(i,:) = bpm;
-    for j = 1:T/dat
-        BPP(i,j) = sum(BPM(i,(j-1)*dat+1:j*dat));
+    [M,r,x,v,bpm,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
+    BEGINM(:,:,i) = beginM;
+    BEGINR(:,i) = beginr;
+    BEGINX(:,:,i) = x(:,1,:);
+    BEGINV(:,:,i) = v(:,1,:);
+    EINDM(:,:,i) = M;
+    EINDR(i) = r;
+    BPM(:,i) = bpm;
+    for j = 1:T/(12*dat)
+        BPP(j,i) = sum(BPM(i,(j-1)*dat+1:j*dat));
     end
     BOTS(i) = sum(bpm);
-    AP(i,:) = ap;
+    AP(:,i) = ap;    
     
-    clear m;
+    
+    clear M;
     clear r;
     clear x;
     clear v;
@@ -38,6 +47,6 @@ for i = 1:sim
     clear ap;
     clear beginm;
     clear beginr;
-    disp(num2str(i));
+    disp(['simulatie: ' num2str(i)]);
 end
 

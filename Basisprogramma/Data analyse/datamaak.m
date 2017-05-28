@@ -1,104 +1,80 @@
 clear all;
-%initialisatie
-[p, dt, T, minR, maxR, minM, maxM] = Menu();
-n = 1+p;
-[m,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
-beginm = m;
 
-%analyse stuff
-k2 = 1; %teller voor data arrays
+prompt = {'Aantal Simulaties', 'Dataperiode' };
+dlg_title = 'Input';
+num_lines = 1;
+defaultans = {'10', '10'} ;
+options.Resize = 'on';
+answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
+sim = str2num(answer{1}); %aantal simulaties
+dat = str2num(answer{2}); %periode van dataafname
 
-dat = 10; %elke zoveel jaren wordt data verzameld.
-telbots = zeros(1,dat); 
-D = zeros(1000,T/(12*dat));
-Qx = zeros(1+p,T/(12*dat));
-Qy = zeros(1+p,T/(12*dat));
-isplaneet = zeros(p,dat);
-aantalplaneten = zeros(1,dat);
+[p,dt,T,minR,maxR,minM,maxM] = Menu();
+
+%straal
+BEGINR = zeros(p+1,sim);
+EINDR = zeros(p+1,sim);
+
+%massa/types
+BEGINM = zeros(p+1,2,sim); %beginsituatie opslaan voor elke simulatie
+EINDM = zeros(p+1,2,sim); %beginsituatie opslaan voor elke simulatie
+
+%aantal planeten
+AP = zeros(T/(12*dat),sim); %aantal planeten elke simulatie
+
+%omlooptijd planeten
+OML = zeros(p+1,sim);
+
+%gemiddelde afstand
+GEMafst = zeros(p+1,sim);
+
+%weggeschoten planeten
+WEG = zeros(p+1,sim);
 
 
-%plot beginsituatie
-figure('Name', 'Beginsituatie');
-hold on;
-scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
-scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
-hold off;
 
-h = dt; %kan weg?
 
-%codes van simulaties
-B = largematrix;
-B.array=zeros(10*n,8);
-A = largematrix;
-A.array = ones(1,n);
-Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
-Boomvullen(B(:,1,:),1);
-telbotsen = 0;
 
-a = F2(B,x(:,1,:)); %versnelling op t = 0
-v(:,2,:) = v(:,1,:) + h/2 * a; %snelheid op t = 1/2 dt
-x(:,2,:) = x(:,1,:) + v(:,2,:) * h; %plaats op t = dt
-
-for k = 3:T
-    B.array = zeros(10*n,8);
-    Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,k-1,:));
-    Boomvullen(B,1);
-    a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
-    v((m > 0),k,:) = v((m > 0),k-1,:) + a*h; %snelheid op t = (k - 1/2) dt
-
-    %botsen
-    for i = 1:n-1
-        if m(i) > 0
-            for j = i+1:n
-                if m(j) > 0
-                    if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),h,r(i),r(j))
-                        if m(i) > m(j)
-                            v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
-                            m(i) = m(i) + m(j); %nog aanpassen
-                            x(i,k-1,:) = (x(i,k-1,:) + x(j,k-1,:))/2;
-                            m(j) = 0;
-                            A.array(j) = 0;
-                        else
-                            v(j,k,:) = (m(j)*v(j,k,:) + m(i)*v(i,k,:))/(m(j)+m(i));
-                            m(j)= m(i) + m(j); %nog aanpassen
-                            x(j,k-1,:) = (x(j,k-1,:) + x(i,k-1,:))/2;
-                            m(i) = 0;
-                            A.array(i) = 0;
-                        end
-                        r(i) = straal(m(i));
-                        r(j) = straal(m(j));
-                        telbotsen = telbotsen+1;
-                    end
-                end
+for i = 1:sim
+    [M,r,x,v,bpm,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
+    
+    BEGINM(:,:,i) = beginM;
+    BEGINR(:,i) = beginr;
+    EINDM(:,:,i) = M;
+    EINDR(i) = r;
+    AP(:,i) = ap;
+    
+    %berekent laatste omlooptijd planeten, onder aanname niet weggeschoten
+    for j=1:p+1
+        %alle planeten
+        if sum(M(j,:))>=0.06 && sum(M(j,:))<318*100
+            %achterwaarts de tijd door
+            for k = 1:T-1
+                %net y-asgekruist
+               if x(j,T+1-k,1)<0 && x(j,T-k,1)>0 && x(j,T+1-k,2) > 0
+                   for g = k+1:T-1
+                       %eerder de y-asgekruist
+                       if x(j,T+1-g,1)<0 && x(j,T-g,1)>0 && x(j,T+1-g,2) > 0
+                           OML(j,i) = g-k;
+                           break;
+                       end
+                   end
+                   break;
+               end
             end
         end
     end
-
-
-    x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * h; %plaats op t = k dt
-    disp(num2str(k));
-    if (mod(k,12*dat) == 0) %we maken observaties van ons zonnestelsel na elke 10 jaar
-        D(1:n,k2) = x(:,k,1).^2 + x(:,k,2).^2;
-        isplaneet(1:n,k2) = (m>=0.06 & m<318*100);
-        aantalplaneten(k2) = sum(isplaneet(:,k2));
-        Qx(1:n,k2)=x(:,k,1);
-        Qy(1:n,k2)=x(:,k,2);
-        telbots(1,k2)=telbotsen;
-
-        if telbotsen > 0
-            figure('Name', [num2str(k/12) ,' jaar later']);
-            hold on;
-            scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
-            scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
-            axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
-            hold off;
-            pause(0.01);
-        end
-        telbotsen=0;
-        disp('100 jaar later');
-        k2 = k2+1;
-    end
+    
+    
+    
+    clear M;
+    clear r;
+    clear x;
+    clear v;
+    clear bpm;
+    clear ap;
+    clear beginm;
+    clear beginr;
+    disp(['simulatie: ' num2str(i)]);
 end
-
 

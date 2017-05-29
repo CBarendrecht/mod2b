@@ -1,28 +1,25 @@
 \section{Introduction}
 The formation of the solar system is described by the Nebular Hypothesis. It is suggested that the sun is formed from the collapse of a giant molecular cloud, which is called the solar nebula. The rotation of the cloud causes it to flatten out and takes the form of a disk. At some later stadium, a protoplanetery disk is formed, which will later evolves into a planetary system. During this evolution, planets are formed through a process known as accretion, in which cosmic dust first accumulates to become small planetesimals, and then the planetesimals collides and fuses into a larger celestial body, which eventually becomes a planet.\\
 
-Based on this idea, we first built a basic model in which 1000 celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ ($M_{\oplus}:=$ Earth Mass) are rotating around a sun of mass $3.33\cdot 10^5 M_{\oplus}$(same mass as our sun). We chose the center of mass of the whole system(planets with sun) as the origin of our coordinate system and the initial positions and velocities of all celestial bodies except the sun are determined randomly, but with the condition that the initial distance between the center of mass and a body may not exceeds 9AU. The initial position and velocity of the sun is determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
+Based on this idea, we built a model in which $N$ celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ ($M_{\oplus}:=$ Earth Mass) are rotating around a sun of mass $3.33\cdot 10^5 M_{\oplus}$(same mass as our sun). The mass of each body(except the sun) is divided into a 'stone' part and a 'gas' part. We chose the center of mass of the whole system(planets with sun) as the origin of our coordinate system and the initial positions and velocities of all celestial bodies except the sun are determined randomly, but with the condition that the initial distance between the center of mass and a body may not be less than 1AU and more than maxR(see definition maxR below). The initial position and velocity of the sun is determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
 \[\frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}\]
 
-Since we are considering an isolated system, there are no external forces presented. The momentum of the center of mass is thus conserved and it's position will therefore always be zero, which makes it a good choice as the center of our coordinate system.\\
-
-In our basic model, we simulated this solar system over 1000 years, with a time step of $1$ month.\\
+Since we are considering an isolated system, there are no external forces presented. The momentum of the center of mass is thus conserved and it's position will therefore always be zero(since we chose it's initial position and velocity to be zero), which makes it a good choice as the center of our coordinate system.\\
 
 It is certainly possible that two bodies will collide at a certain time. At that moment, Newton's equation is not very useful because we will be dividing by zero. In the case of a collision, we used the formula of elastic collision to update the positions and velocities for one step. To simulate accretion, the mass of the smaller body is then set to zero and the mass of the larger body is set as the sum of the two masses. The positions and velocities of the remaining body is then further determined with Newton's equation.\\
 \\
-In order to study the solar system in our model, we made the following definitions:\\
+In our model, we simulated the evolution of a solar system over 5000 years, with a time step of $1$ month. In order to formulate our research questions, we made the following definitions:\\
 \begin{enumerate}
-\item \textbf{Planet}: A celestial body in our model is considered to be a planet if it's mass is at least  0.06$M_{\oplus}$(Mass of Mercury) and lower than $100\times 318M_{\oplus}$(100 times Jupiter's mass).
-\item \textbf{Escaping the solar system}: A celestial body has escaped our solar system if it's distance to the sun is larger than $9$AU starting at a certain time.
+\item \textbf{maxR}: The size of a solar system in our model is characterized by $\text{max}R$, which is the radius of a solar system. 
+\item \textbf{Escaping the solar system}: A celestial body has escaped our solar system if it's distance to the center of mass is larger than $2\cdot\text{max}R$ at a certain time.
+\item \textbf{Planet}: A celestial body in our model is considered to be a planet if it did not escape the solar system and if it's mass is at least  0.06$M_{\oplus}$(Mass of Mercury) and lower than $100\times 318M_{\oplus}$(100 times Jupiter's mass).
 \end{enumerate}
 We then studied the evolution of this solar system by investigating the following main questions:
 \begin{enumerate}
-	\item 	How many planets are formed after each 50 years? 
+	\item  How many planets are there in total after 5000 years? How does the number of planets vary during this 5000 years of evolution?
 
-	\item What is the average distance of each planets to the sun after 1000 years?
-	
-	\item How many collisions happened after each 50 years?
-	
-	\item How many bodies has escaped the solar system after 1000 years?
+	\item What is the type, mass, radius, orbital period around the sun and the average distance of each planet to the sun after 5000 years?
+
+	\item How many bodies has escaped the solar system after 5000 years?
 \end{enumerate}
  

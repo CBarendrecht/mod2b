@@ -1,4 +1,4 @@
-function [M,r,x,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat)
+function [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat)
 
     k2 = 1; % meetpuntteller
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
@@ -12,7 +12,7 @@ function [M,r,x,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,d
     A.array = ones(1,n);
     Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
     Boomvullen(B(:,1,:),1);
-    %bpm = zeros(T,1); %aantal botsingen per maand
+    bpm = zeros(T/(12*dat),1); %aantal botsingen per meetinterval
     ap = zeros(T/(12*dat),1); %aantal planeten
     
     
@@ -53,7 +53,7 @@ function [M,r,x,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,d
                             end
                             r(i) = straal(M(i,:));
                             r(j) = straal(M(j,:));
-                            %bpm(k) = bpm(k) + 1;
+                            bpm(k2) = bpm(k2) + 1;
                         end
                     end
                 end

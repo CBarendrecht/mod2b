@@ -11,6 +11,12 @@ dat = str2num(answer{2}); %periode van dataafname
 
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 
+%aantal planeten
+AP = zeros(T/(12*dat),sim); %aantal planeten elke simulatie
+
+%botsingen per meetinterval
+BPM = zeros(T/(12*dat),sim);
+
 %straal
 BEGINR = zeros(p+1,sim);
 EINDR = zeros(p+1,sim);
@@ -18,9 +24,6 @@ EINDR = zeros(p+1,sim);
 %massa/types
 BEGINM = zeros(p+1,2,sim); %beginsituatie opslaan voor elke simulatie
 EINDM = zeros(p+1,2,sim); %beginsituatie opslaan voor elke simulatie
-
-%aantal planeten
-AP = zeros(T/(12*dat),sim); %aantal planeten elke simulatie
 
 %omlooptijd planeten
 OML = zeros(p+1,sim);
@@ -33,16 +36,15 @@ WEG = zeros(p+1,sim);
 
 
 
-
-
 for i = 1:sim
-    [M,r,x,ap,beginM,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
+    [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
     
     BEGINM(:,:,i) = beginM;
     BEGINR(:,i) = beginr;
     EINDM(:,:,i) = M;
     EINDR(:,i) = r;
     AP(:,i) = ap;
+    BPM(:,i) = bpm;
     
     %Als planneet verwegstaat is ie weg
     for j=1:p+1

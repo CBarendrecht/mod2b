@@ -10,6 +10,7 @@
 \usepackage{amssymb}
 \usepackage{amsthm} %nodig voor blokje
 \usepackage{bbm} %indicator
+\usepackage{color}
 
 \usepackage{marginnote}
 \usepackage[margin=1in,footskip=0.25in]{geometry} %heb wat meer ruimte
@@ -39,6 +40,7 @@
 
 
 \begin{document}
+\import{./Voorblad/}{Voorblad}
 \import{./Introduction/}{Introduction}
 \newpage
 \import{./Accuracy_model/}{Accuracy_model}
@@ -46,6 +48,8 @@
 \import{./BarnesHut/}{barnes_hut}
 \newpage
 \input{bibliography}
+
+
 
 \end{document}
 %http://arborjs.org/docs/barnes-hut

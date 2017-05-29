@@ -4,22 +4,15 @@ The rotation of this cloud caused the cloud to flatten out and take the form of 
 During this evolution, planets are formed through a process known as accretion.
 In this process, cosmic dust accumulates to become small planetesimals, these planetesimals then collide and fuse into a larger celestial body, which will eventually result in the formation of a planet.\\
 
-<<<<<<< HEAD
-Based on this idea, we built a model in which $N$ celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ ($M_{\oplus}:=$ Earth Mass) are rotating around a sun of mass $3.33\cdot 10^5 M_{\oplus}$(same mass as our sun). The mass of each body(except the sun) is divided into a 'stone' part and a 'gas' part. We chose the center of mass of the whole system(planets with sun) as the origin of our coordinate system and the initial positions and velocities of all celestial bodies except the sun are determined randomly, but with the condition that the initial distance between the center of mass and a body may not be less than 1AU and more than maxR(see definition maxR below). The initial position and velocity of the sun is determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
-\[\frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}\]
-
-Since we are considering an isolated system, there are no external forces presented. The momentum of the center of mass is thus conserved and it's position will therefore always be zero(since we chose it's initial position and velocity to be zero), which makes it a good choice as the center of our coordinate system.\\
-=======
-Based on this idea, we first built a basic model in which 1000 celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass)  rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
-We set the center of mass of the entire system (planets and sun) at the origin of our coordinate system. The initial positions and velocities of all celestial bodies (with excepetion of the Sun) are determined at random, under the condition that the initial distance between the center of mass and a body may not exceed 9AU (1AU is the distance between the Earth and the Sun) . The initial position and velocity of the Sun are then determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
+Based on this idea, we first built a basic model in which \(N\) celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass)  rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
+The mass of every celestial body is composed of a solid core and a gaseous atmosphere.
+We set the center of mass of the entire system (planets and sun) at the origin of our coordinate system. The initial positions and velocities of all celestial bodies (with excepetion of the Sun) are determined at random, under the condition that the initial distance between the center of mass ranges between 1AU and  maxR (1AU is the distance between the Earth and the Sun) . The initial position and velocity of the Sun are then determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
 \begin{align}
 \frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}
 \end{align}
 
 
->>>>>>> 749c6875c42dfebb9fe4de2a78709ffe44fbe407
-
-We consider an isolated system, therefore there are no external forces working on these planets. The momentum of the center of mass is thus conserved and its position will therefore always be zero, which makes it a good choice for the center of our coordinate system.In our basic model, we simulated this solar system over 1000 years, with a time step (\(dt\)) of $1$ month.\\
+We consider an isolated system, therefore there are no external forces working on these planets. The momentum of the center of mass is thus conserved and its position will therefore always be zero, which makes it a good choice for the center of our coordinate system. In our basic model, we simulated this solar system over 1000 years, with a time step (\(dt\)) of $1$ month.\\
 
 It is certainly possible that two bodies will collide at a certain time. At that moment, Newton's equation can not be applied since we will divide by zero. In the case of a collision, we use the formula of elastic collision to update the positions and velocities for one step. 
 To simulate accretion, the mass of the smaller body is then set to zero and the mass of the larger body is set as the sum of the two masses. The positions and velocities of the remaining body are then further determined by Newton's equation.\\
@@ -36,14 +29,8 @@ We then studied the evolution of this solar system by investigating the followin
 
 	\item What is the type, mass, radius, orbital period around the sun and the average distance of each planet to the sun after 5000 years?
 
-<<<<<<< HEAD
+
 	\item How many bodies has escaped the solar system after 5000 years?
-=======
-	\item What is the average distance of each planets to the sun after 1000 years?
-	
-	\item How many collisions take place every 50 years?
-	
-	\item How many bodies has escaped the solar system after 1000 years?
->>>>>>> 749c6875c42dfebb9fe4de2a78709ffe44fbe407
+
 \end{enumerate}
  

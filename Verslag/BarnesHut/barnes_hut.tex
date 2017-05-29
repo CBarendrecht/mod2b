@@ -100,6 +100,7 @@ As one can expect, the precision of the Barnes-Hut algorithm is total dependent 
 s < d\theta \geq \frac{d}{\sqrt{D}}
 \]
 Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. This results in that the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
+\item Note that the calculated force is always less or equal the actual force. This is because the center of mass of the grouped objects is taken, but the closer objects excert relatively more force than the objects further away. Thus, the calculated force is less than the actual force.
 \item Consider a subspace represented by a node, that contains two objects, having maximum distance from each other. Consider the error in the force calculated
 \[
 E(m_1,m_2,d_1,d_2) = \frac{m}{d^2}-\frac{m_1}{d_1^2}-\frac{m_2}{d_2^2}

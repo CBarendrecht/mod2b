@@ -3,7 +3,7 @@ function a = condities(B,knoop,p,x)
     if D == 0
         a = false;
     else
-        if B.array(knoop,8)^2/D < 1/2
+        if B.array(knoop,8)^2/D < 1/4
             a = true;
         else 
             a = false;

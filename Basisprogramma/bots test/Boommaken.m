@@ -10,18 +10,18 @@ function teller = Boommaken(B,A, midx, midy, L, knoop, knoptel, m, x, v, r, dt)
                 B.array(knoop,13) = j;
                 %bepaal grenzen voor bots
                 if v(j,1)>=0
-                    B.array(knoop,9) = x(j,1)+r+v(j,1)*dt;%xmax
-                    B.array(knoop,10) = x(j,1)-r;%xmin
+                    B.array(knoop,9) = x(j,1)+r(j)+v(j,1)*dt;%xmax
+                    B.array(knoop,10) = x(j,1)-r(j);%xmin
                 else
-                    B.array(knoop,9) = x(j,1)+r;%xmax
-                    B.array(knoop,10) = x(j,1)-r+v(j,1)*dt;%xmin
+                    B.array(knoop,9) = x(j,1)+r(j);%xmax
+                    B.array(knoop,10) = x(j,1)-r(j)+v(j,1)*dt;%xmin
                 end
                 if v(j,2)>=0
-                    B.array(knoop,11) = x(j,2)+r+v(j,2)*dt;%ymax
-                    B.array(knoop,12) = x(j,2)-r;%ymin
+                    B.array(knoop,11) = x(j,2)+r(j)+v(j,2)*dt;%ymax
+                    B.array(knoop,12) = x(j,2)-r(j);%ymin
                 else
-                    B.array(knoop,11) = x(j,2)+r;%ymax
-                    B.array(knoop,12) = x(j,2)-r+v(j,2)*dt;%ymin
+                    B.array(knoop,11) = x(j,2)+r(j);%ymax
+                    B.array(knoop,12) = x(j,2)-r(j)+v(j,2)*dt;%ymin
                 end
             end
         end

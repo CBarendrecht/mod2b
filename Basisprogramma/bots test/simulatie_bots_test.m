@@ -1,4 +1,4 @@
-function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM)
+function [m,r,x,v,bpm,ap,beginm,beginr] = simulatie_bots_test(p,dt,T,minR,maxR,minM,maxM)
     %clear all; %we hebben tijd in maanden en afstand in AE
 
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten

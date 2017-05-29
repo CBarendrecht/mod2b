@@ -76,6 +76,7 @@ for i = 1:sim
         if OML(j,i) > 0
             afst(1:OML(j,i)) = sqrt((x(j,T+1-OML(j,i):T,1)-x(1,T+1-OML(j,i):T,1)).^2 + (x(j,T+1-OML(j,i):T,2)-x(1,T+1-OML(j,i):T,2)).^2);
             GEMafst(j,i) = sum(afst)/OML(j,i);
+            clear afst;
         end
     end
     

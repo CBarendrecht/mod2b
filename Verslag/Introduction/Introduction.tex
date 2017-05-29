@@ -1,12 +1,18 @@
 \section{Introduction}
-The formation of the solar system is described by the Nebular Hypothesis. It is suggested that the sun is formed from the collapse of a giant molecular cloud, which is called the solar nebula. The rotation of the cloud causes it to flatten out and takes the form of a disk. At some later stadium, a protoplanetery disk is formed, which will later evolves into a planetary system. During this evolution, planets are formed through a process known as accretion, in which cosmic dust first accumulates to become small planetesimals, and then the planetesimals collides and fuses into a larger celestial body, which eventually becomes a planet.\\
+The formation of the Solar System is described by the Nebular Hypothesis. It is suggested that the Sun was born from the gravitational collapse of a giant molecular cloud called the Solar Nebula. 
+The rotation of this cloud caused the cloud to flatten out and take the form of a disk. In a later stadium, a protoplanetery disk was formed, which later evolved into our planetary system.
+During this evolution, planets are formed through a process known as accretion. 
+In this process, cosmic dust accumulates to become small planetesimals, these planetesimals then collide and fuse into a larger celestial body, which will eventually result in the formation of a planet.\\
 
-Based on this idea, we first built a basic model in which 1000 celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ ($M_{\oplus}:=$ Earth Mass) are rotating around a sun of mass $3.33\cdot 10^5 M_{\oplus}$(same mass as our sun). We chose the center of mass of the whole system(planets with sun) as the origin of our coordinate system and the initial positions and velocities of all celestial bodies except the sun are determined randomly, but with the condition that the initial distance between the center of mass and a body may not exceeds 9AU. The initial position and velocity of the sun is determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
-\[\frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}\]
+Based on this idea, we first built a basic model in which 1000 celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass)  rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
+We set the center of mass of the entire system (planets and sun) at the origin of our coordinate system. The initial positions and velocities of all celestial bodies (with excepetion of the Sun) are determined at random, under the condition that the initial distance between the center of mass and a body may not exceed 9AU (1AU is the distance between the Earth and the Sun) . The initial position and velocity of the Sun are then determined such that the momentum of the center of mass is zero. The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
+\begin{align}
+\frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}
+\end{align}
 
-Since we are considering an isolated system, there are no external forces presented. The momentum of the center of mass is thus conserved and it's position will therefore always be zero, which makes it a good choice as the center of our coordinate system.\\
 
-In our basic model, we simulated this solar system over 1000 years, with a time step of $1$ month.\\
+
+We consider an isolated system, therefore there are no external forces working on these planets. The momentum of the center of mass is thus conserved and its position will therefore always be zero, which makes it a good choice for the center of our coordinate system.In our basic model, we simulated this solar system over 1000 years, with a time step (\(dt\)) of $1$ month.\\
 
 It is certainly possible that two bodies will collide at a certain time. At that moment, Newton's equation is not very useful because we will be dividing by zero. In the case of a collision, we used the formula of elastic collision to update the positions and velocities for one step. To simulate accretion, the mass of the smaller body is then set to zero and the mass of the larger body is set as the sum of the two masses. The positions and velocities of the remaining body is then further determined with Newton's equation.\\
 \\

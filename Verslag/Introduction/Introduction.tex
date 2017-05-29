@@ -1,7 +1,7 @@
 \section{Introduction}
 The formation of the Solar System is described by the Nebular Hypothesis. It is suggested that the Sun was born from the gravitational collapse of a giant molecular cloud called the Solar Nebula. 
 The rotation of this cloud caused the cloud to flatten out and take the form of a disk. In a later stadium, a protoplanetery disk was formed, which later evolved into our planetary system.
-During this evolution, planets are formed through a process known as accretion. 
+During this evolution, planets are formed through a process known as accretion.
 In this process, cosmic dust accumulates to become small planetesimals, these planetesimals then collide and fuse into a larger celestial body, which will eventually result in the formation of a planet.\\
 
 Based on this idea, we first built a basic model in which 1000 celestial bodies of mass ranging from 0.005$M_{\oplus}$ to 0.01$M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass)  rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
@@ -14,7 +14,8 @@ We set the center of mass of the entire system (planets and sun) at the origin o
 
 We consider an isolated system, therefore there are no external forces working on these planets. The momentum of the center of mass is thus conserved and its position will therefore always be zero, which makes it a good choice for the center of our coordinate system.In our basic model, we simulated this solar system over 1000 years, with a time step (\(dt\)) of $1$ month.\\
 
-It is certainly possible that two bodies will collide at a certain time. At that moment, Newton's equation is not very useful because we will be dividing by zero. In the case of a collision, we used the formula of elastic collision to update the positions and velocities for one step. To simulate accretion, the mass of the smaller body is then set to zero and the mass of the larger body is set as the sum of the two masses. The positions and velocities of the remaining body is then further determined with Newton's equation.\\
+It is certainly possible that two bodies will collide at a certain time. At that moment, Newton's equation can not be applied since we will divide by zero. In the case of a collision, we use the formula of elastic collision to update the positions and velocities for one step. 
+To simulate accretion, the mass of the smaller body is then set to zero and the mass of the larger body is set as the sum of the two masses. The positions and velocities of the remaining body are then further determined by Newton's equation.\\
 \\
 In order to study the solar system in our model, we made the following definitions:\\
 \begin{enumerate}
@@ -27,7 +28,7 @@ We then studied the evolution of this solar system by investigating the followin
 
 	\item What is the average distance of each planets to the sun after 1000 years?
 	
-	\item How many collisions happened after each 50 years?
+	\item How many collisions take place every 50 years?
 	
 	\item How many bodies has escaped the solar system after 1000 years?
 \end{enumerate}

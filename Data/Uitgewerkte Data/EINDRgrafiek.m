@@ -26,6 +26,9 @@ clear EINDM;
 load('EINDM900.mat');
 EINDM900 = sum(EINDM,2);
 clear EINDM;
+load('EINDM1000.mat');
+EINDM1000 = sum(EINDM,2);
+clear EINDM;
 
 load('EINDR100.mat');
 EINDR100 = EINDR;
@@ -54,6 +57,9 @@ clear EINDR;
 load('EINDR900.mat');
 EINDR900 = EINDR;
 clear EINDR;
+load('EINDR1000.mat');
+EINDR1000 = EINDR;
+clear EINDR;
 
 RP100 = zeros(5,1);
 RP200 = zeros(5,1);
@@ -64,6 +70,7 @@ RP600 = zeros(5,1);
 RP700 = zeros(5,1);
 RP800 = zeros(5,1);
 RP900 = zeros(5,1);
+RP1000 = zeros(5,1);
 
 for i = 1:5
     RP100(i) = mean(EINDR100(EINDM100(:,i) > 0.06,i));
@@ -75,6 +82,7 @@ for i = 1:5
     RP700(i) = mean(EINDR700(EINDM700(:,i) > 0.06,i));
     RP800(i) = mean(EINDR800(EINDM800(:,i) > 0.06,i));
     RP900(i) = mean(EINDR900(EINDM900(:,i) > 0.06,i));
+    RP1000(i) = mean(EINDR1000(EINDM1000(:,i) > 0.06,i));
 end
 MRP(1) = mean(RP100);
 MRP(2) = mean(RP200);
@@ -85,9 +93,10 @@ MRP(6) = mean(RP600);
 MRP(7) = mean(RP700);
 MRP(8) = mean(RP800);
 MRP(9) = mean(RP900);
+MRP(10) = mean(RP1000);
 
 figure;
-scatter(100:100:900,MRP*1.5*10^8/(6.371*10^3),25,[0,0,1],'o','filled');
+scatter(100:100:1000,MRP*1.5*10^8/(6.371*10^3),25,[0,0,1],'o','filled');
 title('Mean radius of planets after 5000 years');
 xlabel('Initial number of celestial bodies');
 ylabel('Mean radius in earth radius');

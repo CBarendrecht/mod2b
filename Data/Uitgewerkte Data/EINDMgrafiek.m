@@ -44,6 +44,11 @@ EINDM900 = sum(EINDM,2);
 EINDSM900 = EINDM(:,1,:);
 EINDGM900 = EINDM(:,2,:);
 clear EINDM;
+load('EINDM1000.mat');
+EINDM1000 = sum(EINDM,2);
+EINDSM1000 = EINDM(:,1,:);
+EINDGM1000 = EINDM(:,2,:);
+clear EINDM;
 
 NGP100 = zeros(5,1);
 NGP200 = zeros(5,1);
@@ -54,6 +59,7 @@ NGP600 = zeros(5,1);
 NGP700 = zeros(5,1);
 NGP800 = zeros(5,1);
 NGP900 = zeros(5,1);
+NGP1000 = zeros(5,1);
 MP100 = zeros(5,1);
 MP200 = zeros(5,1);
 MP300 = zeros(5,1);
@@ -63,6 +69,7 @@ MP600 = zeros(5,1);
 MP700 = zeros(5,1);
 MP800 = zeros(5,1);
 MP900 = zeros(5,1);
+MP1000 = zeros(5,1);
 
 for i = 1:5
     M100 = EINDM100(EINDM100(:,i) > 0.06,1,i);
@@ -74,6 +81,7 @@ for i = 1:5
     M700 = EINDM700(EINDM700(:,i) > 0.06,1,i);
     M800 = EINDM800(EINDM800(:,i) > 0.06,1,i);
     M900 = EINDM900(EINDM900(:,i) > 0.06,1,i);
+    M1000 = EINDM1000(EINDM1000(:,i) > 0.06,1,i);
     GM100 = EINDGM100(EINDM100(:,i) > 0.06,1,i);
     GM200 = EINDGM200(EINDM200(:,i) > 0.06,1,i);
     GM300 = EINDGM300(EINDM300(:,i) > 0.06,1,i);
@@ -83,6 +91,7 @@ for i = 1:5
     GM700 = EINDGM700(EINDM700(:,i) > 0.06,1,i);
     GM800 = EINDGM800(EINDM800(:,i) > 0.06,1,i);
     GM900 = EINDGM900(EINDM900(:,i) > 0.06,1,i);
+    GM1000 = EINDGM1000(EINDM1000(:,i) > 0.06,1,i);
     NGP100(i) = sum(GM100./M100 > 0.1);
     NGP200(i) = sum(GM200./M200 > 0.1);
     NGP300(i) = sum(GM300./M300 > 0.1);
@@ -92,6 +101,7 @@ for i = 1:5
     NGP700(i) = sum(GM700./M700 > 0.1);
     NGP800(i) = sum(GM800./M800 > 0.1);
     NGP900(i) = sum(GM900./M900 > 0.1);
+    NGP1000(i) = sum(GM1000./M1000 > 0.1);
     MP100(i) = mean(EINDM100(EINDM100(:,i) > 0.06,1,i));
     MP200(i) = mean(EINDM200(EINDM200(:,i) > 0.06,1,i));
     MP300(i) = mean(EINDM300(EINDM300(:,i) > 0.06,1,i));
@@ -101,6 +111,7 @@ for i = 1:5
     MP700(i) = mean(EINDM700(EINDM700(:,i) > 0.06,1,i));
     MP800(i) = mean(EINDM800(EINDM800(:,i) > 0.06,1,i));
     MP900(i) = mean(EINDM900(EINDM900(:,i) > 0.06,1,i));
+    MP1000(i) = mean(EINDM1000(EINDM1000(:,i) > 0.06,1,i));
     
     clear M100;
     clear M200;
@@ -111,6 +122,7 @@ for i = 1:5
     clear M700;
     clear M800;
     clear M900;
+    clear M1000;
     clear GM100;
     clear GM200;
     clear GM300;
@@ -120,6 +132,7 @@ for i = 1:5
     clear GM700;
     clear GM800;
     clear GM900;
+    clear GM1000;
 end
 
 MMP(1) = mean(MP100);
@@ -131,6 +144,7 @@ MMP(6) = mean(MP600);
 MMP(7) = mean(MP700);
 MMP(8) = mean(MP800);
 MMP(9) = mean(MP900);
+MMP(10) = mean(MP1000);
 MNGP(1) = mean(NGP100);
 MNGP(2) = mean(NGP200);
 MNGP(3) = mean(NGP300);
@@ -140,15 +154,16 @@ MNGP(6) = mean(NGP600);
 MNGP(7) = mean(NGP700);
 MNGP(8) = mean(NGP800);
 MNGP(9) = mean(NGP900);
+MNGP(10) = mean(NGP1000);
 
 figure;
-scatter(100:100:900,MMP,25,[0,0,1],'o','filled');
+scatter(100:100:1000,MMP,25,[0,0,1],'o','filled');
 title('Mean mass of planets after 5000 years');
 xlabel('Initial number of celestial bodies');
 ylabel('Mean mass in earth masses');
 
 figure;
-scatter(100:100:900,MNGP,25,[0,0,1],'o','filled');
+scatter(100:100:1000,MNGP,25,[0,0,1],'o','filled');
 title('Mean number of gas planets after 5000 years');
 xlabel('Initial number of celestial bodies');
 ylabel('Number of gas planets');

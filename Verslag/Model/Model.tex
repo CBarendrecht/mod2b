@@ -1,2 +1,33 @@
 \section{The Model}
-Work in progress.......... \dots \dots
+As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. 
+The Model uses the LeapFrog integration method to approximate the new movements. 
+Before we can apply Newton's equation however, we have to define our system of measurement and scale the corresponding physical constants.
+Table \ref{tab:eenheden} displays the chosen Units for the corresponding physical quantity.
+
+\begin{table}[h!]
+\centering
+\caption{The chosen Units of measurement}
+\label{tab:eenheden}
+\begin{tabular}{l|l|l}
+  Physical quantity & Unit & SI-value \\ \hline
+Time & 1 month & \(2.629\cdot 10^{6}\) seconds  \\ 
+ Distance & 1 Astronomical Unit & \(1.496\cdot10^{11}\) meters   \\
+ Mass & 1 Earth Mass & \(5.972\cdot10^{24}\) kilograms \\
+\end{tabular}
+\end{table}
+Other units such as velocity, acceleration and density follow from these definitions. After these units are set, the gravitational constant is rescaled and the simpelest model can be created.
+In this model, several parameters are relevant and can be chosen as desired. 
+\begin{itemize}
+	\item \textbf{Number of Celestial bodies}, denoted as \(p\), this parameter gives the number of celestial bodies present at the start of a simulation. This excludes the star, thus the system will initially contain a total of \(p+1\) objects.
+	\item \textbf{Integration increment}, denoted as \(dt\), this parameter determines at which moments the system will integrate. In example, if \(dt=2\), new positions will be calculated every two months. By default we set \(dt=1\).
+	\item \textbf{Integration time}, denoted as \(T\), this parameter indicates the duration of the simulation. If \(t=6\cdot10^4\), the evolution of the system will be observed over a time period of 5000 years.
+	\item \textbf{Minimum Radius}, denoted as min\(R\), in the model, the celestial bodies start in a n annulus around the origin. This parameter sets the inner radius of this annulus and gives a lower limit to the distance between celestial bodies and the center of mass at \(t=0\).
+	\item \textbf{Maximum Radius}, denoted as max\(R\), this parameter sets the outer radius of the annulus and gives an upper limit to the distance between a celestial body and the center of mass at \(t=0\).
+	\item \textbf{Minimum Mass}, denoted as min\(M\), this parameter sets the minimum mass that a celestial body can have at \(t=0\).
+	\item \textbf{Maximum Mass}m denoted as max\(M\), this parameter sets the maximum mass that a celestial body can have at \(t=0\).
+\end{itemize}
+%With these parameters chosen, 
+%\(p\) celestial bodies are generated, distributed uniformly in distance from the center of mass.
+%with a distance from the center of mass determined at random through a uniform distribution. 
+If we identify our system with a 2 Dimensional surface, we can choose a location for each of the \(p\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
+The mass of the celestial body is determined uniformly as well.

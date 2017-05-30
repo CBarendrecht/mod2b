@@ -30,4 +30,25 @@ In this model, several parameters are relevant and can be chosen as desired.
 %\(p\) celestial bodies are generated, distributed uniformly in distance from the center of mass.
 %with a distance from the center of mass determined at random through a uniform distribution. 
 If we identify our system with a 2 Dimensional surface, we can choose a location for each of the \(p\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
-The mass of the celestial body is determined uniformly as well.
+The mass of the celestial body is determined uniformly as well. In the simpelest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
+\[r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\]
+Where \(r_i\) is the radius of body \(i\), \(m_i\) the mass and \(\rho\) the scaled density of the material.
+Lastly, the initial velocity is determined, using the equations for angular momentum(???). 
+In our system, all bodies move anti-clockwise. 
+After the place,velocity mass and radius of each body is determined, the location and velocity of the star are determined. 
+As mentioned in the introduction, the place and velocity of the star are chosen such that the momentum of the total system equals zero.
+We identify each of the \(p+1\) bodies with a fixed number. Viewing the star  as the first object, we determine its velocity:
+\begin{align*}
+	\vec{0}&=\sum_{i=1}^{p+1}m_i\vec{v_i}\\
+	\vec{v_1}&=-\sum_{i=2}^{p+1}\frac{m_i}{m_1}\vec{v_i}
+\end{align*}
+The location of the star is determined by setting the center of mass in the origin:
+\begin{align*}
+	\vec{0}&=\frac{1}{\sum_{i=1}^{p+1}m_i}\sum_{i=1}^{p+1}m_i\vec{x_i}\\
+	\vec{x_1}&=-\sum_{i=2}^{p+1}\frac{m_i}{m_1}\vec{x_i}
+\end{align*}
+This sets the location of the star.
+After all the initial values are determined, we can begin integrating using LeapFrog(!!!). 
+\subsection{Collisions}
+At times during 
+\subsection{Gaseous planets}

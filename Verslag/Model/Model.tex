@@ -31,7 +31,9 @@ In this model, several parameters are relevant and can be chosen as desired.
 %with a distance from the center of mass determined at random through a uniform distribution. 
 If we identify our system with a two dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
 The mass of the celestial body is determined uniformly as well. In the simpelest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
-\[r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\]
+\begin{align}
+r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\label{eq:rad}
+\end{align}
 Where \(r_i\) is the radius of body \(i\), \(m_i\) the mass and \(\rho\) the scaled density of the material.
 Lastly, the initial velocity is determined, using the equations for angular momentum(???). 
 In our system, all bodies move anti-clockwise. 
@@ -51,7 +53,7 @@ This sets the location of the star.
 After all the initial values are determined, we can start integrating using LeapFrog(!!!). 
 
 \subsection{Collisions}
-At times during the process, it may occur that the paths of two bodies intersect; a collision between bodies takes place. In order to numerically integrate the evolution of the system however, it is required to make a discretisation of time.
+At certain times during the process, it may occur that the paths of two bodies intersect; a collision between bodies takes place. In order to numerically integrate the evolution of the system however, it is required to make a discretisation of time.
  Therefore, there is a non-trivial chance that a collision occurs in the system, which is overlooked due to the discretisation.
  In order to capture these moments, we note that a collision takes place during the \(n\)-th if at any given time \(t\in[t_{n},t_{n+1}]\), the distance \(d_{ij}(t)\) between the center of mass of each body is smaller then \(r_i+r_j\). 
  Here \(t_n=n\cdot dt\) (the start of the \(n\)-th month).
@@ -86,6 +88,12 @@ And we can define the distance between \(i\) and \(j\) as:
 where \(t= \frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).
 
 \subsection{Gaseous planets}
-Thusfar, we have assumed that every planet consists of just one (solid) material. 
+Thusfar we have assumed that every planet consists of just one (solid) material. 
 In general however, this may not necessarily be the case, Jupiter for instance consists mostly of Hydrogen. Its solid core only makes up for only 25\% of its diameter.
 This allows a modifcation of the model, in which every celestial body is not just made of rock, but consists of a solid core, with a gaseous atmosphere. 
+In this model, we will classify the original in two different types: Solid bodies and gaseous bodies.
+ Solid bodies consist for 100\% of rock, whereas gaseous bodies consist 90\% of hydrogen and 10\% of rock (in terms of mass). To implement this modification, we have to adjust certain definitions in our current system. Firstly, we have to modify our definition of the radius as given in Equation \eqref{eq:rad}. In the new model, Equation \eqref{eq:rad} reformulates itself to
+ \begin{align*}
+ r_i=\sqrt[3]{\frac{3 m_i^s}{4\pi \rho_s}+\frac{3 m_i^g}{4\pi \rho_g}}
+ \end{align*}
+ Here \(m_i^s\) is the mass of the solid core, and \(m_i^g\) the mass of the gaseous atmosphere. We assume that 

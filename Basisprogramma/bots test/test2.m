@@ -34,9 +34,9 @@ scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0]
 pause(0.01);
 
 Bots = largematrix;
-Bots.array = zeros(10*n,10);
-Botsboommaken(Bots,A.array,0,0,2*maxR,1,1,x(:,1,:),v(:,1,:),r,dt);
-Botsboomvullen(Bots,1);
+%Bots.array = zeros(10*n,10);
+%Botsboommaken(Bots,A.array,0,0,2*maxR,1,1,x(:,1,:),v(:,1,:),r,dt);
+%Botsboomvullen(Bots,1);
 J = 1:n;
 botsteller = 0;
 for k = 3:T
@@ -69,12 +69,16 @@ for k = 3:T
             botsarray = largematrix;
             botsarray.array = zeros(1,n);
             vulbotsarray(Bots,1,botsarray,[xmax xmin;ymax ymin]);
-            for j = J(botsarray.array == 1)
-            %for j = i+1:n
+            %for j = J(botsarray.array == 1)
+            for j = i+1:n
                 if m(j) > 0 && j~=i
                     if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
                         botsteller = botsteller+1;
                         disp(botsteller);
+                        if botsarray.array(j)~= 1
+                            disp('error');
+                           pause(10); 
+                        end
                         if m(i) > m(j)
                             v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
                             m(i) = m(i) + m(j); %nog aanpassen

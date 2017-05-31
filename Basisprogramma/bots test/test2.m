@@ -1,7 +1,13 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
-[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+%[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+load('beginwaarden.mat');
+m = beginm;
+M = beginM;
+r = beginr;
+x = beginx;
+v = beginv;
 
 figure('Name','Planets');
 hold on;
@@ -11,10 +17,10 @@ axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
 pause(0.01);
 
 B = largematrix;
-B.array=zeros(10*n,13);
+B.array=zeros(10*n,8);
 A = largematrix;
 A.array = ones(1,n);
-Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:),v(:,1,:),r,dt);
+Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
 Boomvullen(B,1);
 
 
@@ -28,38 +34,44 @@ scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0]
 pause(0.01);
 
 Bots = largematrix;
-Bots.array = zeros(1,n);
+Bots.array = zeros(10*n,10);
+Botsboommaken(Bots,A.array,0,0,2*maxR,1,1,x(:,1,:),v(:,1,:),r,dt);
+Botsboomvullen(Bots,1);
 J = 1:n;
 botsteller = 0;
 for k = 3:T
-    B.array=zeros(10*n,13);
-    Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:),v(:,k-1,:),r,dt);
+    B.array=zeros(10*n,8);
+    Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:));
     Boomvullen(B,1);
     a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
     v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
+    Bots.array = zeros(10*n,10);
+    Botsboommaken(Bots,A.array,0,0,5*maxR,1,1,x(:,k-1,:),v(:,k,:),r,dt);
+    Botsboomvullen(Bots,1);
     
     %botsen
     for i = 1:n-1
         if m(i) > 0
-            if v(i,k-1,1)>=0
-                xmax = x(i,k-1,1)+r(i)+v(i,k-1,1)*dt;%xmax
+            if v(i,k,1)>=0
+                xmax = x(i,k-1,1)+r(i)+v(i,k,1)*dt;%xmax
                 xmin = x(i,k-1,1)-r(i);%xmin
             else
                 xmax = x(i,k-1,1)+r(i);%xmax
-                xmin = x(i,k-1,1)-r(i)+v(i,k-1,1)*dt;%xmin
+                xmin = x(i,k-1,1)-r(i)+v(i,k,1)*dt;%xmin
             end
-            if v(i,k-1,2)>=0
-                ymax = x(i,k-1,2)+r(i)+v(i,k-1,2)*dt;%ymax
+            if v(i,k,2)>=0
+                ymax = x(i,k-1,2)+r(i)+v(i,k,2)*dt;%ymax
                 ymin = x(i,k-1,2)-r(i);%ymin
             else
                 ymax = x(i,k-1,2)+r(i);%ymax
-                ymin = x(i,k-1,2)-r(i)+v(i,k-1,2)*dt;%ymin
+                ymin = x(i,k-1,2)-r(i)+v(i,k,2)*dt;%ymin
             end
-            %Bots.array = zeros(1,n);
-            %vulbotsarray(B,1,Bots,[xmax xmin;ymax ymin]);
-            %for j = J(Bots.array == 1)
-            for j = i+1:n
-                if m(j) > 0 && j>i
+            botsarray = largematrix;
+            botsarray.array = zeros(1,n);
+            vulbotsarray(Bots,1,botsarray,[xmax xmin;ymax ymin]);
+            for j = J(botsarray.array == 1)
+            %for j = i+1:n
+                if m(j) > 0 && j~=i
                     if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
                         botsteller = botsteller+1;
                         disp(botsteller);

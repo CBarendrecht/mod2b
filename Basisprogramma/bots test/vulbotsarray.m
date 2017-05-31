@@ -1,20 +1,18 @@
-function vulbotsarray(Boom,knoop,Bots,x)
-xmax = Boom.array(knoop,9);
-xmin = Boom.array(knoop,10);
-ymax = Boom.array(knoop,11);
-ymin = Boom.array(knoop,12);
-%disp([xmax xmin ymax ymin]);
-%disp(x);
+function vulbotsarray(Bots,knoop,botsarray,x)
+xmax = Bots.array(knoop,5);
+xmin = Bots.array(knoop,6);
+ymax = Bots.array(knoop,7);
+ymin = Bots.array(knoop,8);
 if x(1,2) <= xmax && x(1,1) >= xmin && x(2,2) <= ymax && x(2,1) >= ymin %botsing mogelijk
-    if Boom.array(knoop,13) == 0 %interne knoop
-        if Boom.array(knoop,1) ~= 0 %lege knopen doen we niets mee!
-            vulbotsarray(Boom,Boom.array(knoop,1),Bots,x);
-            vulbotsarray(Boom,Boom.array(knoop,2),Bots,x);
-            vulbotsarray(Boom,Boom.array(knoop,3),Bots,x);
-            vulbotsarray(Boom,Boom.array(knoop,4),Bots,x);
+    if Bots.array(knoop,9) == 0 %interne knoop
+        if Bots.array(knoop,1) ~= 0 %lege knopen doen we niets mee!
+            vulbotsarray(Bots,Bots.array(knoop,1),botsarray,x);
+            vulbotsarray(Bots,Bots.array(knoop,2),botsarray,x);
+            vulbotsarray(Bots,Bots.array(knoop,3),botsarray,x);
+            vulbotsarray(Bots,Bots.array(knoop,4),botsarray,x);
         end
     else %externe knoop
-        Bots.array(Boom.array(knoop,13)) = 1;
+        botsarray.array(Bots.array(knoop,9)) = 1;
     end
 end
 end

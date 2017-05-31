@@ -1,5 +1,5 @@
 \section{The Model}
-As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. 
+As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. The model will only cover the two-dimensional model 
 The Model uses the LeapFrog integration method to approximate the new movements. 
 Before we can apply Newton's equation however, we have to define our system of measurement and scale the corresponding physical constants.
 Table \ref{tab:eenheden} displays the chosen Units for the corresponding physical quantity.
@@ -10,7 +10,7 @@ Table \ref{tab:eenheden} displays the chosen Units for the corresponding physica
 \label{tab:eenheden}
 \begin{tabular}{l|l|l}
   Physical quantity & Unit & SI-value \\ \hline
-Time & 1 month & \(2.629\cdot 10^{6}\) seconds  \\ 
+Time & 1 Month & \(2.629\cdot 10^{6}\) seconds  \\ 
  Distance & 1 Astronomical Unit & \(1.496\cdot10^{11}\) meters   \\
  Mass & 1 Earth Mass & \(5.972\cdot10^{24}\) kilograms \\
 \end{tabular}
@@ -18,9 +18,9 @@ Time & 1 month & \(2.629\cdot 10^{6}\) seconds  \\
 Other units such as velocity, acceleration and density follow from these definitions. After these units are set, the gravitational constant is rescaled and the simpelest model can be created.
 In this model, several parameters are relevant and can be chosen as desired. 
 \begin{itemize}
-	\item \textbf{Number of Celestial bodies}, denoted as \(p\), this parameter gives the number of celestial bodies present at the start of a simulation. This excludes the star, thus the system will initially contain a total of \(p+1\) objects.
+	\item \textbf{Number of Celestial bodies}, denoted as \(N\), this parameter gives the number of celestial bodies present at the start of a simulation. This excludes the star, thus the system will initially contain a total of \(N+1\) objects.
 	\item \textbf{Integration increment}, denoted as \(dt\), this parameter determines at which moments the system will integrate. In example, if \(dt=2\), new positions will be calculated every two months. By default we set \(dt=1\).
-	\item \textbf{Integration time}, denoted as \(T\), this parameter indicates the duration of the simulation. If \(t=6\cdot10^4\), the evolution of the system will be observed over a time period of 5000 years.
+	\item \textbf{Integration time}, denoted as \(T\), this parameter indicates the duration of the simulation. If \(T=6.0\cdot10^4\), the evolution of the system will be observed over a time period of 5000 years.
 	\item \textbf{Minimum Radius}, denoted as min\(R\), in the model, the celestial bodies start in a n annulus around the origin. This parameter sets the inner radius of this annulus and gives a lower limit to the distance between celestial bodies and the center of mass at \(t=0\).
 	\item \textbf{Maximum Radius}, denoted as max\(R\), this parameter sets the outer radius of the annulus and gives an upper limit to the distance between a celestial body and the center of mass at \(t=0\).
 	\item \textbf{Minimum Mass}, denoted as min\(M\), this parameter sets the minimum mass that a celestial body can have at \(t=0\).
@@ -29,7 +29,7 @@ In this model, several parameters are relevant and can be chosen as desired.
 %With these parameters chosen, 
 %\(p\) celestial bodies are generated, distributed uniformly in distance from the center of mass.
 %with a distance from the center of mass determined at random through a uniform distribution. 
-If we identify our system with a 2 Dimensional surface, we can choose a location for each of the \(p\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
+If we identify our system with a two dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
 The mass of the celestial body is determined uniformly as well. In the simpelest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
 \[r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\]
 Where \(r_i\) is the radius of body \(i\), \(m_i\) the mass and \(\rho\) the scaled density of the material.
@@ -37,18 +37,55 @@ Lastly, the initial velocity is determined, using the equations for angular mome
 In our system, all bodies move anti-clockwise. 
 After the place,velocity mass and radius of each body is determined, the location and velocity of the star are determined. 
 As mentioned in the introduction, the place and velocity of the star are chosen such that the momentum of the total system equals zero.
-We identify each of the \(p+1\) bodies with a fixed number. Viewing the star  as the first object, we determine its velocity:
+We identify each of the \(N+1\) bodies with a fixed number. Viewing the star  as the first object, we determine its velocity:
 \begin{align*}
-	\vec{0}&=\sum_{i=1}^{p+1}m_i\vec{v_i}\\
-	\vec{v_1}&=-\sum_{i=2}^{p+1}\frac{m_i}{m_1}\vec{v_i}
+	\vec{0}&=\sum_{i=1}^{N+1}m_i\vec{v_i}\\
+	\vec{v_1}&=-\sum_{i=2}^{N+1}\frac{m_i}{m_1}\vec{v_i}
 \end{align*}
 The location of the star is determined by setting the center of mass in the origin:
 \begin{align*}
-	\vec{0}&=\frac{1}{\sum_{i=1}^{p+1}m_i}\sum_{i=1}^{p+1}m_i\vec{x_i}\\
-	\vec{x_1}&=-\sum_{i=2}^{p+1}\frac{m_i}{m_1}\vec{x_i}
+	\vec{0}&=\frac{\sum_{i=1}^{N+1}m_i\vec{x_i}}{\sum_{i=1}^{N+1}m_i}\\
+	\vec{x_1}&=-\sum_{i=2}^{N+1}\frac{m_i}{m_1}\vec{x_i}
 \end{align*}
 This sets the location of the star.
-After all the initial values are determined, we can begin integrating using LeapFrog(!!!). 
+After all the initial values are determined, we can start integrating using LeapFrog(!!!). 
+
 \subsection{Collisions}
-At times during 
+At times during the process, it may occur that the paths of two bodies intersect; a collision between bodies takes place. In order to numerically integrate the evolution of the system however, it is required to make a discretisation of time.
+ Therefore, there is a non-trivial chance that a collision occurs in the system, which is overlooked due to the discretisation.
+ In order to capture these moments, we note that a collision takes place during the \(n\)-th if at any given time \(t\in[t_{n},t_{n+1}]\), the distance \(d_{ij}(t)\) between the center of mass of each body is smaller then \(r_i+r_j\). 
+ Here \(t_n=n\cdot dt\) (the start of the \(n\)-th month).
+\\
+ To formalise this, we linearise the path of \(i\) and \(j\) as follows: 
+ Let \(\vec{x_i}\) be the location of body \(i\) at \(t=t_n\) and let \(\vec{v_i}\) be the numerically determined speed at \(t=t_{n+\frac{1}{2}}\).
+The path of \(i\) is then given by:
+\begin{align*}
+\vec{\gamma_i}:[0,dt]\rightarrow\mathbb{R}^2 \\
+t\mapsto \vec{x_i}+\vec{v_i}t
+\end{align*}
+And we can define the distance between \(i\) and \(j\) as:
+\begin{align*}
+	d_{ij}:[0,dt]\rightarrow \mathbb{R}_{\geq 0}\\
+	t\mapsto \sqrt{(\vec{\gamma_i(t)}-\vec{\gamma_j(t)})\cdot(\vec{\gamma_i(t)}-\vec{\gamma_j(t)})}
+\end{align*}
+ A collision takes place in the \(n\)-th month if 
+ \begin{align*}
+	d_{ij}(t)^2&=(\vec{x_i}+\vec{v_i}t-(\vec{x_j}+\vec{v_j}t))\cdot (\vec{x_i}+\vec{v_i}t-(\vec{x_j}+\vec{v_j}t))\\
+	&= (\Delta\vec{x} +t\Delta\vec{v})\cdot(\Delta\vec{x} +t\Delta\vec{v})<(r_i+r_j)^2
+ \end{align*}
+  The distance obtains its minimum when \(\frac{d}{dt}d_{ij}(t)^2=0\) Thus for \(t\) we find:
+  \begin{align*}
+  0&=\frac{d}{dt}d_{ij}(t)^2 =2\Delta\vec{v}\cdot(\Delta\vec{x}+t\Delta\vec{v})\\
+  t&=-\frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}
+  \end{align*}
+  Thus we can conclude, bodies \(i\) and \(j\) collide if:
+ \begin{enumerate}
+  \item \(0\leq t \leq \Delta t\) 
+  \item \((\Delta\vec{x} +t\Delta\vec{v})\cdot(\Delta\vec{x} +t\Delta\vec{v}) <(r_i+r_j)^2\)
+\end{enumerate} 
+where \(t= \frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).
+
 \subsection{Gaseous planets}
+Thusfar, we have assumed that every planet consists of just one (solid) material. 
+In general however, this may not necessarily be the case, Jupiter for instance consists mostly of Hydrogen. Its solid core only makes up for only 25\% of its diameter.
+This allows a modifcation of the model, in which every celestial body is not just made of rock, but consists of a solid core, with a gaseous atmosphere. 

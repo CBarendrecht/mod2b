@@ -69,16 +69,16 @@ for k = 3:T
             botsarray = largematrix;
             botsarray.array = zeros(1,n);
             vulbotsarray(Bots,1,botsarray,[xmax xmin;ymax ymin]);
-            %for j = J(botsarray.array == 1)
-            for j = i+1:n
+            for j = J(botsarray.array == 1)
+            %for j = i+1:n
                 if m(j) > 0 && j~=i
                     if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
                         botsteller = botsteller+1;
                         disp(botsteller);
-                        if botsarray.array(j)~= 1
-                            disp('error');
-                           pause(10); 
-                        end
+%                         if botsarray.array(j)~= 1
+%                             disp('error');
+%                            pause(10); 
+%                         end
                         if m(i) > m(j)
                             v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
                             m(i) = m(i) + m(j); %nog aanpassen

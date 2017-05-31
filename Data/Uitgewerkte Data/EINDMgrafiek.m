@@ -70,6 +70,16 @@ MP700 = zeros(5,1);
 MP800 = zeros(5,1);
 MP900 = zeros(5,1);
 MP1000 = zeros(5,1);
+MAXP100 = zeros(5,1);
+MAXP200 = zeros(5,1);
+MAXP300 = zeros(5,1);
+MAXP400 = zeros(5,1);
+MAXP500 = zeros(5,1);
+MAXP600 = zeros(5,1);
+MAXP700 = zeros(5,1);
+MAXP800 = zeros(5,1);
+MAXP900 = zeros(5,1);
+MAXP1000 = zeros(5,1);
 
 for i = 1:5
     M100 = EINDM100(EINDM100(:,i) > 0.06,1,i);
@@ -112,6 +122,16 @@ for i = 1:5
     MP800(i) = mean(EINDM800(EINDM800(:,i) > 0.06,1,i));
     MP900(i) = mean(EINDM900(EINDM900(:,i) > 0.06,1,i));
     MP1000(i) = mean(EINDM1000(EINDM1000(:,i) > 0.06,1,i));
+    MAXP100(i) = max(EINDM100(EINDM100(:,i) > 0.06,1,i));
+    MAXP200(i) = max(EINDM200(EINDM200(:,i) > 0.06,1,i));
+    MAXP300(i) = max(EINDM300(EINDM300(:,i) > 0.06,1,i));
+    MAXP400(i) = max(EINDM400(EINDM400(:,i) > 0.06,1,i));
+    MAXP500(i) = max(EINDM500(EINDM500(:,i) > 0.06,1,i));
+    MAXP600(i) = max(EINDM600(EINDM600(:,i) > 0.06,1,i));
+    MAXP700(i) = max(EINDM700(EINDM700(:,i) > 0.06,1,i));
+    MAXP800(i) = max(EINDM800(EINDM800(:,i) > 0.06,1,i));
+    MAXP900(i) = max(EINDM900(EINDM900(:,i) > 0.06,1,i));
+    MAXP1000(i) = max(EINDM1000(EINDM1000(:,i) > 0.06,1,i));
     
     clear M100;
     clear M200;
@@ -145,6 +165,18 @@ MMP(7) = mean(MP700);
 MMP(8) = mean(MP800);
 MMP(9) = mean(MP900);
 MMP(10) = mean(MP1000);
+
+MMAXP(1) = mean(MAXP100);
+MMAXP(2) = mean(MAXP200);
+MMAXP(3) = mean(MAXP300);
+MMAXP(4) = mean(MAXP400);
+MMAXP(5) = mean(MAXP500);
+MMAXP(6) = mean(MAXP600);
+MMAXP(7) = mean(MAXP700);
+MMAXP(8) = mean(MAXP800);
+MMAXP(9) = mean(MAXP900);
+MMAXP(10) = mean(MAXP1000);
+
 MNGP(1) = mean(NGP100);
 MNGP(2) = mean(NGP200);
 MNGP(3) = mean(NGP300);
@@ -158,9 +190,12 @@ MNGP(10) = mean(NGP1000);
 
 figure;
 scatter(100:100:1000,MMP,25,[0,0,1],'o','filled');
+hold on;
+scatter(100:100:1000,MMAXP,25,[0,1,0],'o','filled');
 title('Mean mass of planets after 5000 years');
 xlabel('Initial number of celestial bodies');
 ylabel('Mean mass in earth masses');
+legend('Mean','Maximum');
 
 figure;
 scatter(100:100:1000,MNGP,25,[0,0,1],'o','filled');

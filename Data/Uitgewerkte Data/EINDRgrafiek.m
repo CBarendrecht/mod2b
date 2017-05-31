@@ -71,6 +71,16 @@ RP700 = zeros(5,1);
 RP800 = zeros(5,1);
 RP900 = zeros(5,1);
 RP1000 = zeros(5,1);
+MAXRP100 = zeros(5,1);
+MAXRP200 = zeros(5,1);
+MAXRP300 = zeros(5,1);
+MAXRP400 = zeros(5,1);
+MAXRP500 = zeros(5,1);
+MAXRP600 = zeros(5,1);
+MAXRP700 = zeros(5,1);
+MAXRP800 = zeros(5,1);
+MAXRP900 = zeros(5,1);
+MAXRP1000 = zeros(5,1);
 
 for i = 1:5
     RP100(i) = mean(EINDR100(EINDM100(:,i) > 0.06,i));
@@ -83,6 +93,16 @@ for i = 1:5
     RP800(i) = mean(EINDR800(EINDM800(:,i) > 0.06,i));
     RP900(i) = mean(EINDR900(EINDM900(:,i) > 0.06,i));
     RP1000(i) = mean(EINDR1000(EINDM1000(:,i) > 0.06,i));
+    MAXRP100(i) = max(EINDR100(EINDM100(:,i) > 0.06,i));
+    MAXRP200(i) = max(EINDR200(EINDM200(:,i) > 0.06,i));
+    MAXRP300(i) = max(EINDR300(EINDM300(:,i) > 0.06,i));
+    MAXRP400(i) = max(EINDR400(EINDM400(:,i) > 0.06,i));
+    MAXRP500(i) = max(EINDR500(EINDM500(:,i) > 0.06,i));
+    MAXRP600(i) = max(EINDR600(EINDM600(:,i) > 0.06,i));
+    MAXRP700(i) = max(EINDR700(EINDM700(:,i) > 0.06,i));
+    MAXRP800(i) = max(EINDR800(EINDM800(:,i) > 0.06,i));
+    MAXRP900(i) = max(EINDR900(EINDM900(:,i) > 0.06,i));
+    MAXRP1000(i) = max(EINDR1000(EINDM1000(:,i) > 0.06,i));
 end
 MRP(1) = mean(RP100);
 MRP(2) = mean(RP200);
@@ -94,9 +114,22 @@ MRP(7) = mean(RP700);
 MRP(8) = mean(RP800);
 MRP(9) = mean(RP900);
 MRP(10) = mean(RP1000);
+MMAXRP(1) = mean(MAXRP100);
+MMAXRP(2) = mean(MAXRP200);
+MMAXRP(3) = mean(MAXRP300);
+MMAXRP(4) = mean(MAXRP400);
+MMAXRP(5) = mean(MAXRP500);
+MMAXRP(6) = mean(MAXRP600);
+MMAXRP(7) = mean(MAXRP700);
+MMAXRP(8) = mean(MAXRP800);
+MMAXRP(9) = mean(MAXRP900);
+MMAXRP(10) = mean(MAXRP1000);
 
 figure;
 scatter(100:100:1000,MRP*1.5*10^8/(6.371*10^3),25,[0,0,1],'o','filled');
+hold on;
+scatter(100:100:1000,MMAXRP*1.5*10^8/(6.371*10^3),25,[0,1,0],'o','filled');
 title('Mean radius of planets after 5000 years');
 xlabel('Initial number of celestial bodies');
 ylabel('Mean radius in earth radius');
+legend('Mean','Maximum');

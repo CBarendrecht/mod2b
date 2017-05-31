@@ -20,7 +20,7 @@ For example, Mercury has only a orbital period of 88 days. If we integrate with 
 Also, the stability of Leapfrog, when applied to an oscillatory system, is $\Delta t\leq 2/\omega$, with $\omega$ the angular frequency \cite{StabLeapfrog}. 
 Because the x and y coordinates of our planets are in oscillatory motion, we would expect that for these planets that have a shorter orbital period(and thus larger $\omega$), the stability of Leapfrog is easily lost with large $\Delta t$.\\
 
-Thus, we will first look at a planeet that is 1$M_{\oplus}$, starting at a distance less than $1$ AU. 
+Thus, we will first look at a planet that is 1$M_{\oplus}$, starting at a distance less than $1$ AU. 
 After performing the integration with $dt=1$ over $10$ years, we obtained the following result:
 
 \begin{figure}[H]
@@ -61,10 +61,6 @@ If we chose to integrate with $dt=0.5$ or $dt=0.25$, the accuracy of the orbit i
 	\end{subfigure}
 	\caption{Orbit of a planet of 1 $M_{\oplus}$ with a distance less than 1 AU from the sun, integrated with $dt=0.5$ month and $dt=0.25$ month over $10$ years.}
 \end{figure} 
-
-This demonstrates the reason why in our simulation with 1000 bodies, we made the restriction that a body may not start in a position of distance less than 1 AU to the center of mass. 
-Since we are integrating with $dt=1$. 
-Certainly, we could have chose a smaller $dt$ for planets close to the origin, but that would also require somewhat more programming work.\\
 
 But, when the planet is not too close to the sun, the integration with $dt=1$ is sufficient for a reasonable accuracy, which is shown in Figure \ref{fig:Planet2AUdt1}:
 
@@ -138,3 +134,9 @@ For the order of the y position, denoted as $p_y$, the formula gives $p_y\approx
 
 This is very surprising result, because Leapfrog is known as a second order method. 
 We suspect that the order $1$ might come from the Euler Forwards step that is used to initiate Leapfrog, but we cannot prove it yet.
+\subsection{Comments about accuracy of our results}
+So what does this analysis of two bodies says anything about our results with for example 1000 bodies? From the above observation, we saw that the integration is inaccurate for planets too close to the sun. Therefore, in our simulations with more bodies, we avoid this inaccuracy by conditioning the initial distance of each planets to the center of mass to be more than 1 AU, since we are integrating with $dt=1$. Of course, this comes with the price that our model is less realistic, since we are omitting planets that are less than 1 AU to the sun. Certainly, we could have chose a smaller $dt$ for planets close to the origin, but that would also require somewhat more programming work.\\
+
+The elliptical orbit that we observed with only one planet implies that we are integrating correctly(there is still a error of order 1, but at least we obtained a reasonable solution). With more bodies, we will also have collisions, in which we used Euler Forwards to determine the condition for collisions. So we expect that in our results, the order of the error for the position of the bodies would still be 1.\\
+
+We also expect that the total energy is conserved in our simulations with more bodies. Since Leapfrog is known as a sympletic integrator, which has energy conserving property \cite{Leapfrogsympletic}. 

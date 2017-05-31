@@ -55,3 +55,25 @@ title('Evolution of number of planets in time');
 xlabel('Time in years');
 ylabel('Mean number of planets conform our definition');
 legend('Start with 100 celestial bodies','Start with 200 celestial bodies','Start with 300 celestial bodies','Start with 400 celestial bodies','Start with 500 celestial bodies','Start with 600 celestial bodies','Start with 700 celestial bodies','Start with 800 celestial bodies','Start with 900 celestial bodies','Start with 1000 celestial bodies');
+
+figure;
+histogram(AP100(500,:),-0.5:1:12.5);
+hold on;
+histogram(AP200(500,:),-0.5:1:12.5);
+figure;
+histogram(AP300(500,:),-0.5:1:12.5);
+hold on;
+histogram(AP400(500,:),-0.5:1:12.5);
+figure;
+histogram(AP500(500,:),-0.5:1:12.5);
+hold on;
+histogram(AP600(500,:),-0.5:1:12.5);
+figure;
+histogram(AP700(500,:),-0.5:1:12.5);
+hold on;
+histogram(AP800(500,:),-0.5:1:12.5);
+figure;
+histogram(AP900(500,:),-0.5:1:12.5);
+hold on;
+histogram(AP1000(500,:),-0.5:1:12.5);
+

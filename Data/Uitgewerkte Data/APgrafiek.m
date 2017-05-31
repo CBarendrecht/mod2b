@@ -49,31 +49,52 @@ hold on;
 scatter(10:10:5000,mean(AP900,2),5,[1,0.5,0],'o');
 hold on;
 scatter(10:10:5000,mean(AP1000,2),5,[1,0,0],'o');
-
-
 title('Evolution of number of planets in time');
 xlabel('Time in years');
 ylabel('Mean number of planets conform our definition');
 legend('Start with 100 celestial bodies','Start with 200 celestial bodies','Start with 300 celestial bodies','Start with 400 celestial bodies','Start with 500 celestial bodies','Start with 600 celestial bodies','Start with 700 celestial bodies','Start with 800 celestial bodies','Start with 900 celestial bodies','Start with 1000 celestial bodies');
 
 figure;
-histogram(AP100(500,:),-0.5:1:12.5);
+histogram(AP100(500,:),0.5:1:12.5);
 hold on;
-histogram(AP200(500,:),-0.5:1:12.5);
-figure;
-histogram(AP300(500,:),-0.5:1:12.5);
-hold on;
-histogram(AP400(500,:),-0.5:1:12.5);
-figure;
-histogram(AP500(500,:),-0.5:1:12.5);
-hold on;
-histogram(AP600(500,:),-0.5:1:12.5);
-figure;
-histogram(AP700(500,:),-0.5:1:12.5);
-hold on;
-histogram(AP800(500,:),-0.5:1:12.5);
-figure;
-histogram(AP900(500,:),-0.5:1:12.5);
-hold on;
-histogram(AP1000(500,:),-0.5:1:12.5);
+histogram(AP200(500,:),0.5:1:12.5);
+xlabel('Number of Planets after 5000 years');
+ylabel('Number of Simulations');
+title('Histogram of number of Planets after 5000 years');
+legend('Start with 100 celestial bodies','Start with 200 celestial bodies');
 
+figure;
+histogram(AP300(500,:),0.5:1:12.5);
+hold on;
+histogram(AP400(500,:),0.5:1:12.5);
+xlabel('Number of Planets after 5000 years');
+ylabel('Number of Simulations');
+title('Histogram of number of Planets after 5000 years');
+legend('Start with 300 celestial bodies','Start with 400 celestial bodies');
+
+figure;
+histogram(AP500(500,:),0.5:1:12.5);
+hold on;
+histogram(AP600(500,:),0.5:1:12.5);
+xlabel('Number of Planets after 5000 years');
+ylabel('Number of Simulations');
+title('Histogram of number of Planets after 5000 years');
+legend('Start with 500 celestial bodies','Start with 600 celestial bodies');
+
+figure;
+histogram(AP700(500,:),0.5:1:12.5);
+hold on;
+histogram(AP800(500,:),0.5:1:12.5);
+xlabel('Number of Planets after 5000 years');
+ylabel('Number of Simulations');
+title('Histogram of number of Planets after 5000 years');
+legend('Start with 700 celestial bodies','Start with 800 celestial bodies');
+
+figure;
+histogram(AP900(500,:),0.5:1:12.5);
+hold on;
+histogram(AP1000(500,:),0.5:1:12.5);
+xlabel('Number of Planets after 5000 years');
+ylabel('Number of Simulations');
+title('Histogram of number of Planets after 5000 years');
+legend('Start with 900 celestial bodies','Start with 1000 celestial bodies');

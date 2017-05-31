@@ -11,8 +11,8 @@ Table \ref{tab:eenheden} displays the chosen Units for the corresponding physica
 \begin{tabular}{l|l|l}
   Physical quantity & Unit & SI-value \\ \hline
 Time & 1 Month & \(2.629\cdot 10^{6}\) seconds  \\ 
- Distance & 1 Astronomical Unit & \(1.496\cdot10^{11}\) meters   \\
- Mass & 1 Earth Mass & \(5.972\cdot10^{24}\) kilograms \\
+ Distance & 1 Astronomical Unit (AU) & \(1.496\cdot10^{11}\) meters   \\
+ Mass & 1 Earth Mass (\(M_\oplus\))& \(5.972\cdot10^{24}\) kilograms \\
 \end{tabular}
 \end{table}
 Other units such as velocity, acceleration and density follow from these definitions. After these units are set, the gravitational constant is rescaled and the simpelest model can be created.
@@ -50,7 +50,8 @@ The location of the star is determined by setting the center of mass in the orig
 	\vec{x_1}&=-\sum_{i=2}^{N+1}\frac{m_i}{m_1}\vec{x_i}
 \end{align*}
 This sets the location of the star.
-After all the initial values are determined, we can start integrating using LeapFrog(!!!). 
+After all the initial values are determined, we can start integrating using LeapFrog.
+\subsection{LeapFrog}
 
 \subsection{Collisions}
 At certain times during the process, it may occur that the paths of two bodies intersect; a collision between bodies takes place. In order to numerically integrate the evolution of the system however, it is required to make a discretisation of time.
@@ -67,8 +68,8 @@ t\mapsto \vec{x_i}+\vec{v_i}t
 \end{align*}
 And we can define the distance between \(i\) and \(j\) as:
 \begin{align*}
-	d_{ij}:[0,dt]\rightarrow \mathbb{R}_{\geq 0}\\
-	t\mapsto \sqrt{(\vec{\gamma_i(t)}-\vec{\gamma_j(t)})\cdot(\vec{\gamma_i(t)}-\vec{\gamma_j(t)})}
+	d_{ij}&:[0,dt]\rightarrow \mathbb{R}_{\geq 0}\\
+	t&\mapsto \sqrt{(\vec{\gamma_i}(t)-\vec{\gamma_j}(t))\cdot(\vec{\gamma_i}(t)-\vec{\gamma_j}(t))}
 \end{align*}
  A collision takes place in the \(n\)-th month if 
  \begin{align*}
@@ -85,8 +86,16 @@ And we can define the distance between \(i\) and \(j\) as:
   \item \(0\leq t \leq \Delta t\) 
   \item \((\Delta\vec{x} +t\Delta\vec{v})\cdot(\Delta\vec{x} +t\Delta\vec{v}) <(r_i+r_j)^2\)
 \end{enumerate} 
-where \(t= \frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).
-
+where \(t= -\frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).\\
+In this model, we assume that when two planets \(i\) and \(j\) collide, a new planet \(k\) is formed. When two planets collide, the planets will almost surely break into smaller fragments. 
+Due to the gravitational forces however, these small fragements will be pulled back together and therefore our assumption that one new planet is formed is reasonable.
+For this new planet,the mass, velocity and location are determined by the mass, velocity and location of the older planetes. 
+Due to the conservation of mass, we have \(m_k=m_j+m_i\). We set \(\vec{x_k}=\frac{1}{2}(\vec{x_i}+\vec{x_j})\). Due to the conservation of momentum, we can determine the new velocity: 
+\begin{align*}
+	m_k\vec{v_k}=m_j\vec{v_j}+m_i\vec{v_i}\\
+	\vec{v_k}=\frac{1}{m_i+m_j}(m_j\vec{v_j}+m_i\vec{v_i})
+\end{align*}
+This process of creating new planets is the very foundation of the system and evolution of systems. With this properly defined, we are now able to simulate the evolution of planetary systems.
 \subsection{Gaseous planets}
 Thusfar we have assumed that every planet consists of just one (solid) material. 
 In general however, this may not necessarily be the case, Jupiter for instance consists mostly of Hydrogen. Its solid core only makes up for only 25\% of its diameter.
@@ -96,4 +105,7 @@ In this model, we will classify the original in two different types: Solid bodie
  \begin{align*}
  r_i=\sqrt[3]{\frac{3 m_i^s}{4\pi \rho_s}+\frac{3 m_i^g}{4\pi \rho_g}}
  \end{align*}
- Here \(m_i^s\) is the mass of the solid core, and \(m_i^g\) the mass of the gaseous atmosphere. We assume that 
+ Here \(m_i^s\) is the mass of the solid core, and \(m_i^g\) the mass of the gaseous atmosphere. \(\rho_s\) is the mass density of the core and \(\rho_g\) is the mass density of the gaseous atmosphere. We assume that the solid core has the same density as the Earth and that the atmosphere has the same density as Saturn. Rescaling then gives us:
+ \begin{align*}
+ \rho_s =3.115\cdot 10^{12}{M_{\oplus}}/{\text{AU}^3} && \rho_g = 3.884\cdot 10^{11}{M_{\oplus}}/{\text{AU}^3}
+ \end{align*}

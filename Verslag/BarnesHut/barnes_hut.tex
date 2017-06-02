@@ -10,7 +10,7 @@ applies on every object in our solar system. Thus, for every of the $N$ objects 
 To reduce the amount of calculations on equation \ref{Newton G}, we make use of the \textit{Barnes-Hut Algorithm}.\cite{barneshut} The general idea is to treat objects that are 'sufficiently near each other' in comparison to their distance from the considered object, as one.\\
 \textbf{Algorithm.}
 \begin{enumerate}
-\item First, consider the whole space, which must have a boundary, so we take the 'whole space' to be the hypercube that encapsulates all objects to consider (in our case, we use the sun's initial position to determine the center of the space). Create a node, which will become the root of the Barnes-Hut tree, that contains the total mass and center of mass of all objects. If the space contains only one object (or no objects), we do nothing; otherwise, cut the hypercube in half in every dimension, and for every such created subspace, create a child of the root that represents that subspace, including the total mass and center of mass of the objects in that subspace.
+\item First, consider the whole space, which must have a boundary, so we take the 'whole space' to be the hypercube that encapsulates all objects to consider (in our case, we use the center of impulse as the center of the space). Create a node, which will become the root of the Barnes-Hut tree, that contains the total mass and center of mass of all objects. If the space contains only one object (or no objects), we do nothing; otherwise, cut the hypercube in half in every dimension, and for every such created subspace, create a child of the root that represents that subspace, including the total mass and center of mass of the objects in that subspace.
 \item For every such created subspace, recursively check whether the subspace contains zero, one or more than one objects. If it contains zero or one object, do nothing; otherwise, cut the space in subspaces accordingly and create child nodes for every subspace containing the center of mass and total mass of the objects in that subspace.
 \item When every node that has no children contains either zero or one object, the Barnes-Hut tree is completed.
 \item For every object $a$, do the following.
@@ -99,10 +99,11 @@ As one can expect, the precision of the Barnes-Hut algorithm is total dependent 
 \[
 s < d\theta \geq \frac{d}{\sqrt{D}}
 \]
-Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. This results in that the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
+Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
+\item Note that the calculated force is always less or equal the actual force. This is because the center of mass is used -- but the closer objects excert more force than the farther objects.
 \item Consider a subspace represented by a node, that contains two objects, having maximum distance from each other. Consider the error in the force calculated
 \[
-E(m_1,m_2,d_1,d_2) = \frac{m}{d^2}-\frac{m_1}{d_1^2}-\frac{m_2}{d_2^2}
+E(m_1,m_2,d_1,d_2) = \frac{m_1}{d_1^2}+\frac{m_2}{d_2^2}-\frac{m}{d^2}
 \]
-where $m = m_1+m_2$ and $d = \frac{m_1d_1+m_2d_2}{m}$ is the center of mass. Now a third object is added to the node. The error will be less great than if we just added the third object's mass to one of the already present objects, in this case the one closest to the considered object.
+where $m = m_1+m_2$ and $d = \frac{m_1d_1+m_2d_2}{m}$ is the center of mass. Now a third object is added to the node. Two objects can theoretically be simplified to one object
 \end{enumerate}

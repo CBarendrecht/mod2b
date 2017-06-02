@@ -1,13 +1,13 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
-%[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
-load('beginwaarden.mat');
-m = beginm;
-M = beginM;
-r = beginr;
-x = beginx;
-v = beginv;
+[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+%load('beginwaarden.mat');
+%m = beginm;
+%M = beginM;
+%r = beginr;
+%x = beginx;
+%v = beginv;
 
 figure('Name','Planets');
 hold on;
@@ -75,10 +75,6 @@ for k = 3:T
                     if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
                         botsteller = botsteller+1;
                         disp(botsteller);
-%                         if botsarray.array(j)~= 1
-%                             disp('error');
-%                            pause(10); 
-%                         end
                         if m(i) > m(j)
                             v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));
                             m(i) = m(i) + m(j); %nog aanpassen

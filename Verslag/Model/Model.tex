@@ -1,5 +1,5 @@
 \section{The Model}
-As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. The model will only cover the two-dimensional model 
+As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. The model will only cover the two-dimensional model.
 The Model uses the LeapFrog integration method to approximate the new movements. 
 Before we can apply Newton's equation however, we have to define our system of measurement and scale the corresponding physical constants.
 Table \ref{tab:eenheden} displays the chosen Units for the corresponding physical quantity.
@@ -24,12 +24,12 @@ In this model, several parameters are relevant and can be chosen as desired.
 	\item \textbf{Minimum Radius}, denoted as min\(R\), in the model, the celestial bodies start in a n annulus around the origin. This parameter sets the inner radius of this annulus and gives a lower limit to the distance between celestial bodies and the center of mass at \(t=0\).
 	\item \textbf{Maximum Radius}, denoted as max\(R\), this parameter sets the outer radius of the annulus and gives an upper limit to the distance between a celestial body and the center of mass at \(t=0\).
 	\item \textbf{Minimum Mass}, denoted as min\(M\), this parameter sets the minimum mass that a celestial body can have at \(t=0\).
-	\item \textbf{Maximum Mass}m denoted as max\(M\), this parameter sets the maximum mass that a celestial body can have at \(t=0\).
+	\item \textbf{Maximum Mass} denoted as max\(M\), this parameter sets the maximum mass that a celestial body can have at \(t=0\).
 \end{itemize}
 %With these parameters chosen, 
 %\(p\) celestial bodies are generated, distributed uniformly in distance from the center of mass.
 %with a distance from the center of mass determined at random through a uniform distribution. 
-If we identify our system with a two dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
+If we identify our system with a two-dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
 The mass of the celestial body is determined uniformly as well. In the simpelest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
 \begin{align}
 r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\label{eq:rad}
@@ -52,14 +52,40 @@ The location of the star is determined by setting the center of mass in the orig
 This sets the location of the star.
 After all the initial values are determined, we can start integrating using LeapFrog.
 \subsection{LeapFrog}
+The integration meethod used for this model is LeapFrog. LeapFrog is an integration method, specifically developed to integrating differential equations of the form 
+\begin{align*}
+	\dot{x}&=\frac{dx}{dt}=v\\
+	\dot{v}&=\frac{d^2x}{dt^2}=F(x)
+\end{align*}
+This applies directly to our model and is therefore a proper choice as integration method. Leapfrog is a second-order integration method. 
+What distinguishes LeapFrog from the more reknown integration methods such as Runge-Kutta 4 and Euler's method, is the order in which LeapFrog interates velocity and location. 
+Runge-Kutta 4 and Euler's method integrate velocity and location simultaneously, whereas Leapfrog integrates location at \(t=t_n\) and velocity at \(t=t_{n+\frac{1}{2}}\). 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{Leapfrog}
+  \caption{The Leapfrog integration principle, velocity and location are integrated in order rather than simultaneously}
+  \label{fig:leapfrog}
+\end{figure}
+What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{LFcond}. 
+The Leapfrog scheme used in this model is given below:
+\begin{align*}
+x_i
+\end{align*}
+
 
 \subsection{Collisions}
 At certain times during the process, it may occur that the paths of two bodies intersect; a collision between bodies takes place. In order to numerically integrate the evolution of the system however, it is required to make a discretisation of time.
  Therefore, there is a non-trivial chance that a collision occurs in the system, which is overlooked due to the discretisation.
  In order to capture these moments, we note that a collision takes place during the \(n\)-th if at any given time \(t\in[t_{n},t_{n+1}]\), the distance \(d_{ij}(t)\) between the center of mass of each body is smaller then \(r_i+r_j\). 
- Here \(t_n=n\cdot dt\) (the start of the \(n\)-th month).
-\\
- To formalise this, we linearise the path of \(i\) and \(j\) as follows: 
+ Here \(t_n=n\cdot dt\) (the start of the \(n\)-th month). This is illustrated in Figure \ref{fig:bots}.
+ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{botsingnaderbekeken}
+  \caption{An illustration of intersecting paths of two celestial bodies}
+  \label{fig:bots}
+\end{figure}
+ To formalise this principle, we linearise the path of \(i\) and \(j\) as follows: 
  Let \(\vec{x_i}\) be the location of body \(i\) at \(t=t_n\) and let \(\vec{v_i}\) be the numerically determined speed at \(t=t_{n+\frac{1}{2}}\).
 The path of \(i\) is then given by:
 \begin{align*}
@@ -76,7 +102,7 @@ And we can define the distance between \(i\) and \(j\) as:
 	d_{ij}(t)^2&=(\vec{x_i}+\vec{v_i}t-(\vec{x_j}+\vec{v_j}t))\cdot (\vec{x_i}+\vec{v_i}t-(\vec{x_j}+\vec{v_j}t))\\
 	&= (\Delta\vec{x} +t\Delta\vec{v})\cdot(\Delta\vec{x} +t\Delta\vec{v})<(r_i+r_j)^2
  \end{align*}
-  The distance obtains its minimum when \(\frac{d}{dt}d_{ij}(t)^2=0\) Thus for \(t\) we find:
+  The distance obtains its minimum when \(\frac{d}{dt}d_{ij}(t)^2=0\). Thus for \(t\) we find:
   \begin{align*}
   0&=\frac{d}{dt}d_{ij}(t)^2 =2\Delta\vec{v}\cdot(\Delta\vec{x}+t\Delta\vec{v})\\
   t&=-\frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}
@@ -89,7 +115,7 @@ And we can define the distance between \(i\) and \(j\) as:
 where \(t= -\frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).\\
 In this model, we assume that when two planets \(i\) and \(j\) collide, a new planet \(k\) is formed. When two planets collide, the planets will almost surely break into smaller fragments. 
 Due to the gravitational forces however, these small fragements will be pulled back together and therefore our assumption that one new planet is formed is reasonable.
-For this new planet,the mass, velocity and location are determined by the mass, velocity and location of the older planetes. 
+For this new planet, the mass, velocity and location are determined by the mass, velocity and location of the older planets. 
 Due to the conservation of mass, we have \(m_k=m_j+m_i\). We set \(\vec{x_k}=\frac{1}{2}(\vec{x_i}+\vec{x_j})\). Due to the conservation of momentum, we can determine the new velocity: 
 \begin{align*}
 	m_k\vec{v_k}=m_j\vec{v_j}+m_i\vec{v_i}\\

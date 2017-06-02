@@ -37,7 +37,7 @@ WEG = zeros(p+1,sim);
 
 
 for i = 1:sim
-    [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw(p,dt,T,minR,maxR,minM,maxM,dat);
+    [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat);
     
     BEGINM(:,:,i) = beginM;
     BEGINR(:,i) = beginr;

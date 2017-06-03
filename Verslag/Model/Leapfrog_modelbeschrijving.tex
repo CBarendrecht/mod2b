@@ -1,0 +1,107 @@
+% verslag mod2B
+\documentclass{article}
+%table of contents
+\usepackage[utf8]{inputenc}
+\usepackage{url} %nodig om underscores toe te staan in url
+
+%meer ams meer beter
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm} %nodig voor blokje
+\usepackage{bbm} %indicator
+\usepackage{color}
+
+\usepackage{marginnote}
+\usepackage[margin=1in,footskip=0.25in]{geometry} %heb wat meer ruimte
+
+%Plaatjes
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{epstopdf}
+\usepackage{import} % handig bij importeren van dingen uit andere mapjes
+\usepackage{wallpaper} %voorblad
+\usepackage{wrapfig} %plaatjes in tekst
+
+\newcommand*{\blankpage}{%
+\vspace*{\fill}
+{\centering This page is left intentionally blank.\par}
+\vspace{\fill}}
+\newcommand{\orde}[1]{\mathcal{O}(#1)}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ceiling}[1]{\lceil #1 \rceil}
+\newcommand{\floor}[1]{\lfloor #1 \rfloor}
+\begin{document}
+We will now show that LeapFrog is a second-order method for the initial value problem of the form
+\[\begin{cases}
+	\ddot{x}=f(x)\\
+	x(0)=x_0,~v(0)=v_0
+\end{cases}\]
+With $v(t)=\dot{x}(t)$. And we also assume that $f$ is representable with a Taylor series. 
+We will first show that the method is at least second order for the position $x$. We don't claim it to be exact second order because we don't exclude the existence of possible function $f$ such that even $\mathcal{O}(\Delta t^2)$ terms vanishes. But since this happens only in special cases, claming that the method is at least second order is actually equivalent to claiming that the method is second order.\\
+
+Let $x_n$ be the exact solution at time step $n$, $w_n$ be the approximation of $x_n$ at time step $n$ using LeapFrog, but excluding the round-off error. In the same way we define $w'_n$ to be the approximation of $v_n$ at time step $n$. Let $e_n=x_n-w_n$ be the error at time step $n$. Then we have that
+\begin{align*}
+e_1&=x_1-w_1\\
+   &=x_0+\Delta t v_0+\frac{\Delta t^2}{2}f(x_0)+\mathcal{O}(\Delta t^3)-(x_0+\Delta tw'_{1/2})\\
+   &=x_0+\Delta t v_0+\frac{\Delta t^2}{2}f(x_0)+\mathcal{O}(\Delta t^3)-(x_0+\Delta tv_0+\frac{\Delta t^2}{2}f(x_0))\\
+   &=\mathcal{O}(\Delta t^3)
+\end{align*}
+So we see that the error at time step $1$ is even $\mathcal{O}(\Delta t^3)$. But at the second step:
+\begin{align*}
+e_2&=x_2-w_2\\
+   &=x_1+\Delta tv_1 +\mathcal{O}(\Delta t^2)-(w_1+\Delta t w'_{3/2})\\
+   &=x_1-w_1+\Delta t (v_0+\Delta t f(x_0))-\Delta t(w'_{1/2}+\Delta t f(w_1))+\mathcal{O}(\Delta t^2)\\
+   &=x_1-w_1+\Delta t (v_0+\Delta t f(x_0))-(\Delta t v_0+ \frac{\Delta t^2}{2}f(x_0)+\Delta t^2 f(w_1))+\mathcal{O}(\Delta t^2)\\
+   &=\mathcal{O}(\Delta t ^3)+\Delta t^2f(x_0)-\frac{\Delta t^2}{2}f(x_0)-\Delta t^2f(w_1)+\mathcal{O}(\Delta t^2)\\
+   &=\frac{\Delta t^2}{2}f(x_0)-\Delta t^2f(w_1)+\mathcal{O}(\Delta t^2)\\
+   &=\mathcal{O}(\Delta t^2)
+\end{align*}
+So we see that the error at the second step is at least $\mathcal{O}(\Delta t^2)$.\\
+Now, assume $e_n=x_n-w_n$ is $\mathcal{O}(\Delta t^2)$, we have that
+\begin{align*}
+e_{n+1}&=x_{n+1}-w_{n+1}\\
+	   &=x_n+\Delta t v_n+\mathcal{O}(\Delta t^2)-(w_n+\Delta t w'_{n+1/2})\\
+	   &=x_n-w_n+\Delta t (v_0+\mathcal{O}(\Delta t))-\Delta t w'_{n+1/2}+\mathcal{O}(\Delta t^2)
+\end{align*}
+Note that due to recursion, we may write\[\Delta t w'_{n+1/2}=\Delta t(v_0+\mathcal{O}(\Delta t))\]
+Thus we now have
+\begin{align*}
+e_{n+1}&=x_n-w_n+\Delta t (v_0+\mathcal{O}(\Delta t))-\Delta t(v_0+\mathcal{O}(\Delta t))+\mathcal{O}(\Delta t^2)\\
+	   &=\mathcal{O}(\Delta t^2)
+\end{align*}
+Therefore, we see that LeapFrog is at least second order method for the position $x$. If the method is also stable, then it converges to the actual solution.\\
+
+This immediately gives rise to the next question, is LeapFrog also second order for the velocity? On the one hand, the velocity is integrated in an analogous way as the position, but on the other hand, velocity is started with a Euler Forward. We believe that the answer to this question is yes. Although the error at time step $1$ for $v$ is clearly first order, the error at time step $2$ will become second order.\\
+
+Let $e'_{3/2}=v_{3/2}-w'_{3/2}$ with $w'_n$ the approximation of $v_n$ and we will still denote $w_n$ as the approximation for $x_n$. Then
+\begin{align*}
+e'_{3/2}&=v_{3/2}-w'_{3/2}\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(w'_{1/2}+\Delta t f(w_1))\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(v_0+\frac{\Delta t}{2}f(x_0)+\Delta t f(x_0+\Delta t w_{1/2}))\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(v_0+\frac{\Delta t}{2}f(x_0)+\Delta t (f(x_0)+\Delta t w_{1/2}f'(x_0)+\mathcal{O}(\Delta t^2)))\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(v_0+\frac{3}{2}\Delta tf(x_0)+\Delta t^2 w_{1/2}f'(x_0)+\mathcal{O}(\Delta t^3))\\
+		&=\mathcal{O}(\Delta t^2)
+\end{align*}
+Again, we assume $e'_{n+1/2}$ is $\mathcal{O}(\Delta t^2)$, then by induction, we have
+\begin{align*}
+e'_{n+3/2}&=v_{n+3/2}-w'_{n+3/2}\\
+		  &=v_{n+1/2}+\Delta t f(x_{n+1/2})-(w'_{n+1/2}+\Delta t f(w_{n+1}))\\
+		  &=v_{n+1/2}-w'_{n+1/2}+\Delta tf(x_{n+1/2})-\Delta tf(w_{n+1})\\
+\end{align*}
+Using Taylor and the recursive definition of $w_n$, we may write
+\[f(x_{n+1/2})=f(x_0)+\mathcal{O}(\Delta t),~f(w_{n+1})=f(x_0+\mathcal{O}(\Delta t))=f(x_0)+\mathcal{O}(\Delta t)f'(x_0)=f(x_0)+\mathcal{O}(\Delta t)\]
+Thus we have
+\begin{align*}
+e'_{n+3/2}&=v_{n+1/2}-w'_{n+1/2}+\Delta t(f(x_0)+\mathcal{O}(\Delta t)-f(x_0)+\mathcal{O}(\Delta t))\\
+		  &=\mathcal{O}(\Delta t^2)+\mathcal{O}(\Delta t^2)\\
+		  &=\mathcal{O}(\Delta t^2)
+\end{align*}
+We see thus, that LeapFrog applied on the velocity is also of second order.
+\end{document}

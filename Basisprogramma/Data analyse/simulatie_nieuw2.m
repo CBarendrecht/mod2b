@@ -55,7 +55,7 @@ function [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,m
                 botsarray.array = zeros(1,n);
                 vulbotsarray(Bots,1,botsarray,[xmax xmin;ymax ymin]);
                 for j = J(botsarray.array == 1)
-                    if j~=i && m(j) > 0
+                    if j>i && m(j) > 0
                         if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
                             if m(i) > m(j)
                                 v(i,k,:) = (m(i)*v(i,k,:) + m(j)*v(j,k,:))/(m(i)+m(j));

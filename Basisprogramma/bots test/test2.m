@@ -71,7 +71,7 @@ for k = 3:T
             vulbotsarray(Bots,1,botsarray,[xmax xmin;ymax ymin]);
             for j = J(botsarray.array == 1)
             %for j = i+1:n
-                if m(j) > 0 && j~=i
+                if m(j) > 0 && j>i
                     if bots(x(i,k-1,:),x(j,k-1,:),v(i,k,:),v(j,k,:),dt,r(i),r(j))
                         botsteller = botsteller+1;
                         disp(botsteller);

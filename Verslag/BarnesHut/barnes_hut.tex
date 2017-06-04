@@ -159,6 +159,30 @@ We can now start our error analysis. As in remark (3), assume there are two obje
 \[
 \Delta d = s\sqrt{D} < d\theta \sqrt{D} = \theta\sqrt{D}
 \]
+and the error reduces to
+\[
+E = \frac{1}{(1+c)(1-\frac{c}{1+c}\Delta d)^2}+\frac{c}{(1+c)(1+\frac{1}{1+c}\Delta d)^2}-1
+\]
 Since we are interested in the supremum of the error, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark (1), we may assume $\theta < \sqrt{D}$, and therefore $\Delta d<1$.\\
-
+Since $\Delta d$ is now fixed, we can take the derivative of the error to the ratio of mass $c$ in order to determine the supremum of the error given any parameter $\theta$. Instead, we use MATLABs \textit{patternsearch} function. The result for $D=2$ is given in table \ref{tab:maxerror}.
+\begin{table}[h!]
+\centering
+\caption{The maximum value of the error for various values of $\theta$. The last column includes the ratio of masses for the worst case scenario to occur.}
+\label{tab:maxerror}
+\begin{tabular}{c|c|c}
+$\theta$ & Maximum Value of the Error & $c$\\
+\hline
+$\frac{1}{\sqrt{2}}$ & $\infty$ & $\infty$\\
+$\frac{1}{2}$ & $0.6782$ & $3.4431$\\
+$\frac{2}{5}$ & $0.334$ & $2.4064$\\
+$\frac{1}{3}$ & $0.2068$ & $2.0022$\\
+$\frac{1}{4}$ & $0.1052$ & $1.6439$\\
+$\frac{1}{5}$ & $0.0645$ & $1.4767$\\
+$\frac{1}{6}$ & $0.0438$ & $1.3792$\\
+$\frac{1}{8}$ & $0.0241$ & $1.2696$\\
+$\frac{1}{12}$ & $0.0105$ & $1.1712$\\
+$\frac{1}{16}$ & $0.0059$ & $1.1255$ 
+\end{tabular}
+\end{table}
+\textbf{Remark.} The error values in practice are fortunately much smaller than those of table \ref{tab:maxerror} most of the time. Thus, choosing a parameter $\theta=\frac{1}{2}$ usually suffices. 
 

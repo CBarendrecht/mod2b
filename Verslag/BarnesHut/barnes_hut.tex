@@ -92,7 +92,7 @@ M_\theta (2^D-1) := c(\theta)
 \]
 We have noted earlier that there is no upper bound for the number of levels. However, with the number of levels approximately $\orde{\log(N)}$, the total number of calculations for object $i$ should be $\orde{\log(N)}$. Therefore the total number of calculations on one time step is $\orde{N\log(N)}$, but again this is on average, not worst case.
 \subsubsection*{Conclusion}
-\textbf{In conclusion, we can not state the Barnes-Hut algorithm always gives a reduction on the number of calculations, but on average, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.}
+In conclusion, we can not state the Barnes-Hut algorithm always gives a reduction on the number of calculations, but on average, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.
 \subsection{Analysis: Precision and the Size of the Error}
 As one can expect, the precision of the Barnes-Hut algorithm is total dependent on it's sole parameter $\theta$. We will first make a few remarks.
 \begin{enumerate}
@@ -133,5 +133,32 @@ Setting this derivative equal to zero reduces to
 \[
 \left(d-\frac{c}{1+c}\Delta d\right)^3 = \left(d+\frac{1}{1+c}\Delta d\right)^3
 \]
+which is equivalent to
+\[
+\Delta d\left(\Delta d^2\frac{1+c^3}{(1+c)^3}+3d\Delta d\frac{1-c^2}{(1+c)^2}+3d^2\right) = 0
+\]
+Without loss of generality, we can state $d=1$, since $d$ is expressed in some unit, and $\Delta d$ is expressed in the same unit. This leads to
+\begin{equation}
+\Delta d = 0, \text{ or } \frac{1+c^3}{(1+c)^3}\Delta d^2+3\frac{1-c^2}{(1+c)^2}\Delta d+3 = 0
+\end{equation}
+The discriminant of the second equation equals
+\begin{equation}
+\frac{(1-c^2)^2}{(1+c)^4}-12\frac{1+c^3}{(1+c)^3} = \frac{(1-c)^2}{(1+c)^2}-12\left(1-\frac{3c}{(1+c)^2}\right) = \frac{c^2+34c+1}{(1+c)^2}-12 = \frac{32c}{(1+c)^2}-11
+\end{equation}
+Setting the discriminant to zero yields another equation
+\[
+11c^2-10c+11 = 0
+\]
+of which the discriminant is $<0$, so no solution $c\in \R$.\\
+Thus, $\Delta d=0$ is the only solution, which implies that the error is smallest when $\Delta d=0$, which may be expected, but also that there is no other extremum, which proves there is no maximum in the error in terms of $\Delta d$.\hfill $\qedsymbol$
+\item For simplicity, we can always take the situation as described above, since two objects in the same subspace can be exactly grouped into one at a place inside the subspace. So, we can assume a node contains two objects, for our error analysis. Furthermore, for simplicity, we only look at the error in the \textit{magnitude}, not the direction, since they are related by the shape of our subspaces.
 
 \end{enumerate}
+
+We can now start our error analysis. As in remark (3), assume there are two objects in the considered subspace, and let $m_1,m_2,d_1,d_2,m,d,c,\Delta d$ as in remark(3), and, without loss of generality, assume $m = d = 1$. By remark (3) we can assume $\Delta d$ has maximum value, which equals
+\[
+\Delta d = s\sqrt{D} < d\theta \sqrt{D} = \theta\sqrt{D}
+\]
+Since we are interested in the supremum of the error, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark (1), we may assume $\theta < \sqrt{D}$, and therefore $\Delta d<1$.\\
+
+

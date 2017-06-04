@@ -91,8 +91,6 @@ Unfortunately, there can't be said anything about the upper bound; simply take o
 M_\theta (2^D-1) := c(\theta)
 \]
 We have noted earlier that there is no upper bound for the number of levels. However, with the number of levels approximately $\orde{\log(N)}$, the total number of calculations for object $i$ should be $\orde{\log(N)}$. Therefore the total number of calculations on one time step is $\orde{N\log(N)}$, but again this is on average, not worst case.
-\subsubsection*{Conclusion}
-In conclusion, we can not state the Barnes-Hut algorithm always gives a reduction on the number of calculations, but on average, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.
 \subsection{Analysis: Precision and the Size of the Error}
 As one can expect, the precision of the Barnes-Hut algorithm is total dependent on it's sole parameter $\theta$. We will first make a few remarks.
 \begin{enumerate}
@@ -210,4 +208,10 @@ For internal nodes of the tree, we take $x_{max}$ to be the maximum of the $x_{m
   \caption{An illustration of two celestial bodies, with the above defined boundaries for the individual bodies (brown) and the node representing the two bodies (red).}
   \label{fig:grenzen}
 \end{figure}
-Similar to the Barnes Hut algorithm with forces, the collision algorithm recursively checks whether the boundaries of the current considered object and the current node overlap; if so, check it's children, if not, move on. After this process a list of bodies is set on which a collision test is performed. Similarly, one can easily check that the number of collision tests reduces to $\orde{N\log(N)}$ when this algorithm is used.
+Similar to the Barnes Hut algorithm with forces, the collision algorithm recursively checks whether the boundaries of the current considered object and the current node overlap; if so, check it's children, if not, move on. After this process a list of bodies is set on which a collision test is performed. Similarly, one can easily check that the number of collision tests reduces to $\orde{N\log(N)}$ when this algorithm is used.\\
+\textbf{Remark.} Note that, in contrast to the force algorithm, the collision algorithm is an exact algorithm -- without loss of precision. Thus, the collision algorithm doesn't need an extra parameter.
+\subsection{Conclusion}
+Reducing the number of calculations on Newton's equation \ref{Newton G} can be done with the Barnes Hut algorithm, but not without loss of precision. However, even using a parameter such as $\theta=\frac{1}{2}$ practically suffices for most uses. We chose to use $\theta = \frac{1}{2}$ in our simulations. Since the Barnes Hut tree is built only once per time step, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.\\
+Furthermore, a variation on the Barnes Hut algorithm can be used to reduce the number of collision tests on any object. This goes without loss of precision and also has order of complexity $\orde{N\log N}$. We implemented this algorithm in our model as well.\\
+However, even with these improvements on the speed, simulating still takes a long time with the use of personal computers.
+

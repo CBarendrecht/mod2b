@@ -52,7 +52,7 @@ The location of the star is determined by setting the center of mass in the orig
 This sets the location of the star.
 After all the initial values are determined, we can start integrating using LeapFrog.
 \subsection{LeapFrog}
-The integration meethod used for this model is LeapFrog. LeapFrog is an integration method, specifically developed to integrating differential equations of the form 
+The integration method used for this model is LeapFrog. LeapFrog is an integration method, specifically developed to integrating differential equations of the form 
 \begin{align*}
 	\dot{x}&=\frac{dx}{dt}=v\\
 	\dot{v}&=\frac{d^2x}{dt^2}=F(x)
@@ -66,7 +66,7 @@ Runge-Kutta 4 and Euler's method integrate velocity and location simultaneously,
   \caption{The Leapfrog integration principle, velocity and location are integrated in order rather than simultaneously}
   \label{fig:leapfrog}
 \end{figure}
-What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{LFcond}. 
+What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{StabLeapFrog}. 
 The Leapfrog scheme used in this model is given below:
 \begin{align*}
 x_i

@@ -66,7 +66,7 @@ Runge-Kutta 4 and Euler's method integrate velocity and location simultaneously,
   \caption{The Leapfrog integration principle, velocity and location are integrated in order rather than simultaneously}
   \label{fig:leapfrog}
 \end{figure}
-What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{StabLeapFrog}. 
+What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{StabLeapfrog}. 
 The Leapfrog scheme used in this model is given below:
 \begin{align*}
 x_i

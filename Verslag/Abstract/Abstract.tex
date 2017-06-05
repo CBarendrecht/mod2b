@@ -1,4 +1,4 @@
-\section{Abstract}
+\section*{Abstract}
 An $N$-bodies model is built to simulate the formation of planets in a solar system. The model consists of a star and $N$ celestial bodies that orbit around the star according to Newton's equation, which is integrated numerically with LeapFrog. When collision happens, the two collided bodies will fuse into one body with a mass equals to the sum of the two masses. The position and velocity of this body at the following time steps will first be determined with the formula of conservation of momentum and then again by Newton's equation.\\
 \\
 To accelerate the simulations with large $N$, we implemented the Barnes-Hut Algorithm to reduce the number of calculations regarding Newton's equation and collision. The main questions we are interested are

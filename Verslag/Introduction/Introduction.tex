@@ -11,7 +11,7 @@ The initial positions and velocities of all celestial bodies (with exception of 
 The initial position and velocity of the Sun are then determined such that the momentum of the center of mass is zero. 
 The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
 \begin{align}
-\frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}
+\frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}\label{eq:newton}
 \end{align}
 
 We consider an isolated system, therefore there are no external forces working on these planets. 

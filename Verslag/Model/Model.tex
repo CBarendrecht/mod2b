@@ -29,13 +29,52 @@ In this model, several parameters are relevant and can be chosen as desired.
 %With these parameters chosen, 
 %\(p\) celestial bodies are generated, distributed uniformly in distance from the center of mass.
 %with a distance from the center of mass determined at random through a uniform distribution. 
+\subsection{Starting conditions}
 If we identify our system with a two-dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
 The mass of the celestial body is determined uniformly as well. In the simpelest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
 \begin{align}
 r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\label{eq:rad}
 \end{align}
 Where \(r_i\) is the radius of body \(i\), \(m_i\) the mass and \(\rho\) the scaled density of the material.
-Lastly, the initial velocity is determined, using the equations for angular momentum(???). 
+Lastly, the initial velocity is determined. We have that centripetal force on each body $i$ is exactly the gravitational force, with:
+\begin{align*}
+F_{centr,i} &= \frac{m_i\cdot v_i^2}{r_i^2}\\
+F_{grav, i} &= G\cdot \frac{m_i\cdot M}{r_i}
+\end{align*}
+where $m_i$ the mass of body $i$, $v_i$ the velocity of body $i$, $r_i$ the distance between body $i$ and the star, $G$ the gravitation constant and $M$ the mass of the star.
+As a result of these formulas, the absolute value of the circular velocity $v_i$ of body $i$ is given by:
+\begin{align*} 
+v_i^2 = \frac{G\cdot M}{r_i}
+\end{align*}
+
+\begin{wrapfigure}{r}{0.2\textwidth}
+\vspace{-30pt}
+\includegraphics[scale=0.4]{cirkelbaan.png}
+\caption{Orbit}
+    \label{fig:cirkelbaan}
+\end{wrapfigure}
+
+Thereafter, we need to find the velocity in the two dimensions.
+Here we assume that each body's orbit is leftwise (see Figure \ref{fig:cirkelbaan}.).
+This means that each body has a radius $r$ and an angular velocity $\omega$ such that:
+\begin{align*}
+\vec{x}(t) = \begin{pmatrix}
+R \cos(\omega t)\\
+R \sin(\omega t)\\
+\end{pmatrix}
+\end{align*} 
+Thus we have:
+\begin{align*}
+\vec{v}(t) = \begin{pmatrix}
+-R \omega \sin(\omega t)\\
+R \omega \cos(\omega t)\\
+\end{pmatrix} = \begin{pmatrix}
+-\omega x_2(t)\\
+\omega x_1(t)\\
+\end{pmatrix}
+\end{align*} 
+As a consequence, we find that $v_1$ is proportional to $-x_2$ and $v_2$ to $x_1$.
+With this result we can calculate the initial values of the velocities of the celestial bodies. 
 In our system, all bodies move anti-clockwise. 
 After the place,velocity mass and radius of each body is determined, the location and velocity of the star are determined. 
 As mentioned in the introduction, the place and velocity of the star are chosen such that the momentum of the total system equals zero.
@@ -69,8 +108,78 @@ Runge-Kutta 4 and Euler's method integrate velocity and location simultaneously,
 What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{StabLeapfrog}. 
 The Leapfrog scheme used in this model is given below:
 \begin{align*}
-x_i
+x_i = x_{i-1}+v_{i-\frac{1}{2}} dt\\
+a_i= F(x_i)\\
+v_{i+\frac{1}{2}}=v_{i-\frac{1}{2}}+ a_idt
 \end{align*}
+Here \(F(x_i)\) is the value given given by Newton's equation \eqref{eq:newton}.
+ 
+We will now show that LeapFrog is a second-order method for the initial value problem of the form
+\[\begin{cases}
+	\ddot{x}=f(x)\\
+	x(0)=x_0,~v(0)=v_0
+\end{cases}\]
+With $v(t)=\dot{x}(t)$. And we also assume that $f$ is representable with a Taylor series. 
+We will first show that the method is at least second order for the position $x$. We don't claim it to be exact second order because we don't exclude the existence of possible function $f$ such that even $\mathcal{O}(\Delta t^2)$ terms vanishes. But since this happens only in special cases, claming that the method is at least second order is actually equivalent to claiming that the method is second order.\\
+
+Let $x_n$ be the exact solution at time step $n$, $w_n$ be the approximation of $x_n$ at time step $n$ using LeapFrog, but excluding the round-off error. In the same way we define $w'_n$ to be the approximation of $v_n$ at time step $n$. Let $e_n=x_n-w_n$ be the error at time step $n$. Then we have that
+\begin{align*}
+e_1&=x_1-w_1\\
+   &=x_0+\Delta t v_0+\frac{\Delta t^2}{2}f(x_0)+\mathcal{O}(\Delta t^3)-(x_0+\Delta tw'_{1/2})\\
+   &=x_0+\Delta t v_0+\frac{\Delta t^2}{2}f(x_0)+\mathcal{O}(\Delta t^3)-(x_0+\Delta tv_0+\frac{\Delta t^2}{2}f(x_0))\\
+   &=\mathcal{O}(\Delta t^3)
+\end{align*}
+So we see that the error at time step $1$ is even $\mathcal{O}(\Delta t^3)$. But at the second step:
+\begin{align*}
+e_2&=x_2-w_2\\
+   &=x_1+\Delta tv_1 +\mathcal{O}(\Delta t^2)-(w_1+\Delta t w'_{3/2})\\
+   &=x_1-w_1+\Delta t (v_0+\Delta t f(x_0))-\Delta t(w'_{1/2}+\Delta t f(w_1))+\mathcal{O}(\Delta t^2)\\
+   &=x_1-w_1+\Delta t (v_0+\Delta t f(x_0))-(\Delta t v_0+ \frac{\Delta t^2}{2}f(x_0)+\Delta t^2 f(w_1))+\mathcal{O}(\Delta t^2)\\
+   &=\mathcal{O}(\Delta t ^3)+\Delta t^2f(x_0)-\frac{\Delta t^2}{2}f(x_0)-\Delta t^2f(w_1)+\mathcal{O}(\Delta t^2)\\
+   &=\frac{\Delta t^2}{2}f(x_0)-\Delta t^2f(w_1)+\mathcal{O}(\Delta t^2)\\
+   &=\mathcal{O}(\Delta t^2)
+\end{align*}
+So we see that the error at the second step is at least $\mathcal{O}(\Delta t^2)$.\\
+Now, assume $e_n=x_n-w_n$ is $\mathcal{O}(\Delta t^2)$, we have that
+\begin{align*}
+e_{n+1}&=x_{n+1}-w_{n+1}\\
+	   &=x_n+\Delta t v_n+\mathcal{O}(\Delta t^2)-(w_n+\Delta t w'_{n+1/2})\\
+	   &=x_n-w_n+\Delta t (v_0+\mathcal{O}(\Delta t))-\Delta t w'_{n+1/2}+\mathcal{O}(\Delta t^2)
+\end{align*}
+Note that due to recursion, we may write\[\Delta t w'_{n+1/2}=\Delta t(v_0+\mathcal{O}(\Delta t))\]
+Thus we now have
+\begin{align*}
+e_{n+1}&=x_n-w_n+\Delta t (v_0+\mathcal{O}(\Delta t))-\Delta t(v_0+\mathcal{O}(\Delta t))+\mathcal{O}(\Delta t^2)\\
+	   &=\mathcal{O}(\Delta t^2)
+\end{align*}
+Therefore, we see that LeapFrog is at least second order method for the position $x$. If the method is also stable, then it converges to the actual solution.\\
+
+This immediately gives rise to the next question, is LeapFrog also second order for the velocity? On the one hand, the velocity is integrated in an analogous way as the position, but on the other hand, velocity is started with a Euler Forward. We believe that the answer to this question is yes. Although the error at time step $1$ for $v$ is clearly first order, the error at time step $2$ will become second order.\\
+
+Let $e'_{3/2}=v_{3/2}-w'_{3/2}$ with $w'_n$ the approximation of $v_n$ and we will still denote $w_n$ as the approximation for $x_n$. Then
+\begin{align*}
+e'_{3/2}&=v_{3/2}-w'_{3/2}\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(w'_{1/2}+\Delta t f(w_1))\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(v_0+\frac{\Delta t}{2}f(x_0)+\Delta t f(x_0+\Delta t w_{1/2}))\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(v_0+\frac{\Delta t}{2}f(x_0)+\Delta t (f(x_0)+\Delta t w_{1/2}f'(x_0)+\mathcal{O}(\Delta t^2)))\\
+		&=v_0+\frac{3}{2}\Delta t f(x_0)+\mathcal{O}(\Delta t^2)-(v_0+\frac{3}{2}\Delta tf(x_0)+\Delta t^2 w_{1/2}f'(x_0)+\mathcal{O}(\Delta t^3))\\
+		&=\mathcal{O}(\Delta t^2)
+\end{align*}
+Again, we assume $e'_{n+1/2}$ is $\mathcal{O}(\Delta t^2)$, then by induction, we have
+\begin{align*}
+e'_{n+3/2}&=v_{n+3/2}-w'_{n+3/2}\\
+		  &=v_{n+1/2}+\Delta t f(x_{n+1/2})-(w'_{n+1/2}+\Delta t f(w_{n+1}))\\
+		  &=v_{n+1/2}-w'_{n+1/2}+\Delta tf(x_{n+1/2})-\Delta tf(w_{n+1})\\
+\end{align*}
+Using Taylor and the recursive definition of $w_n$, we may write
+\[f(x_{n+1/2})=f(x_0)+\mathcal{O}(\Delta t),~f(w_{n+1})=f(x_0+\mathcal{O}(\Delta t))=f(x_0)+\mathcal{O}(\Delta t)f'(x_0)=f(x_0)+\mathcal{O}(\Delta t)\]
+Thus we have
+\begin{align*}
+e'_{n+3/2}&=v_{n+1/2}-w'_{n+1/2}+\Delta t(f(x_0)+\mathcal{O}(\Delta t)-f(x_0)+\mathcal{O}(\Delta t))\\
+		  &=\mathcal{O}(\Delta t^2)+\mathcal{O}(\Delta t^2)\\
+		  &=\mathcal{O}(\Delta t^2)
+\end{align*}
+We see thus, that LeapFrog applied on the velocity is also of second order.
 
 
 \subsection{Collisions}

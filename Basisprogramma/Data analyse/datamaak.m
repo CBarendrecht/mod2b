@@ -1,21 +1,27 @@
 clear all;
 
-prompt = {'Aantal Simulaties', 'Dataperiode' };
+prompt = {'Aantal Simulaties', 'Dataperiode', 'Laad data uit filenaam', 'Aantal jaar verder'};
 dlg_title = 'Input';
 num_lines = 1;
-defaultans = {'5', '10'} ;
+defaultans = {'1', '50', '0.mat', '1000'} ;
 options.Resize = 'on';
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 sim = str2num(answer{1}); %aantal simulaties
 dat = str2num(answer{2}); %periode van dataafname
-
-[p,dt,T,minR,maxR,minM,maxM] = Menu();
-
+T1 = str2num(answer{4}); %jaren verdergaan
+filenaam = answer{3};
+filenaam1 = filenaam;
+if ~strcmp(filenaam,'0.mat')
+    load(filenaam1);
+    T = T1*12/dt;
+else
+    [p,dt,T,minR,maxR,minM,maxM] = Menu();%geen data, dus menu aanroepen
+end
 %aantal planeten
-AP = zeros(T/(12*dat),sim); %aantal planeten elke simulatie
+AP = zeros(ceil(T/(12*dat)),sim); %aantal planeten elke simulatie
 
 %botsingen per meetinterval
-BPM = zeros(T/(12*dat),sim);
+BPM = zeros(ceil(T/(12*dat)),sim);
 
 %straal
 BEGINR = zeros(p+1,sim);
@@ -35,9 +41,8 @@ GEMafst = zeros(p+1,sim);
 WEG = zeros(p+1,sim);
 
 
-
 for i = 1:sim
-    [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat);
+    [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat,filenaam1);
     
     BEGINM(:,:,i) = beginM;
     BEGINR(:,i) = beginr;
@@ -82,10 +87,10 @@ for i = 1:sim
         end
     end
     
-    clear M;
-    clear r;
-    clear x;
-    clear v;
+    %clear M;
+    %clear r;
+    %clear x;
+    %clear v;
     clear bpm;
     clear ap;
     clear beginm;

@@ -1,8 +1,23 @@
-function [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat)
+function [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat,filenaam)
 
     k2 = 1; % meetpuntteller
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
-    [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+    if strcmp(filenaam,'0.mat')
+        [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+    else
+        T1 = T;
+        load(filenaam);
+        T2 = T;
+        T = T1;
+        x1(:,1,:) = x(:,T2,:);
+        v1(:,1,:) = v(:,T2,:);
+        x = zeros(n,T,2);
+        v = zeros(n,T,2);
+        x(:,1,:) = x1;
+        v(:,1,:) = v1;
+        clear x1;
+        clear v1;
+    end
     beginM = M;
     beginr = r;
     
@@ -12,8 +27,8 @@ function [M,r,x,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,m
     A.array = ones(1,n);
     Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
     Boomvullen(B(:,1,:),1);
-    bpm = zeros(T/(12*dat),1); %aantal botsingen per meetinterval
-    ap = zeros(T/(12*dat),1); %aantal planeten
+    bpm = zeros(ceil(T/(12*dat)),1); %aantal botsingen per meetinterval
+    ap = zeros(ceil(T/(12*dat)),1); %aantal planeten
     
     
     a = F2(B,x(:,1,:)); %versnelling op t = 0

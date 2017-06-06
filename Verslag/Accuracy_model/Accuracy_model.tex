@@ -9,10 +9,11 @@ One way to investigate the accuracy of the model is to check whether the calcula
 Also, since we are dealing with an isolated system, the total energy of the system, must be conserved. 
 Therefore, it is meaningful to investigate whether our model satisfies these two properties.\\ 
 
-\textbf{Remark}: In our case (with $\text{m}_{planet}=1\cdot M_{\oplus}$), the total energy of the system is \cite{Energy}
+\textbf{Remark}: In our case, with $\text{m}_{planet}=1\cdot M_{\oplus}$ and $N=2$, the total energy of the system is \cite{Energy}
 \[E_{tot}=\frac{1}{2}v_{planet}^2-\frac{GM}{r}+\frac{1}{2}Mv_{sun}^2-\frac{GM}{r}=\frac{1}{2}v_{planet}^2-2\frac{GM}{r}\]
 With $M$ the mass of the sun, $r$ the distance between the planeet and the sun. 
 Because the sun is at rest in our system, it's kinetic energy term drops out.\\
+It is very important to note that with $N=2$, there is no collision. Since we assume that the planet does not collide with the sun. Therefore, the total energy consists of only kinetic energy and potential energy. If there was a collision, then we would also have a contribution of other forms of energy(heat) to the total energy.\\
 
 Since we chose to numerically integrate Newton's equation with a time step of $dt=1$ month, we expect that the calculations with planets which are close to the sun would be inaccurate. 
 Because these planets have a much shorter orbital period than the earth. 
@@ -138,4 +139,8 @@ So what does this analysis of two bodies says anything about our results with fo
 
 The elliptical orbit that we observed with only one planet implies that we are integrating correctly(there is still a error of order 1, but at least we obtained a reasonable solution). With more bodies, we will also have collisions, in which we used Euler Forwards to determine the condition for collisions. So we expect that in our results, the order of the error for the position of the bodies would still be 1.\\
 
-We also expect that the total energy is conserved in our simulations with more bodies. Since Leapfrog is known as a sympletic integrator, which has energy conserving property \cite{Leapfrogsympletic}. 
+It would not be wise to try to calculate the total energy of a solar system for large $N$. First of all, although the total energy in the system is conserved, due to collisions between planets, the total energy would have other contribution factors than just kinetic energy and gravity potential energy, which makes it difficult to calculate. The second difficulty lies in the fact that the energy calculation, is just like the force, has complexity $\mathcal{O}(N^2)$, which requires huge amount of calculation for large $N$.\\
+\\
+Instead of calculating energy, a better strategy, which is not done in our simulation, is to calculate the angular momentum. Since the system is isolated, the angular momentum, which is defined as 
+\[\vec{L}=\vec{r}\times m\vec{v}\]
+is also conserved, even during collisions. It is also much easier to calculate, since $m$ and $\vec{v}$ is already already known at each time step, only $\vec{r}$ has to be calculated, which is of complexity $\mathcal{O}(N)$ in a system with $N$ bodies.

@@ -246,14 +246,27 @@ In this model, we will classify the original in two different types: Terestial b
  \begin{align*}
  \rho_s =3.115\cdot 10^{12}{M_{\oplus}}/{\text{AU}^3} && \rho_g = 3.884\cdot 10^{11}{M_{\oplus}}/{\text{AU}^3}
  \end{align*}
-When we initialise our system, a planet \(i\) has a probability \(p\) of being a gaseaous planet. 
+When we initialise our system, a planet \(i\) has a probability \(p\) of being a gaseous planet. 
 In our Solar System, terestial planets (or solid planets) exist either fairly close or extremely far away from the Sun, the Gaseous planets range in distance between 5 AU and 30 AU. 
-Using this as inspiration, we can define a probabilty distribution which determines whether planet \(i\) is gaseous, depending on the initial distance between planet \(i\) and the star. The distribution chosen in this model is given below.
- 
+Using this as inspiration, we can define a collection \(\mathcal{C}\) of bernouilli distributions \(X_r\) as follows:
+\begin{align*}
+	\mathcal{C}=\{X_r| ~0\leq r \leq 40,~X_r \sim \mbox{Bernoulli}(\theta_r)\}
+\end{align*}
+Here, \(\theta_r\) is a parameter depending on the distance \(r\) between a point and the center of mass. \(\theta_r\)  is the realisation of a scaled gamma distribution, which is given below.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{probdistrgasplan}
-  \caption{The probability distribution for being a gaseous planet}
+  \caption{The \(\theta\)-function, which gives a probability \(\theta_r\) of being a gaseous body to a body with distance \(r\) from the centre of mass}
   \label{fig:probdist}
 \end{figure}
-This is a gamma distribution with shape parameter \(k=6\) and scale parameter \(\theta =2\).
+Thus \(\theta_r\) is the value corresponding to distance \(r\) as represented in Figure \ref{fig:probdist}. In example: \(\theta_{10}\approx 0.9651\) and \(\theta_{25} \approx 0.0521\).
+Let \(i\) be a celestial body with distance \(r_i\) from the center of mass. Using the collection of distributions, we can determine whether body \(i\) is gaseous. Namely:
+\[\mathbb{P}(\{i\mbox{ is gaseous}\})= \mathbb{P}(X_{r_i}=1)=\theta_{r_i}\]
+It is important to note that Figure \ref{fig:probdist} is \textit{not} a probability distribution itself, since the area under the graph is greater than 1. It is in fact a scaled gamma distribution with shape parameter \(k=6\) and scale parameter \(\alpha =2\).
+In particular, we have:
+\begin{align*}
+	\theta_r=11\cdot\frac{1}{\Gamma(k)\alpha^k}r^{k-1}e^{-\frac{r}{\alpha}}
+\end{align*}
+This is a scaled probability density function of a Gamma distribution with parameters \(k\) and \(\alpha\). 
+The shape and scale parameters are chosen such that the function obtains its maximum at \(r\approx 11\) AU which is slightly greater than the distance between Saturn and the Sun (9.33 AU). 
+The scaling factor 11 is chosen such that the \(\theta\)-value slightly less than 1 at its maximum. 

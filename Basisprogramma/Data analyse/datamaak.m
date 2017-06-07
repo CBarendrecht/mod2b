@@ -9,11 +9,13 @@ answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 sim = str2num(answer{1}); %aantal simulaties
 dat = str2num(answer{2}); %periode van dataafname
 T1 = str2num(answer{4}); %jaren verdergaan
+T2 = T1;
 filenaam = answer{3};
 filenaam1 = filenaam;
+filenaam2 = filenaam1;
 if ~strcmp(filenaam,'0.mat')
-    load(filenaam1);
-    T = T1*12/dt;
+    load(filenaam);
+    T = T2*12/dt;
 else
     [p,dt,T,minR,maxR,minM,maxM] = Menu();%geen data, dus menu aanroepen
 end
@@ -42,7 +44,7 @@ WEG = zeros(p+1,sim);
 
 
 for i = 1:sim
-    [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat,filenaam1);
+    [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw3(p,dt,T,minR,maxR,minM,maxM,dat,filenaam2);
     
     BEGINM(:,:,i) = beginM;
     BEGINR(:,i) = beginr;
@@ -89,8 +91,10 @@ for i = 1:sim
     
     %clear M;
     %clear r;
-    %clear x;
-    %clear v;
+    xlast = x(:,T,:);
+    vlast = v(:,T,:);
+    clear x;
+    clear v;
     clear bpm;
     clear ap;
     clear beginm;

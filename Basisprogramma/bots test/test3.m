@@ -1,13 +1,13 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
-[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
-%load('beginwaarden.mat');
-%m = beginm;
-%M = beginM;
-%r = beginr;
-%x = beginx;
-%v = beginv;
+%[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+load('beginwaarden.mat');
+m = beginm;
+M = beginM;
+r = beginr;
+x = beginx;
+v = beginv;
 
 figure('Name','Planets');
 hold on;

@@ -235,12 +235,25 @@ This process of creating new planets is the very foundation of the system and ev
 Thusfar we have assumed that every planet consists of just one (solid) material. 
 In general however, this may not necessarily be the case, Jupiter for instance consists mostly of Hydrogen. Its solid core only makes up for only 25\% of its diameter.
 This allows a modifcation of the model, in which every celestial body is not just made of rock, but consists of a solid core, with a gaseous atmosphere. 
-In this model, we will classify the original in two different types: Solid bodies and gaseous bodies.
- Solid bodies consist for 100\% of rock, whereas gaseous bodies consist 90\% of hydrogen and 10\% of rock (in terms of mass). To implement this modification, we have to adjust certain definitions in our current system. Firstly, we have to modify our definition of the radius as given in Equation \eqref{eq:rad}. In the new model, Equation \eqref{eq:rad} reformulates itself to
+In this model, we will classify the original in two different types: Terestial bodies and gaseous bodies.
+ Terestial bodies consist for 100\% of rock, whereas gaseous bodies consist 90\% of hydrogen and 10\% of rock (mass percentage). To implement this modification, we have to adjust certain definitions in our current system. Firstly, we have to modify our definition of the radius as given in Equation \eqref{eq:rad}. In the new model, Equation \eqref{eq:rad} reformulates itself to
  \begin{align*}
  r_i=\sqrt[3]{\frac{3 m_i^s}{4\pi \rho_s}+\frac{3 m_i^g}{4\pi \rho_g}}
  \end{align*}
- Here \(m_i^s\) is the mass of the solid core, and \(m_i^g\) the mass of the gaseous atmosphere. \(\rho_s\) is the mass density of the core and \(\rho_g\) is the mass density of the gaseous atmosphere. We assume that the solid core has the same density as the Earth and that the atmosphere has the same density as Saturn. Rescaling then gives us:
+ Here \(m_i^s\) is the mass of the solid core and \(m_i^g\) the mass of the gaseous atmosphere. \(\rho_s\) is the mass density of the core and \(\rho_g\) is the mass density of the gaseous atmosphere. 
+ We assume that the solid core has the same density as the Earth and that the atmosphere has the same density as Saturn. 
+ In our model, these values are 
  \begin{align*}
  \rho_s =3.115\cdot 10^{12}{M_{\oplus}}/{\text{AU}^3} && \rho_g = 3.884\cdot 10^{11}{M_{\oplus}}/{\text{AU}^3}
  \end{align*}
+When we initialise our system, a planet \(i\) has a probability \(p\) of being a gaseaous planet. 
+In our Solar System, terestial planets (or solid planets) exist either fairly close or extremely far away from the Sun, the Gaseous planets range in distance between 5 AU and 30 AU. 
+Using this as inspiration, we can define a probabilty distribution which determines whether planet \(i\) is gaseous, depending on the initial distance between planet \(i\) and the star. The distribution chosen in this model is given below.
+ 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\textwidth]{probdistrgasplan}
+  \caption{The probability distribution for being a gaseous planet}
+  \label{fig:probdist}
+\end{figure}
+This is a gamma distribution with shape parameter \(k=6\) and scale parameter \(\theta =2\).

@@ -19,7 +19,7 @@ function [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T)
         x(i,1,2) = b*sin(c); %y coordinaat
         v(i,1,:) = baansnelheid([b*cos(c),b*sin(c)]); %snelheid
         if gas
-            M(i,1) = m(i)/10;
+            M(i,1) = m(i)/100;
             M(i,2) = m(i) - M(i,1);
         else
             M(i,1) = m(i);

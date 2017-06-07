@@ -1,4 +1,4 @@
-function [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat,filenaam)
+function [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,minM,maxM,dat)
 
     k2 = 1; % meetpuntteller
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten

@@ -35,15 +35,19 @@ GEMafst = zeros(p1+1,(p1-p0)/100);
 %weggeschoten planeten
 WEG = zeros(p1+1,(p1-p0)/100);
 
+%Behoud van impuls van guanyu
+%IMPULS = zeros(T/(12*dat),(p1-p0)/100);
+
 p=p0:100:p1;
-for i = length(p)
-    [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p(i),dt,T,minR,maxR,minM,maxM,dat);
+for i = 1:length(p)
+    [m,M,r,x,v,ap,beginM,beginr,bpm,im] = simulatie_nieuw2(p(i),dt,T,minR,maxR,minM,maxM,dat);
     BEGINM(:,:,i) = beginM;
     BEGINR(:,i) = beginr;
     EINDM(:,:,i) = M;
     EINDR(:,i) = r;
     AP(:,i) = ap;
     BPM(:,i) = bpm;
+    %IMPULS(:,i) = im;
     
     %Als planneet verwegstaat is ie weg
     for j=1:p(i)+1

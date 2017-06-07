@@ -2,22 +2,8 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,mi
 
     k2 = 1; % meetpuntteller
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
-    if strcmp(filenaam,'0.mat')
-        [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
-    else
-        T1 = T;
-        load(filenaam);
-        T2 = T;
-        T = T1;
-        x1(:,1,:) = x(:,T2,:);
-        v1(:,1,:) = v(:,T2,:);
-        x = zeros(n,T,2);
-        v = zeros(n,T,2);
-        x(:,1,:) = x1;
-        v(:,1,:) = v1;
-        clear x1;
-        clear v1;
-    end
+    
+    [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
     beginM = M;
     beginr = r;
     

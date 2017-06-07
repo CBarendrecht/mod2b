@@ -3,7 +3,7 @@ clear all;
 prompt = {'Begin planeten','Eind planeten', 'Dataperiode'};
 dlg_title = 'Input';
 num_lines = 1;
-defaultans = {'500', '1500', '0.mat', '1000'} ;
+defaultans = {'500', '1500', '50'} ;
 options.Resize = 'on';
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 p0 = str2num(answer{1}); %aantal simulaties

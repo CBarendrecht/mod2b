@@ -1,52 +1,54 @@
 clear all;
 
-prompt = {'Begin planeten','Eind planeten', 'Dataperiode'};
+prompt = {'Begin planeten','Eind planeten', 'Dataperiode','`Stapgrootte'};
 dlg_title = 'Input';
 num_lines = 1;
-defaultans = {'500', '1500', '50'} ;
+defaultans = {'500', '1500', '50','100'} ;
 options.Resize = 'on';
 answer = inputdlg(prompt,dlg_title,num_lines,defaultans,options);
 p0 = str2num(answer{1}); %aantal simulaties
 p1 = str2num(answer{2}); %periode van dataafname
 dat = str2num(answer{3}); %jaren verdergaan
+stapg = str2num(answer{4});
+sim = (p1-p0)/stapg + 1;
     
 
 [plan,dt,T,minR,maxR,minM,maxM] = Menu();%geen data, dus menu aanroepen
 %aantal planeten
-AP = zeros(ceil(T/(12*dat)),(p1-p0)/100); %aantal planeten elke simulatie
+AP = zeros(ceil(T/(12*dat)),sim); %aantal planeten elke simulatie
 
 %botsingen per meetinterval
-BPM = zeros(ceil(T/(12*dat)),(p1-p0)/100);
+BPM = zeros(ceil(T/(12*dat)),sim);
 
 %straal
-BEGINR = zeros(p1+1,(p1-p0)/100);
-EINDR = zeros(p1+1,(p1-p0)/100);
+BEGINR = zeros(p1+1,sim);
+EINDR = zeros(p1+1,sim);
 
 %massa/types
-BEGINM = zeros(p1+1,2,(p1-p0)/100); %beginsituatie opslaan voor elke simulatie
-EINDM = zeros(p1+1,2,(p1-p0)/100); %beginsituatie opslaan voor elke simulatie
+BEGINM = zeros(p1+1,2,sim); %beginsituatie opslaan voor elke simulatie
+EINDM = zeros(p1+1,2,sim); %beginsituatie opslaan voor elke simulatie
 
 %omlooptijd planeten
-OML = zeros(p1+1,(p1-p0)/100);
+OML = zeros(p1+1,sim);
 
 %gemiddelde afstand
-GEMafst = zeros(p1+1,(p1-p0)/100);
+GEMafst = zeros(p1+1,sim);
 
 %weggeschoten planeten
-WEG = zeros(p1+1,(p1-p0)/100);
+WEG = zeros(p1+1,sim);
 
 %Behoud van impuls van guanyu
 %IMPULS = zeros(T/(12*dat),(p1-p0)/100);
 
 p=p0:100:p1;
 for i = 1:length(p)
-    [m,M,r,x,v,ap,beginM,beginr,bpm,im] = simulatie_nieuw2(p(i),dt,T,minR,maxR,minM,maxM,dat);
-    BEGINM(:,:,i) = beginM;
-    BEGINR(:,i) = beginr;
-    EINDM(:,:,i) = M;
-    EINDR(:,i) = r;
-    AP(:,i) = ap;
-    BPM(:,i) = bpm;
+    [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p(i),dt,T,minR,maxR,minM,maxM,dat);
+    BEGINM(1:p(i)+1,:,i) = beginM;
+    BEGINR(1:p(i)+1,i) = beginr;
+    EINDM(1:p(i)+1,:,i) = M;
+    EINDR(1:p(i)+1,i) = r;
+    AP(1:p(i)+1,i) = ap;
+    BPM(1:p(i)+1,i) = bpm;
     %IMPULS(:,i) = im;
     
     %Als planneet verwegstaat is ie weg

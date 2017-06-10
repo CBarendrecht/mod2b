@@ -41,14 +41,16 @@ WEG = zeros(p1+1,sim);
 %IMPULS = zeros(T/(12*dat),(p1-p0)/100);
 
 p=p0:100:p1;
+
 for i = 1:length(p)
     [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p(i),dt,T,minR,maxR,minM,maxM,dat);
     BEGINM(1:p(i)+1,:,i) = beginM;
     BEGINR(1:p(i)+1,i) = beginr;
     EINDM(1:p(i)+1,:,i) = M;
     EINDR(1:p(i)+1,i) = r;
-    AP(1:p(i)+1,i) = ap;
-    BPM(1:p(i)+1,i) = bpm;
+    
+    AP(:,i) = ap;
+    BPM(:,i) = bpm;
     %IMPULS(:,i) = im;
     
     %Als planneet verwegstaat is ie weg

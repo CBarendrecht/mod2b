@@ -35,7 +35,7 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,mi
         
         %botsen
         Bots.array = zeros(10*n,10);
-        Botsboommaken(Bots,A.array,0,0,5*maxR,1,1,x(:,k-1,:),v(:,k,:),r,dt);
+        Botsboommaken(Bots,A.array,0,0,6*maxR,1,1,x(:,k-1,:),v(:,k,:),r,dt);
         Botsboomvullen(Bots,1);
         for i = 1:n-1
             if m(i) > 0
@@ -84,6 +84,14 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm] = simulatie_nieuw2(p,dt,T,minR,maxR,mi
             end
         end
         x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * dt; %plaats op t = k dt
+        for i=1:n
+            if sum(x(i,k,:).^2)>6*maxR
+                 m(j) = 0;
+                 M(j,:) = 0;
+                 A.array(j) = 0;
+                 x(i,k,:)=0;
+            end
+        end
         a = [];
         if mod(k,12*dat) == 0 % een meting elke dat jaar
             isplaneet(1:n) = (m>=0.06 & m<318*100);

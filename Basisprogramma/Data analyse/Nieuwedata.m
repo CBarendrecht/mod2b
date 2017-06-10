@@ -1,6 +1,6 @@
 clear all;
 
-prompt = {'Begin planeten','Eind planeten', 'Dataperiode','`Stapgrootte'};
+prompt = {'Begin planeten','Eind planeten', 'Dataperiode','Stapgrootte'};
 dlg_title = 'Input';
 num_lines = 1;
 defaultans = {'500', '1500', '50','100'} ;
@@ -97,6 +97,6 @@ for i = 1:length(p)
     clear ap;
     clear beginm;
     clear beginr;
-    disp(['Simulatie met ' num2str(p(i)) 'planeten']);
+    disp(['Simulatie met ' num2str(p(i)) ' planeten']);
 end
 

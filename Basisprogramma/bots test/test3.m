@@ -1,19 +1,21 @@
 clear all; %we hebben tijd in maanden en afstand in AE
 [p,dt,T,minR,maxR,minM,maxM] = Menu();
 n = 1+p; %aantal hemellichamen: zon + aantal planeten
-%[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
-load('beginwaarden.mat');
-m = beginm;
-M = beginM;
-r = beginr;
-x = beginx;
-v = beginv;
+[m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T);
+%load('beginwaarden.mat');
+%m = beginm;
+%M = beginM;
+%r = beginr;
+%x = beginx;
+%v = beginv;
 
+frames(T) = struct('cdata',[],'colormap',[]);
 figure('Name','Planets');
 hold on;
 scatter(x(1,1,1),x(1,1,2),10^4*r(1),[1,1,0],'filled');
 scatter(x((m>0 & m<10^5),1,1),x((m>0 & m<10^5),1,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
 axis([-maxR-3 maxR+3 -maxR-3 maxR+3]);
+frames(1) = getframe();
 pause(0.01);
 
 B = largematrix;
@@ -31,6 +33,7 @@ x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
 cla;
 scatter(x(1,2,1),x(1,2,2),10^4*r(1),[1,1,0],'filled');
 scatter(x((m>0 & m<10^5),2,1),x((m>0 & m<10^5),2,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+frames(2) = getframe();
 pause(0.01);
 
 Bots = largematrix;
@@ -106,6 +109,7 @@ for k = 3:T
     cla;
     scatter(x(1,k,1),x(1,k,2),10^4*r(1),[1,1,0],'filled');
     scatter(x((m>0 & m<10^5),k,1),x((m>0 & m<10^5),k,2),10^5*r(m>0 & m<10^5),[1,0,0],'filled');
+    frames(k) = getframe();
     pause(0.01);
     uicontrol('Style', 'text',...
        'String', ['Generation:', num2str(k)],... %replace something with the text you want

@@ -89,10 +89,10 @@ for i = 1:length(p)
         end
     end
     
-    %clear M;
-    %clear r;
-    %clear x;
-    %clear v;
+    clear M;
+    clear r;
+    clear x;
+    clear v;
     clear bpm;
     clear ap;
     clear beginm;

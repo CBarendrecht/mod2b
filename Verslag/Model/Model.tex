@@ -187,7 +187,6 @@ At certain times during the process, it may occur that the paths of two bodies i
  Therefore, there is a non-trivial chance that a collision occurs in the system, which is overlooked due to the discretisation.
  In order to capture these moments, we note that a collision takes place during the \(n\)-th if at any given time \(t\in[t_{n},t_{n+1}]\), the distance \(d_{ij}(t)\) between the center of mass of each body is smaller then \(r_i+r_j\). 
  Here \(t_n=n\cdot dt\) (the start of the \(n\)-th month). This is illustrated in Figure \ref{fig:bots}.
- 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{botsingnaderbekeken}
@@ -231,6 +230,7 @@ Due to the conservation of mass, we have \(m_k=m_j+m_i\). We set \(\vec{x_k}=\fr
 	\vec{v_k}=\frac{1}{m_i+m_j}(m_j\vec{v_j}+m_i\vec{v_i})
 \end{align*}
 This process of creating new planets is the very foundation of the system and evolution of systems. With this properly defined, we are now able to simulate the evolution of planetary systems.
+
 \subsection{Gaseous planets}
 Thusfar we have assumed that every planet consists of just one (solid) material. 
 In general however, this may not necessarily be the case, Jupiter for instance consists mostly of Hydrogen. Its solid core only makes up for only 25\% of its diameter.

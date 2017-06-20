@@ -99,7 +99,7 @@ As one can expect, the precision of the Barnes-Hut algorithm is total dependent 
 s < d\theta \geq \frac{d}{\sqrt{D}}
 \]
 Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
-\item Note that the calculated force is always less or equal the actual force. This is because the center of mass is used -- but the closer objects excert more force than the farther objects.
+\item Note that the calculated force is always less or equal the actual force. This is because the center of mass is used -- but the closer objects excert relatively more force than the farther objects.
 \item Consider a subspace represented by a node, that contains two objects. Let $d_1$ be the distance from the considered object to the first object, and let $d_2$ be defined similarly. In addition, let $m_1$ be the mass of the first object and $m_2$ the mass of the second object. Consider the error in the force calculated
 \[
 E(m_1,m_2,d_1,d_2) = \frac{m_1}{d_1^2}+\frac{m_2}{d_2^2}-\frac{m}{d^2}
@@ -162,7 +162,7 @@ and the error reduces to
 E = \frac{1}{(1+c)(1-\frac{c}{1+c}\Delta d)^2}+\frac{c}{(1+c)(1+\frac{1}{1+c}\Delta d)^2}-1
 \]
 Since we are interested in the supremum of the error, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark (1), we may assume $\theta < \sqrt{D}$, and therefore $\Delta d<1$.\\
-Since $\Delta d$ is now fixed, we can take the derivative of the error to the ratio of mass $c$ in order to determine the supremum of the error given any parameter $\theta$. Instead, we use MATLABs \textit{patternsearch} function. The result for $D=2$ is given in table \ref{tab:maxerror}.
+Since $\Delta d$ is now fixed, we can take the derivative of the error to the ratio of mass $c$ in order to determine the supremum of the error given any parameter $\theta$. Instead, we use MATLABs \textit{patternsearch} function. The result for $D=2$ is given in Table \ref{tab:maxerror}.
 \begin{table}[h!]
 \centering
 \caption{The maximum value of the error for various values of $\theta$. The last column includes the ratio of masses for the worst case scenario to occur.}
@@ -209,8 +209,8 @@ For internal nodes of the tree, we take $x_{max}$ to be the maximum of the $x_{m
   \label{fig:grenzen}
 \end{figure}
 Similar to the Barnes Hut algorithm with forces, the collision algorithm recursively checks whether the boundaries of the current considered object and the current node overlap; if so, check it's children, if not, move on. After this process a list of bodies is set on which a collision test is performed. Similarly, one can easily check that the number of collision tests reduces to $\orde{N\log(N)}$ when this algorithm is used.\\
-\textbf{Remark.} Note that, in contrast to the force algorithm, the collision algorithm is an exact algorithm -- without loss of precision. Thus, the collision algorithm doesn't need an extra parameter.
-\subsection{Conclusion}
+\textbf{Remark.} Note that, in contrast to the force algorithm, the collision algorithm is an exact algorithm -- without loss of precision. That is, it produces the same result as the brute force algorithm. Thus, the collision algorithm doesn't need an extra parameter.
+\subsection{Conclusion and Implementation}
 Reducing the number of calculations on Newton's equation \ref{Newton G} can be done with the Barnes Hut algorithm, but not without loss of precision. However, even using a parameter such as $\theta=\frac{1}{2}$ practically suffices for most uses. We chose to use $\theta = \frac{1}{2}$ in our simulations. Since the Barnes Hut tree is built only once per time step, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.\\
 Furthermore, a variation on the Barnes Hut algorithm can be used to reduce the number of collision tests on any object. This goes without loss of precision and also has order of complexity $\orde{N\log N}$. We implemented this algorithm in our model as well.\\
 However, even with these improvements on the speed, simulating still takes a long time with the use of personal computers.

@@ -7,7 +7,7 @@ Moreover, the Leapfrog method is stable for oscillations and thus for uniform ci
 
 However, our model was far too slow for large numbers of initial celestial bodies, because we needed the distance between every two bodies.
 To avoid this problem, we implemented the Barnes-Hut algorithm, which makes an estimation of the forces by grouping the bodies.
-Happily, this algortithm reduced the running time from $\mathcal{O}(n^2)$ to $\mathcal{O}(n\log(n))$.\\
+Happily, this algortithm reduced the running time from $\mathcal{O}(N^2)$ to $\mathcal{O}(N\log(N))$.\\
 
 Our research is mainly concentrated on the influence of the number of initial celestial bodies.
 We investigated how this influenced the number of planets during the 5000 years of formation of the star system and several properties of the formed planets like mass and radius.
@@ -20,6 +20,11 @@ The number of planets is roughly the same if the star system begins with enough 
 Almost each star system ended up with about $9$ planets.
 Although this result may look strange, we also found something that is very intuitive.
 We namely found that the mass of the planets increases with the number of number of initial bodies and with the mass also the radius increases.\\
+
+In the end, we investigated the accuracy of our model.
+Here, we found that the energy is conserved well for planets with a distance of at least $1$ AU from the star with a time step of one month.
+Therefore, we can conclude that our model is accurate enough, since we chose a time step of one month and all initial celestial bodies have distance to the star greater than $1$ AU.
+
 
 
 

@@ -21,7 +21,7 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T
     beginr = r;
     
     B = largematrix;
-    B.array = zeros(10*n,8);
+    %B.array = zeros(10*n,8);
     A = largematrix;
     A.array = ones(1,n);
     for u=1:length(m)
@@ -29,31 +29,38 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T
             A.array(u) = 0;
         end
     end
-    Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
-    Boomvullen(B(:,1,:),1);
+    %Boommaken(B,A.array,0,0,2*maxR,1,1,m,x(:,1,:));
+    %Boomvullen(B(:,1,:),1);
     bpm = zeros(ceil(T/(12*dat)),1); %aantal botsingen per meetinterval
     ap = zeros(ceil(T/(12*dat)),1); %aantal planeten
     
     
-    a = F2(B,x(:,1,:)); %versnelling op t = 0
+    %a = F2(B,x(:,1,:)); %versnelling op t = 0
     if strcmp(filenaam,'0.mat')
-        v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
-    else
-        v(:,2,:) = v(:,1,:)+a*dt; %leapfrog al begonnen
+        %v(:,2,:) = v(:,1,:) + dt/2 * a; %snelheid op t = 1/2 dt
+        leapfrog = false;
+    else %leapfrog al begonnen
+        %v(:,2,:) = v(:,1,:)+a*dt;
+        leapfrog = true;
     end
-    x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
+    %x(:,2,:) = x(:,1,:) + v(:,2,:) * dt; %plaats op t = dt
     
     %Botsboom initialisaties
     J = 1:n;
     Bots=largematrix;
     botsarray = largematrix;
 
-    for k = 3:T
+    for k = 2:T
         B.array = zeros(10*n,8);
         Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:));
         Boomvullen(B,1);
         a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
-        v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
+        if leapfrog
+            v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
+        else
+            v(:,k,:) = v(:,k-1,:) + dt/2 * a;
+            leapfrog = true;
+        end
         
         %botsen
         Bots.array = zeros(10*n,10);

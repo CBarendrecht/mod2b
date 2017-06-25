@@ -1,62 +1,40 @@
 \section{Results}
-To investigate how the number of planets changes during a $5000$ years evolution of a solar system and how it varies with the parameter $N$(initial number of bodies). 
-We varied $N$ from $100$ to $1000$ with step size $100$(thus $10$ different $N$'s). 
-For each $N$, we ran $5$ simulations measured the average number of planets after every $10$ years. The following results are obtained:
+To investigate how the number of planets changes during a $20000$ years evolution of a solar system and how it varies with the parameter $N$(initial number of bodies). 
+We varied $N$ from $500$ to $1500$ with step size $100$(thus $10$ different $N$'s). 
+For each $N$, we ran only one simulation and measured the average number of planets after every $50$ years. The following results are obtained:
 
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.8]{APgrafiek.eps}
-\caption{Average number of planets during 5000 years of evolution, measured after each 10 years}
-    \label{fig:AantPlaneten}
+\hspace*{-3cm}
+\includegraphics[scale=0.8]{AantPlanetenNieuw.eps}
+\caption{Average number of planets during 20000 years of evolution, measured after each 50 years}
+    \label{fig:AantPlanetenNieuw}
 \end{figure}
+As is shown in Figure \ref{fig:AantPlanetenNieuw}, the number of planets is a non-decreasing graph. And the more initial celestial bodies there are, the more planets are formed. This seems logical at first glance, but if we consider our own solar system, which has only 8 planets, and the number of initial celestial bodies in our early solar system was vastly greater than just $1500$, then we don't expect that the number of planets in a more realistic model will give a non-decreasing graph. Instead, because the small planetismals that are first formed will later accumulate to bigger planets, we would expect that the graph will first reach a certain peak, and then decrease after the peak. And possibly, if $N$ is large enough, the number of planets will reach to a constant that is independent of $N$. In fact, we have obtained such a graph in our earlier simulations(see Appendix), but unfortunately, the graph was a result from a miscalculation. \\
 
-As is shown in Figure \ref{fig:AantPlaneten}, planets are quickly formed in the early stadium of the evolution, and the more bodies there are, the more planets are formed in this stadium. 
-This is logical, since the system is very dynamic in the early stadium due to the huge amount of bodies that gives rise to many collisions. 
-After this early stadium, the small planets accrete further and become bigger planets, and the system becomes more and more stable until a sort of equilibrium is reached in which the number of planets is constant.\\
-
-A remarkable result is that although a larger number of bodies at the start would result in a larger number of planets at the early stadium, the number of planets at the end is roughly the same independent of $N$, if $N$ is large enough(in our case around $N=300$). Also, we see that for $N\geq 300$, that on average the number of planets after 5000 years is around 9, which is close to the number of planets there are in our solar system.\\
-
-In order to look more detailed at the number of planets at the end for $N$ large enough, we've compared the histogram for the number of planets for $N\geq 300$. This is shown in Figure \ref{Histograms}
-\vspace{-5pt}
+What is then the reason that the number of planets is non-decreasing? We think that is because we don't have enough initial celestial bodies, which results in less collisions and thus small planets are too far apart to make bigger planets.\\
+\\
+An important thing to note is the graph of $N=1200$, in which there is suddenly a decrease in the number of planets to almost zero. This is not due to the accretion we just discussed, but an error. It is observed that the momentum of the system is not conserved, which sometimes results that all bodies escaped the solar system including the sun.\\
+\\
+In our case where $N\leq 1500$, a larger $N$ results in a larger number of planets, we would expect that the planets formed are light and small planets. Therefore, we have made the following graphs:
+%\vspace{-3cm}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{AP300400.eps}
-	\caption{Number of planets formed in 5 simulations for $N=300$ and $N=400$.}
+	\includegraphics[width=\textwidth]{EindmassaNieuw.eps}
+	\caption{Average and maximal mass of planets after 20000 years.}
 	\end{subfigure}
 	~
 	\begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{AP500600.eps}
-	\caption{Number of planets formed in 5 simulations for $N=500$ and $N=600$.}
-	\end{subfigure}
-	
-	\begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{AP700800.eps}
-	\caption{Number of planets formed in 5 simulations for $N=700$ and $N=800$.}
+	\includegraphics[width=\textwidth]{EindstraalNieuw.eps}
+	\caption{Average and maximal radius of planets after 20000 years.}
 	\end{subfigure}
 	~
-	\begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{AP9001000.eps}
-	\caption{Number of planets formed in 5 simulations for $N=900$ and $N=1000$.}
+	\begin{subfigure}{0.5\textwidth}
+	\includegraphics[width=\textwidth]{AantalGasPlaneten.eps}
+	\caption{Average number of gas planets after 20000 years.}
 	\end{subfigure}
-	~
-	\caption{Histograms for the number of planets after 5000 years for each $N$, with $N$ ranging from 300 to 1000 with $\delta N=100$. The histogram is obtained after 5 simulations for each $N$. Remark: the darker region is the region in which two histograms overlaps.}
-	\label{Histograms}
-\end{figure}
-From Figure \ref{Histograms}, we see that the number of planets formed is around 7 to 9. At $N=800$, we obtained the highest number of planets, which is 11. And the lowest number of planets is 5, which is obtained at $N=1000$.
-\vspace{-10pt}
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{Eindmassa.eps}
-	\caption{Average and maximal mass of planets after 5000 years.}
-	\end{subfigure}
-	~
-	\begin{subfigure}{0.45\textwidth}
-	\includegraphics[width=\textwidth]{Eindstraal.eps}
-	\caption{Average and maximal radius of planets after 5000 years.}
-	\end{subfigure}
-	\caption{The average and maximal mass and radius of planets after 5000 years, plotted against the number of initial bodies $N$. The average mass and radius of all planets in each one of the five simulations is first calculated, and then the average of the five averages was taken for each $N$.}
-	\label{AverageMassandRadius}
+	\caption{The average and maximal mass and radius of planets after 20000 years, plotted against the number of initial bodies $N$. The average mass and radius of all planets in each one of the five simulations is first calculated, and then the average of the five averages was taken for each $N$. Also, the mean number of gas planets is plotted against $N$.}
+	\label{AverageMassandRadiusEnGasNieuw}
 \end{figure} 
-The independence of $N$ should mean that a larger $N$ would only results in the formation of larger and heavier planets. Indeed, from figure \ref{AverageMassandRadius}, we see that on average larger and heavier planets are formed if $N$ is larger, which is very logical since the total mass in the system is conserved. And for the radius we have $\text{radius} \sim \sqrt[3]{\text{mass}}$, thus also greater radius is very logical. One interesting thing to note is that on average the heaviest planet we can get for $N=1000$ is of mass around $1.8M_{\oplus}$. If we assume that the maximal mass depends lineairly on $N$(which might not be a very bad approxmation by looking at figure \ref{AverageMassandRadius}, if we are only interested in the order of magnitude of $N$), then we would need about $334\cdot \frac{1000}{1.8}\approx 190000\sim 10^5$ bodies at the start to get Jupiter. 
+From Figure \ref{AverageMassandRadiusEnGasNieuw}, we see that the mean mass of all planets are roughly the same independent of $N$, and the heaviest planet is about 1 earth mass. For the mean radius, we see that it depends roughly linear to $N$. This is in accordance with the increasing number of gas planets we observed.

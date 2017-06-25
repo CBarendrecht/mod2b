@@ -4,9 +4,9 @@ The rotation of this cloud caused the cloud to flatten out and take the form of 
 During this evolution, planets are formed through a process known as accretion.
 In this process, cosmic dust accumulates to become small planetesimals, these planetesimals then collide and fuse into a larger celestial body, which will eventually result in the formation of a planet.\\
 
-Based on this idea, we built a model in which \(N\) celestial bodies of mass ranging from $0.005\cdot M_{\oplus}$ to $0.01\cdot M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass) rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
+Based on this idea, we built a model in which \(N\) celestial bodies of mass $m_j$'s ranging from $0.005\cdot M_{\oplus}$ to $0.01\cdot M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass) rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
 The mass of every celestial body is composed of a solid core and a gaseous atmosphere.
-We set the center of mass of the entire system (planets and sun) at the origin of our coordinate system. 
+We choose the center of mass of the entire system (planets and sun) as the origin of our coordinate system. 
 The initial positions and velocities of all celestial bodies (with exception of the Sun) are determined at random, under the condition that the initial distance between the center of mass ranges between 1 AU and  maxR (1 AU is the distance between the Earth and the Sun). 
 The initial position and velocity of the Sun are then determined such that the momentum of the center of mass is zero. 
 The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
@@ -16,11 +16,11 @@ The positions and velocities of all bodies are then numerically integrated by ap
 
 We consider an isolated system, therefore there are no external forces working on these planets. 
 The momentum of the center of mass is thus conserved and its position will therefore always be zero, which makes it a good choice for the center of our coordinate system. 
-In our model, we simulated the evolution of a solar system over $5000$ years, with a time step $dt$ of $1$ month.\\
+In our model, we simulated the evolution of a solar system over $20000$ years, with a time step $dt$ of $1$ month.\\
 
-It is certainly possible that two bodies will collide at a certain time. 
+It is certainly possible that a small number of bodies will collide at a certain time. 
 At that moment, Newton's equation can not be applied since we will divide by zero. 
-In the case of a collision, we use the formula of elastic collision to update the positions and velocities for one step. 
+In the case of a collision, we use the formula of elastic collision to update the velocities for one step. The position is updated by taking the average positions of the collided bodies. 
 To simulate accretion, the mass of the smaller body is then set to zero and the mass of the larger body is set as the sum of the two masses. 
 The positions and velocities of the remaining body are then further determined by Newton's equation.\\
 
@@ -32,10 +32,16 @@ In order to formulate our research questions, we made the following definitions:
 \end{enumerate}
 We then studied the evolution of this solar system by investigating mainly the following questions:
 \begin{enumerate}
-	\item  How does the number of planets vary during this $5000$ years of evolution? In particular, how many planets are there in total after $5000$ years?
+	\item  How does the number of planets vary during this $20000$ years of evolution? In particular, how many planets are there in total after $20000$ years?
 	
 	\item  If we increase the number of bodies $N$ at the start, how will that affect the number of planets during the evolution, and in particular, at the end of the evolution? Do we get more planets at the end or is the number of the planets at the end independent of $N$(in which case, we should obtain heavier planets)?   
-
-
 \end{enumerate}
+Furthermore, we were also interested in the efficiency and accuracy of our simulations. This also leads us to the next questions:
+\begin{enumerate}
+	\item How can we speed up the simulations when $N$ is large(for instance, $N=1000$)?
+	
+	\item What is the accuracy of our simulation? How well does Leapfrog perform for our system?
+\end{enumerate}
+
+In the following sections, we will first give a more detailed description of our model, including the assumptions that we made. Then in the third section, we will discuss and analyse the Barnes-Hut algorithm, which is a famous algorithm used to reduce the calculations for $N$-bodies problem. In the fourth section, results regarding the number of planets are presented. And in the last few sections, the accuracy of our model is analyzed and important conclusions and discussions are summarized. 
  

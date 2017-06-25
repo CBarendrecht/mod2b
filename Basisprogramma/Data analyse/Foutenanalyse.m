@@ -2,9 +2,9 @@ clear all; %we hebben tijd in maanden en afstand in AE
 %[p,h,T,minR,maxR,minM,maxM] = Menu();
 n = 2;
 G = 6.67 * 10^-11/(1.5*10^11)^3 * 5.97 * 10^24 * (3600*2*365.25)^2;
-T=120;
-minR=1;
-maxR=1;
+T=1200;
+minR=0.5;
+maxR=0.5;
 minM=1;
 maxM=1;
 Energie=zeros(1,7);
@@ -14,7 +14,7 @@ vbegin=v;
 tel=1;
 telE=1;
 Q=zeros(2,3);
-for h=[1,0.5,0.25]
+for h=1%,0.5,0.25]
 x=xbegin;
 v=vbegin;
 if telE==1
@@ -83,7 +83,7 @@ for k = 3:T/h
     end
     
     x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * h; %plaats op t = k h
-    if(tel==1&&mod(k,20)==0)
+    if(tel==1&&mod(k,100)==0)
         telE=telE+1;
         ve=v(2,k,:)+a(2,1,:)*h/2;
         Energie(1,telE)=1/2*dot(ve,ve)-G*m(1)/sqrt(x(2,k,1)^2+x(2,k,2)^2);

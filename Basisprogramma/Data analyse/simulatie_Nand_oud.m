@@ -1,4 +1,4 @@
-function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T,minR,maxR,minM,maxM,dat,filenaam)
+function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_oud(p,dt,T,minR,maxR,minM,maxM,dat,filenaam)
     k2 = 1; % meetpuntteller
     n = 1 + p; %aantal hemellichamen: zon + aantal planeten
     if strcmp(filenaam,'0.mat')
@@ -20,7 +20,7 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T
     beginM = M;
     beginr = r;
     
-    B = largematrix;
+    %B = largematrix;
     %B.array = zeros(10*n,8);
     A = largematrix;
     A.array = ones(1,n);
@@ -49,12 +49,19 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T
     J = 1:n;
     Bots=largematrix;
     botsarray = largematrix;
+   
+    D = zeros(n);
+    for i = 1:n
+        for j = 1:n
+            D(i,j) = (x(i,1,1)-x(j,1,1))^2 + (x(i,1,2)-x(j,1,2))^2;
+        end
+    end
 
     for k = 2:T
-        B.array = zeros(10*n,8);
-        Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:));
-        Boomvullen(B,1);
-        a = F2(B,x((m>0),k-1,:)); %versnelling op t = (k - 1) dt
+        %B.array = zeros(10*n,8);
+        %Boommaken(B,A.array,0,0,5*maxR,1,1,m,x(:,k-1,:));
+        %Boomvullen(B,1);
+        a = F(x((m>0),k-1,:),m(m > 0),D(m > 0, m > 0)); %versnelling op t = (k - 1) dt
         if leapfrog
             v((m > 0),k,:) = v((m > 0),k-1,:) + a*dt; %snelheid op t = (k - 1/2) dt
         else
@@ -68,7 +75,9 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T
         Botsboomvullen(Bots,1);
         for i = 1:n-1
             if (abs(x(i,k-1,1)) > 5*maxR || abs(x(i,k-1,2)) > 5*maxR)
-                maxR = max(abs(x(i,k-1,:)));
+                m(i) = 0;
+                M(i,:) = 0;
+                A.array(i) = 0;
                 weg(i) = 1;
             end
             if m(i) > 0
@@ -117,7 +126,15 @@ function [m,M,r,x,v,ap,beginM,beginr,bpm,weg] = simulatie_Nand_simulaties(p,dt,T
             end
         end
         x((m > 0),k,:) = x((m > 0),k-1,:) + v((m > 0),k,:) * dt; %plaats op t = k dt
-        a = [];
+        for i = 1:n
+            if m(i) > 0
+                for j = 1:n
+                    if m(j) > 0
+                        D(i,j) = (x(i,k,1)-x(j,k,1))^2 + (x(i,k,2)-x(j,k,2))^2;
+                    end
+                end
+            end
+        end
         if mod(k,12*dat) == 0 % een meting elke dat jaar
             isplaneet(1:n) = (m>=0.06 & m<318*100);
             ap(k2) = sum(isplaneet);

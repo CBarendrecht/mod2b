@@ -10,14 +10,15 @@ applies on every object in our solar system. Thus, for every of the $N$ objects 
 To reduce the amount of calculations on equation \ref{Newton G}, we make use of the \textit{Barnes-Hut Algorithm}.\cite{barneshut} The general idea is to treat objects that are 'sufficiently near each other' in comparison to their distance from the considered object, as one.\\
 \textbf{Algorithm.}
 \begin{enumerate}
-\item First, consider the whole space, which must have a boundary, so we take the 'whole space' to be the hypercube that encapsulates all objects to consider (in our case, we use the center of impulse as the center of the space). Create a node, which will become the root of the Barnes-Hut tree, that contains the total mass and center of mass of all objects. If the space contains only one object (or no objects), we do nothing; otherwise, cut the hypercube in half in every dimension, and for every such created subspace, create a child of the root that represents that subspace, including the total mass and center of mass of the objects in that subspace.
-\item For every such created subspace, recursively check whether the subspace contains zero, one or more than one objects. If it contains zero or one object, do nothing; otherwise, cut the space in subspaces accordingly and create child nodes for every subspace containing the center of mass and total mass of the objects in that subspace.
-\item When every node that has no children contains either zero or one object, the Barnes-Hut tree is completed.
+\item Choose a parameter $\theta \in \R_{>0}$.
+\item Create a tree, called the Barnes-Hut tree, whose root contains the center of mass and total mass of all objects. Next, choose a length $L$, such that the hypercube with length $L$ and center the center of mass, encapsulates all objects. For speed, $L$ is usually chosen as small as possible.
+\item If this hypercube contains only one object (or no objects), we do nothing; otherwise, cut the hypercube in half in every dimension, and for every such created subspace, create a child of the root that represents that subspace, including the total mass and center of mass of the objects in that subspace.\label{cutinhalf}
+\item For every such created subspace, recursively repeat step \ref{cutinhalf} until every subspace has zero or one object.
 \item For every object $a$, do the following.
 \begin{enumerate}
-\item Start at the root of the current Barnes-Hut tree.
-\item For the current node, if the node represents zero objects, skip that node. If the node represents one object, calculate the force that object excerts on $a$. If the node represents more than one object (and thus is an internal node), calculate the ratio $\frac{s}{d}$, where $s$ is the length of the space - that is, the distance in one dimension from one side to the other - represented by the node (i.e the whole space has length, say, $L$, then the root's children have length $L/2$, etc.), and $d$ is the distance between the center of mass of the node and $a$.
-\item Choose a certain parameter $\theta \in \R_{>0}$. If $\frac{s}{d}<\theta$, then treat the node as a single object with mass and center of mass of that node. Otherwise, recursively repeat (b) and (c) for the node's children.
+\item Start at the root of the Barnes-Hut tree.
+\item For the current node, if the node represents zero objects, do nothing. If the node represents one object, calculate the force that object excerts on $a$. If the node represents more than one object, and thus is an internal node, calculate the ratio $\frac{s}{d}$, where $s$ is the length of the space - that is, the distance between a corner point and a closest other corner point - represented by the node, and $d$ is the distance between the center of mass of the node and $a$.\label{calculate}
+\item If the node is internal and $\frac{s}{d}<\theta$, then treat the node as a single object with mass and center of mass of that node. Otherwise, recursively repeat \ref{calculate} and \ref{treatsingle} for the node's children.\label{treatsingle}
 \end{enumerate}
 \end{enumerate}
 \newpage

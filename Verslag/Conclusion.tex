@@ -1,6 +1,6 @@
 \section{Conclusion}
 
-During our research, we have found some really interesting results, including the tricks we used in our model.
+During our research, we have found some really interesting results, including the mathematical tricks we used in our model.
 First of all, we chose the Leapfrog method to integrate the forming of star systems.
 This method has especially been developed for mechanical systems.
 Moreover, the Leapfrog method is stable for oscillations and thus for uniform circular motion, what we have in our star system.\\
@@ -10,20 +10,12 @@ To avoid this problem, we implemented the Barnes-Hut algorithm, which makes an e
 Happily, this algortithm reduced the running time from $\mathcal{O}(N^2)$ to $\mathcal{O}(N\log(N))$.\\
 
 Our research is mainly concentrated on the influence of the number of initial celestial bodies.
-We investigated how this influenced the number of planets during the 5000 years of formation of the star system and several properties of the formed planets like mass and radius.
-We found that in the begin the number of planets rose as a result of the forming of larger celestial bodies by collisions.
-After a few hundreds of years, depending on the number of initial bodies, the number of planets decreased, now because of the collisions between already formed planets.
-In the end, the number of planets is stabilizing: the star system has been formed.\\
-
-Having a closer look at the influence of the number of initial bodies, we can conclude something remarkable.
-The number of planets is roughly the same if the star system begins with enough bodies.
-Almost each star system ended up with about $9$ planets.
-Although this result may look strange, we also found something that is very intuitive.
-We namely found that the mass of the planets increases with the number of number of initial bodies and with the mass also the radius increases.\\
+We investigated how this influenced the number of planets during the 20000 years of formation of the star system and several properties of the formed planets like mass and radius.
+We found that if $N\leq 1500$, a larger $N$ will result in a larger amount of planets after 20000 years and more specifically, also a larger number of gaseous planets. In contrast to this, the average of all the masses of the planets is independent of $N$. However, we believe that if $N$ is large enough, the number of planets will reach to a constant that is independent of $N$. \\
 
 In the end, we investigated the accuracy of our model.
 Here, we found that the energy is conserved well for planets with a distance of at least $1$ AU from the star with a time step of one month.
-Therefore, we can conclude that our model is accurate enough, since we chose a time step of one month and all initial celestial bodies have distance to the star greater than $1$ AU.
+Therefore, we can conclude that our model is accurate enough, since we chose a time step of one month and all initial celestial bodies have distance to the star greater than $1$ AU. However, Richardson Extrapolation estimates an order $1$ for Leapfrog instead of $2$, which is a contradiction that we do not understand.
 
 
 

@@ -2,12 +2,13 @@ clear all; %we hebben tijd in maanden en afstand in AE
 %[p,h,T,minR,maxR,minM,maxM] = Menu();
 n = 2;
 G = 6.67 * 10^-11/(1.5*10^11)^3 * 5.97 * 10^24 * (3600*2*365.25)^2;
-T=1200;
-minR=0.5;
-maxR=0.5;
+T=24000;
+minR=4;
+maxR=4;
 minM=1;
 maxM=1;
 Energie=zeros(1,7);
+Impuls =zeros(2,7);
 [m,M,r,x,v] = BigBang(n,minR,maxR,minM,maxM,T*4);
 xbegin=x;
 vbegin=v;
@@ -19,6 +20,7 @@ x=xbegin;
 v=vbegin;
 if telE==1
 Energie(1,telE)=1/2*dot(v(2,1,:),v(2,1,:))-G*m(1)/(sqrt(x(2,1,1)^2+x(2,1,2)^2));
+Impuls (:,telE)=sum(m.*v(:,1,:));
 end
 figure('Name','Planets');
 hold on;
@@ -87,6 +89,7 @@ for k = 3:T/h
         telE=telE+1;
         ve=v(2,k,:)+a(2,1,:)*h/2;
         Energie(1,telE)=1/2*dot(ve,ve)-G*m(1)/sqrt(x(2,k,1)^2+x(2,k,2)^2);
+        Impuls(:,telE)=sum(m.*v(:,k,:));
     end
     
     cla;

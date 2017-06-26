@@ -3,12 +3,12 @@ An $N$-bodies model is built to simulate the formation of planets in a solar sys
 \\
 To accelerate the simulations with large $N$, we implemented the Barnes-Hut Algorithm to reduce the number of calculations regarding Newton's equation and collision. The main questions we are interested are
 \begin{itemize}
-\item How does the number of planets vary during a 5000 years evolutions of a solar sytem?
+\item How does the number of planets vary during a 20000 years evolutions of a solar sytem?
 
-\item How does the number of planets after 5000 years depends on $N$?
+\item How does the number of planets after 20000 years depends on $N$?
 \end{itemize}
 \leavevmode
 \\
-To answer these questions, we ran 5 simulations for each $N$, with $N$ ranging from $100$ to $1000$ with $\Delta N=100$, and determined the number of planets after each $10$ years during the simulations. We observed that, when $N$ is large enough, in our case for $N\geq 300$, the number of planets after 5000 years is around $8$ or $9$ and is independent of $N$. In the case of large $N$, only heavier and bigger planets are obtained.\\
+To answer these questions, we ran 1 simulation for each $N$, with $N$ ranging from $500$ to $1500$ with $\Delta N=100$, and determined the number of planets after each $50$ years during the simulations. We observed that, when $N\leq 1500$, a large $N$ will result in a larger number of planets after 20000 years. We found that the average of all masses of the planets is independent of $N$, but planets with larger radius are obtained with larger $N$ because the existence of more gaseous planets.\\
 \\
 We have also investigated on the Barnes-Hut Algorithm and the accuracy of our model. The analysis for the accuracy was done for $N=2$ and we observed that for planets that are more than $1$ AU to the sun, it's orbit is circular and the total energy of the system is conserved. This indicates that our model is accurate at certain level. However, with Richardson Extrapolation, the order of LeapFrog is estimated to be $1$ instead of $2$, which is in contradiction to the fact that LeapFrog is a well-known second order method. The reason for that is still unclear.

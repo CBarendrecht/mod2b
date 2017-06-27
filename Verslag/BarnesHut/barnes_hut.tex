@@ -198,6 +198,7 @@ $1/16$ & $0.0059$ & $1.1255$
 \item Note that the measured error is $\orde{\theta^2}$. This is as expected, since if $\theta$ gets halved, $\Delta d$ can only be half as large. By the force formula, the error should be $\orde{\Delta d^2}$. Thus, the error is also $\orde{\theta^2}$.
 \item\label{unstablelongrun} Contrarily to LeapFrog (see section 5), the Barnes-Hut algorithm is unstable in the long run. For a closed system, as in our model, the total momentum should be conserved. As noted in Section \ref{sec:model}, we set the total momentum equal to zero in order to keep the system 'in sight'. However, Table \ref{tab:barneshutmomentum} shows that the momentum is not conserved.
 \begin{table}[H]
+\centering
 \begin{tabular}{c|c|c}
 $\theta$ & Momentum (x) & Momentum (y)\\
 \hline

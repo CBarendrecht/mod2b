@@ -1,8 +1,9 @@
 \section{The Model}
-As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. The model will only cover the two-dimensional model.
-The Model uses the LeapFrog integration method to approximate the new movements. 
+As mentioned in the introduction, we will be simulating an \(N\)-Body problem including a heavy  object functioning as a star placed in the center of the system. 
+The model will only cover the two-dimensional model.
+The Model uses the LeapFrog integration method to approximate the new movements.
 Before we can apply Newton's equation however, we have to define our system of measurement and scale the corresponding physical constants.
-Table \ref{tab:eenheden} displays the chosen Units for the corresponding physical quantity.
+Table \ref{tab:eenheden} displays the chosen units for the corresponding physical quantity.
 
 \begin{table}[h!]
 \centering
@@ -21,7 +22,7 @@ In this model, several parameters are relevant and can be chosen as desired.
 	\item \textbf{Number of Celestial bodies}, denoted as \(N\), this parameter gives the number of celestial bodies present at the start of a simulation. This excludes the star, thus the system will initially contain a total of \(N+1\) objects.
 	\item \textbf{Integration increment}, denoted as \(dt\), this parameter determines at which moments the system will integrate. In example, if \(dt=2\), new positions will be calculated every two months. By default we set \(dt=1\).
 	\item \textbf{Integration time}, denoted as \(T\), this parameter indicates the duration of the simulation. If \(T=6.0\cdot10^4\), the evolution of the system will be observed over a time period of 5000 years.
-	\item \textbf{Minimum Radius}, denoted as min\(R\), in the model, the celestial bodies start in a n annulus around the origin. This parameter sets the inner radius of this annulus and gives a lower limit to the distance between celestial bodies and the center of mass at \(t=0\).
+	\item \textbf{Minimum Radius}, denoted as min\(R\), in the model, the celestial bodies start in an annulus around the origin. This parameter sets the inner radius of this annulus and gives a lower limit to the distance between celestial bodies and the center of mass at \(t=0\).
 	\item \textbf{Maximum Radius}, denoted as max\(R\), this parameter sets the outer radius of the annulus and gives an upper limit to the distance between a celestial body and the center of mass at \(t=0\).
 	\item \textbf{Minimum Mass}, denoted as min\(M\), this parameter sets the minimum mass that a celestial body can have at \(t=0\).
 	\item \textbf{Maximum Mass} denoted as max\(M\), this parameter sets the maximum mass that a celestial body can have at \(t=0\).
@@ -30,12 +31,12 @@ In this model, several parameters are relevant and can be chosen as desired.
 %\(p\) celestial bodies are generated, distributed uniformly in distance from the center of mass.
 %with a distance from the center of mass determined at random through a uniform distribution. 
 \subsection{Starting conditions}
-If we identify our system with a two-dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar co\"ordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
-The mass of the celestial body is determined uniformly as well. In the simpelest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
+If we identify our system with a two-dimensional space, we can choose a location for each of the \(N\) celestial bodies in polar coordinates, using a uniform distribution to determine both the distance between the body and the center of mass and the angle of the celestial body. 
+The mass of the celestial body is determined uniformly as well. In the simplest model, the radius of a planet is determined solely by its mass. Assuming that a celestial body is made solely of one material, we have
 \begin{align}
 r_i=\sqrt[3]{\frac{3 m_i}{4\pi \rho}}\label{eq:rad}
 \end{align}
-Where \(r_i\) is the radius of body \(i\), \(m_i\) the mass and \(\rho\) the scaled density of the material.
+where \(r_i\) is the radius of body \(i\), \(m_i\) the mass and \(\rho\) the scaled density of the material.
 Lastly, the initial velocity is determined. We have that centripetal force on each body $i$ is exactly the gravitational force, with:
 \begin{align*}
 F_{centr,i} &= \frac{m_i\cdot v_i^2}{r_i^2}\\
@@ -47,7 +48,7 @@ As a result of these formulas, the absolute value of the circular velocity $v_i$
 v_i^2 = \frac{G\cdot M}{r_i}
 \end{align*}
 
-\begin{wrapfigure}{r}{0.2\textwidth}
+\begin{wrapfigure}{r}{0.25\textwidth}
 \vspace{-30pt}
 \includegraphics[scale=0.4]{cirkelbaan.png}
 \caption{Orbit}
@@ -55,7 +56,7 @@ v_i^2 = \frac{G\cdot M}{r_i}
 \end{wrapfigure}
 
 Thereafter, we need to find the velocity in the two dimensions.
-Here we assume that each body's orbit is leftwise (see Figure \ref{fig:cirkelbaan}.).
+Here we assume that each body's orbit is leftwise (see Figure \ref{fig:cirkelbaan}).
 This means that each body has a radius $r$ and an angular velocity $\omega$ such that:
 \begin{align*}
 \vec{x}(t) = \begin{pmatrix}
@@ -105,7 +106,7 @@ Runge-Kutta 4 and Euler's method integrate velocity and location simultaneously,
   \caption{The Leapfrog integration principle, velocity and location are integrated in order rather than simultaneously}
   \label{fig:leapfrog}
 \end{figure}
-What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period\cite{StabLeapfrog}. 
+What makes Leapfrog preferable over Euler's method and Runge-Kutta 4, is that Leapfrog is stable for oscillary motion, under the conditon that \(dt<\frac{\pi R_i}{\tau_i}\), where \(R_i\) is the average radius of an orbit and \(\tau_i\) is the average orbital period \cite{StabLeapfrog}. 
 The Leapfrog scheme used in this model is given below:
 \begin{align*}
 x_i = x_{i-1}+v_{i-\frac{1}{2}} dt\\
@@ -119,8 +120,8 @@ We will now show that LeapFrog is a second-order method for the initial value pr
 	\ddot{x}=f(x)\\
 	x(0)=x_0,~v(0)=v_0
 \end{cases}\]
-With $v(t)=\dot{x}(t)$. And we also assume that $f$ is representable with a Taylor series. 
-We will first show that the method is at least second order for the position $x$. We don't claim it to be exact second order because we don't exclude the existence of possible function $f$ such that even $\mathcal{O}(\Delta t^2)$ terms vanishes. But since this happens only in special cases, claming that the method is at least second order is actually equivalent to claiming that the method is second order.\\
+with $v(t)=\dot{x}(t)$. We assume that $f$ is representable with a Taylor series. 
+We will first show that the method is at least second order for the position $x$. We don't claim it to be exact second order because we don't exclude the existence of possible function $f$ such that even $\mathcal{O}(\Delta t^2)$ terms vanishes. But since this happens only in special cases, claiming that the method is at least second order is actually equivalent to claiming that the method is second order.\\
 
 Let $x_n$ be the exact solution at time step $n$, $w_n$ be the approximation of $x_n$ at time step $n$ using LeapFrog, but excluding the round-off error. In the same way we define $w'_n$ to be the approximation of $v_n$ at time step $n$. Let $e_n=x_n-w_n$ be the error at time step $n$. Then we have that
 \begin{align*}
@@ -220,9 +221,10 @@ And we can define the distance between \(i\) and \(j\) as:
   \item \(0\leq t \leq \Delta t\) 
   \item \((\Delta\vec{x} +t\Delta\vec{v})\cdot(\Delta\vec{x} +t\Delta\vec{v}) <(r_i+r_j)^2\)
 \end{enumerate} 
-where \(t= -\frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).\\
+where \(t= -\frac{\Delta\vec{v}\cdot \Delta\vec{x}}{||\Delta \vec{v}||^2}\).
+
 In this model, we assume that when two planets \(i\) and \(j\) collide, a new planet \(k\) is formed. When two planets collide, the planets will almost surely break into smaller fragments. 
-Due to the gravitational forces however, these small fragements will be pulled back together and therefore our assumption that one new planet is formed is reasonable.
+Due to the gravitational forces however, these small fragments will be pulled back together and therefore our assumption that one new planet is formed is reasonable.
 For this new planet, the mass, velocity and location are determined by the mass, velocity and location of the older planets. 
 Due to the conservation of mass, we have \(m_k=m_j+m_i\). We set \(\vec{x_k}=\frac{1}{2}(\vec{x_i}+\vec{x_j})\). Due to the conservation of momentum, we can determine the new velocity: 
 \begin{align*}
@@ -232,7 +234,7 @@ Due to the conservation of mass, we have \(m_k=m_j+m_i\). We set \(\vec{x_k}=\fr
 This process of creating new planets is the very foundation of the system and evolution of systems. With this properly defined, we are now able to simulate the evolution of planetary systems.
 
 \subsection{Gaseous planets}
-Thusfar we have assumed that every planet consists of just one (solid) material. 
+Thusfar we have assumed that every planet consists of just one (solid) material.
 In general however, this may not necessarily be the case, Jupiter for instance consists mostly of Hydrogen. Its solid core only makes up for only 25\% of its diameter.
 This allows a modifcation of the model, in which every celestial body is not just made of rock, but consists of a solid core, with a gaseous atmosphere. 
 In this model, we will classify the original in two different types: Terestial bodies and gaseous bodies.
@@ -248,7 +250,7 @@ In this model, we will classify the original in two different types: Terestial b
  \end{align*}
 When we initialise our system, a planet \(i\) has a probability \(p\) of being a gaseous planet. 
 In our Solar System, terestial planets (or solid planets) exist either fairly close or extremely far away from the Sun, the Gaseous planets range in distance between 5 AU and 30 AU. 
-Using this as inspiration, we can define a collection \(\mathcal{C}\) of bernouilli distributions \(X_r\) as follows:
+Using this as inspiration, we can define a collection \(\mathcal{C}\) of Bernouilli distributions \(X_r\) as follows:
 \begin{align*}
 	\mathcal{C}=\{X_r| ~0\leq r \leq 40,~X_r \sim \mbox{Bernoulli}(\theta_r)\}
 \end{align*}

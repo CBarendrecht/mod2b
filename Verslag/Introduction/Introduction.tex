@@ -7,13 +7,14 @@ In this process, cosmic dust accumulates to become small planetesimals, these pl
 Based on this idea, we built a model in which \(N\) celestial bodies of mass $m_j$'s ranging from $0.005\cdot M_{\oplus}$ to $0.01\cdot M_{\oplus}$ (where $M_{\oplus}=1$ Earth Mass) rotate around a star with mass $3.33\cdot 10^5 M_{\oplus}$ (roughly the mass of the Sun).
 The mass of every celestial body is composed of a solid core and a gaseous atmosphere.
 We choose the center of mass of the entire system (planets and sun) as the origin of our coordinate system. 
-The initial positions and velocities of all celestial bodies (with exception of the Sun) are determined at random, under the condition that the initial distance between the center of mass ranges between 1 AU and  maxR (1 AU is the distance between the Earth and the Sun). 
+The initial positions and velocities of all celestial bodies (with exception of the Sun) are determined at random, under the condition that the initial distance between the center of mass ranges between 1 AU (the distance between the Earth and the Sun) and  max\(R\) (a chosen maximum radius). 
 The initial position and velocity of the Sun are then determined such that the momentum of the center of mass is zero. 
 The positions and velocities of all bodies are then numerically integrated by applying the Leapfrog scheme to the Newton's equation:
 \begin{align}
 \frac{d^2\vec{r}_i}{dt}=G\sum_{j\neq i}m_j\frac{\vec{r_j}-\vec{r_i}}{|\vec{r_j}-\vec{r_i}|^3}\label{eq:newton}
 \end{align}
 
+Here \(r_i\) represents the place vector of celestial body \(i\), \(G\) is the gravitational constant and \(m_j\) is the mass of body \(j\).
 We consider an isolated system, therefore there are no external forces working on these planets. 
 The momentum of the center of mass is thus conserved and its position will therefore always be zero, which makes it a good choice for the center of our coordinate system. 
 In our model, we simulated the evolution of a solar system over $20000$ years, with a time step $dt$ of $1$ month.\\
@@ -34,14 +35,16 @@ We then studied the evolution of this solar system by investigating mainly the f
 \begin{enumerate}
 	\item  How does the number of planets vary during this $20000$ years of evolution? In particular, how many planets are there in total after $20000$ years?
 	
-	\item  If we increase the number of bodies $N$ at the start, how will that affect the number of planets during the evolution, and in particular, at the end of the evolution? Do we get more planets at the end or is the number of the planets at the end independent of $N$(in which case, we should obtain heavier planets)?   
+	\item  If we increase the number of bodies $N$ at the start, how will that affect the number of planets during the evolution, and in particular, at the end of the evolution? Do we get more planets at the end or is the number of the planets at the end independent of $N$ (in which case, we should obtain heavier planets)?   
 \end{enumerate}
-Furthermore, we were also interested in the efficiency and accuracy of our simulations. This also leads us to the next questions:
+Furthermore, we were interested in the efficiency and accuracy of our simulations. This leads us to the following questions:
 \begin{enumerate}
-	\item How can we speed up the simulations when $N$ is large(for instance, $N=1000$)?
+	\item How can the efficiency of the algorithm be increased for large $N$?
 	
-	\item What is the accuracy of our simulation? How well does Leapfrog perform for our system?
+	\item How accurate are the simulations? How well does Leapfrog perform for our system?
 \end{enumerate}
 
-In the following sections, we will first give a more detailed description of our model, including the assumptions that we made. Then in the third section, we will discuss and analyse the Barnes-Hut algorithm, which is a famous algorithm used to reduce the calculations for $N$-bodies problem. In the fourth section, results regarding the number of planets are presented. And in the last few sections, the accuracy of our model is analyzed and important conclusions and discussions are summarized. 
+In the following section, we will first give a more detailed description of our model, including the assumptions that we made. 
+In section \ref{sec:barnes}, we will discuss and analyse the Barnes-Hut algorithm, which is a well-known algorithm used to reduce the calculations for $N$-body problem. In  section \ref{sec:results}, results regarding the number of planets are presented. 
+In the remaining sections, the accuracy of the model is analysed and important conclusions and discussions are summarised. 
  

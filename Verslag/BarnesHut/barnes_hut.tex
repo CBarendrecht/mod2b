@@ -87,20 +87,26 @@ The strength of the Barnes-Hut algorithm is that the tree is built only once per
 \subsubsection*{Building the tree} Using the same terminology as the previous example, we can note that, for every level of the tree, there are at most $N$ objects represented by the nodes of that level. For a node representing $k$ objects, calculating the center of mass takes $2k$ elementary operations ($k$ multiplications and $k$ additions), and the calculation of the total mass takes $k$ additions. So in total there are $3k$ elementary operations. Therefore, for every level, there are at most $3N$ elementary operations to do.\\
 Now looking at the number of levels, we can give a lower bound but unfortunately no upper bound. For a $D$-dimensional space, a node has ideally $2^D$ children with an equal amount of objects. In this case there will be $\ceiling{^{2^D} \log(N)} = \ceiling{\frac{^2\log(N)}{D}}$ levels, which is the lower bound.\\
 Unfortunately, there can't be said anything about the upper bound; simply take one object to be randomly far away from two others. In this case, the tree just goes down and every node contains exactly the same information as it's parent, except for the last one, which has two external children. Fortunately, according to our simulations, the vast majority of the time, the number of levels isn't much greater than the lower bound. Assuming the lower bound, we have a complexity for building the tree of $\orde{N\log(N)}$.
-\subsubsection*{Number of calculations, given a tree} Let $i$ be a given object, and $D$ the dimension of our space. As we have seen in the example, we can draw a hypersphere outside which a node can be treated as a single object. Since this hypersphere changes in size according to the size of the piece of space represented by the node, there's a constant maximum $M_\theta$ of nodes of a certain level that fall \textit{inside} the sphere. The other $M_\theta(2^D-1)$ fall outside and can be calculated - if not already done before at a previous level. So at the previous level there were $M_\theta$ or less nodes that could not be simplified. At the current level, $M_\theta$ or less of those cannot be simplified and the other $M_\theta(2^D-1)$ can. This applies for every level that satisfies $M_\theta \leq 2^{\text{level}}$. Thus, for every level the number of calculations is at most
+\subsubsection*{Number of calculations, given a tree} Let $i$ be a given object, and $D$ the dimension of our space. As we have seen in the example, we can draw a hypersphere, with center the location $\vec{r}_i$ of $i$, outside which a node can be treated as a single object. Since this hypersphere changes in size according to the size of the piece of space represented by the node, there's a constant maximum $M_\theta$ of nodes of a certain level that fall \textit{inside} the sphere corresponding to the same level. If for that particular level holds
+\[
+2^D M_\theta \leq 2^{D\cdot \text{level}}
+\]
+the other $M_\theta(2^D-1)$ fall outside and can be calculated. For the remaining levels, this amount is even less. Thus, for every level the number of calculations is at most
 \[
 M_\theta (2^D-1) := c(\theta)
 \]
+so the number of calculations for every level is bounded by a constant.\\
+
 We have noted earlier that there is no upper bound for the number of levels. However, with the number of levels approximately $\orde{\log(N)}$, the total number of calculations for object $i$ should be $\orde{\log(N)}$. Therefore the total number of calculations on one time step is $\orde{N\log(N)}$, but again this is on average, not worst case.
 \subsection{Analysis: Precision and the Size of the Error}
 As one can expect, the precision of the Barnes-Hut algorithm is total dependent on it's sole parameter $\theta$. We will first make a few remarks.
 \begin{enumerate}
-\item Let $D$ be the dimension of the considered space, and suppose $\theta \geq \frac{1}{\sqrt{D}}$. Consider the condition $\frac{s}{d} < \theta$. This implies
+\item Let $D$ be the dimension of the considered space, and suppose $\theta > \frac{1}{\sqrt{D}}$. Consider the condition $\frac{s}{d} < \theta$. This implies
 \[
-s < d\theta \geq \frac{d}{\sqrt{D}}
+s < d\theta > \frac{d}{\sqrt{D}}
 \]
-Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
-\item Note that the calculated force is always less or equal the actual force if the objects are aligned with respect to the object $a$ the force is calculated on. However if the objects are next to each other with respect to $a$ and have the same distance to $a$, the calculated force is greater due to the "head-tail" method. In general, the calculated force is less than the actual force most of the time.
+Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Suppose this is the case. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, this implies $s\geq d$. So, the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta \leq \frac{1}{\sqrt{D}}$ must hold. We will see later that strictly less applies.
+\item Note that the calculated force is always less or equal the actual force if the objects are aligned with respect to the object $a$ the force is calculated on. If the objects are next to each other with respect to $a$ and have the same distance to $a$, the calculated force is greater due to the "head-tail" method. In general however, the calculated force is less than the actual force most of the time.
 \item Consider a subspace represented by a node, that contains two objects. Let $d_1$ be the distance from the considered object to the first object, and let $d_2$ be defined similarly. In addition, let $m_1$ be the mass of the first object and $m_2$ the mass of the second object. Consider the error in the force calculated
 \[
 E(m_1,m_2,d_1,d_2) = \frac{m_1}{d_1^2}+\frac{m_2}{d_2^2}-\frac{m}{d^2}
@@ -145,10 +151,10 @@ The discriminant of the second equation equals
 \frac{(1-c^2)^2}{(1+c)^4}-12\frac{1+c^3}{(1+c)^3} = \frac{(1-c)^2}{(1+c)^2}-12\left(1-\frac{3c}{(1+c)^2}\right) = \frac{c^2+34c+1}{(1+c)^2}-12 = \frac{32c}{(1+c)^2}-11
 \end{equation}
 Setting the discriminant to zero yields another equation
-\[
+\begin{equation}
 11c^2-10c+11 = 0
-\]
-of which the discriminant is $<0$, so no solution $c\in \R$.\\
+\end{equation}
+of which the discriminant is strictly less than zero, which implies no solution $c\in \R$.\\
 Thus, $\Delta d=0$ is the only solution, which implies that the error is smallest when $\Delta d=0$, which may be expected, but also that there is no other extremum, which proves there is no maximum in the error in terms of $\Delta d$.\hfill $\qedsymbol$
 \item For simplicity, we can always take the situation as described above, since two objects in the same subspace can be exactly grouped into one at a place inside the subspace. So, we can assume a node contains two objects, for our error analysis. Furthermore, for simplicity, we only look at the error in the \textit{magnitude}, not the direction, since they are related by the shape of our subspaces.
 

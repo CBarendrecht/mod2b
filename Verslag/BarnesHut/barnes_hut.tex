@@ -106,11 +106,9 @@ As one can expect, the precision of the Barnes-Hut algorithm is solely dependent
 \[
 s < d\theta > \frac{d}{\sqrt{D}}
 \]
-Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Suppose this is the case. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, this implies $s\geq d$. So, the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta \leq \frac{1}{\sqrt{D}}$ must hold. We will see later that strictly less applies.
+Thus, $s\geq \frac{d}{\sqrt{D}}$ might hold. Suppose this is the case. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, this implies $s\geq d$. So, the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta \leq \frac{1}{\sqrt{D}}$ must hold. We will see later that strictly less applies.
 \item Note that the calculated force is always less than or equal to the actual force if the objects are aligned with respect to the object $a$ on which the force is calculated. If the objects are next to each other with respect to $a$ and have the same distance to $a$, however, the calculated force is greater due to the "head-tail" method. Usually, the calculated force is less than the actual force.
-Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
 
-\item Note that the calculated force is always less than or equal to the actual force, if the objects are aligned with respect to the object $a$ on which the force is calculated on. If the objects are next to each other with respect to $a$ and have the same distance to $a$, however, the calculated force is greater due to the "head-tail" method. Usually, the calculated force is less than the actual force.
 \item Consider a subspace represented by a node, that contains two objects. Let $d_1$ be the distance from the considered object to the first object, and let $d_2$ be defined similarly. In addition, let $m_1$ be the mass of the first object and $m_2$ the mass of the second object. Consider the error in the force calculated
 \[
 E(m_1,m_2,d_1,d_2) = \frac{m_1}{d_1^2}+\frac{m_2}{d_2^2}-\frac{m}{d^2}
@@ -173,7 +171,7 @@ and the error reduces to
 \[
 E = \frac{1}{(1+c)(1-\frac{c}{1+c}\Delta d)^2}+\frac{c}{(1+c)(1+\frac{1}{1+c}\Delta d)^2}-1
 \]
-Since we are interested in the supremum of the error, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark (1), we may assume $\theta < \sqrt{D}$, and therefore $\Delta d<1$.\\
+Since we are interested in the supremum of the error, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark (1), we may assume $\theta < \frac{1}{\sqrt{D}}$, and therefore $\Delta d<1$.\\
 Since $\Delta d$ is now fixed, we can take the derivative of the error to the ratio of mass $c$ in order to determine the supremum of the error given any parameter $\theta$. Instead, we use MATLABs \textit{patternsearch} function. The result for $D=2$ is given in Table \ref{tab:maxerror}.
 \begin{table}[h!]
 \centering
@@ -182,7 +180,7 @@ Since $\Delta d$ is now fixed, we can take the derivative of the error to the ra
 \begin{tabular}{c|c|c}
 $\theta$ & Maximum Value of the Error & $c$\\
 \hline
-$\frac{1}{\sqrt{2}}$ & $\infty$ & $\infty$\\
+$1/\sqrt{2}$ & $\infty$ & $\infty$\\
 $1/2$ & $0.6782$ & $3.4431$\\
 $2/5$ & $0.334$ & $2.4064$\\
 $1/3$ & $0.2068$ & $2.0022$\\
@@ -194,34 +192,51 @@ $1/12$ & $0.0105$ & $1.1712$\\
 $1/16$ & $0.0059$ & $1.1255$ 
 \end{tabular}
 \end{table}\\
-\textbf{Remark.} Despite the theoretically large error, choosing $\theta = \frac{1}{2}$ or even larger usually suffices, as long as $\theta < \frac{1}{\sqrt{2}}$. There are two reasons for this. First, the actual error is much smaller most of the time. Second, the objects on the other side reduce the error. Put more precisely, by remark (2), errors in the calculations of forces exerted by objects on either side of the considered object are subtracted from each other, reducing the total error.
+\textbf{Remark.}
+\begin{enumerate}
+\item Despite the theoretically large error, choosing $\theta = \frac{1}{2}$ or even larger usually suffices, as long as $\theta < \frac{1}{\sqrt{2}}$. There are two reasons for this. First, the actual error is much smaller most of the time. Second, the objects on the other side reduce the error. Put more precisely, by remark (2), errors in the calculations of forces exerted by objects on either side of the considered object are subtracted from each other, reducing the total error. One has to be careful though, as Remark \ref{unstablelongrun} shows.
+\item Note that the measured error is $\orde{\theta^2}$. This is as expected, since if $\theta$ gets halved, $\Delta d$ can only be half as large. By the force formula, the error should be $\orde{\Delta d^2}$. Thus, the error is also $\orde{\theta^2}$.
+\item\label{unstablelongrun} Contrarily to LeapFrog (see section 5), the Barnes-Hut algorithm is unstable in the long run. For a closed system, as in our model, the total momentum should be conserved. As noted in Section \ref{sec:model}, we set the total momentum equal to zero in order to keep the system 'in sight'. However, Table \ref{tab:barneshutmomentum} shows that the momentum is not conserved.
+\begin{table}[H]
+\begin{tabular}{c|c|c}
+$\theta$ & Momentum (x) & Momentum (y)\\
+\hline
+$1/\sqrt{2}$ & $3.12$ & $-68.23$\\
+$1/2$ & $-3.06$ & $3.24$
+\end{tabular}
+\caption{The total momentum after a simulation with $100$ initial celestial bodies over $40000$ years using $\Delta t = 1$ month, for different parameters $\theta$.}
+\label{tab:barneshutmomentum}
+\end{table}
+Table \ref{tab:barneshutmomentum} shows that one has to be careful choosing $\theta$ when running the simulation for a very long time. A large $\theta$ messes up momentum conservation.
+\end{enumerate}
 \subsection{Using the Barnes Hut Tree to Reduce the Number of Collision Tests}
-In the initial model, for every celestial body $i$, we test whether a collision takes place for every celestial body $j>i$. The Barnes Hut tree can be used to reduce the number collision tests in the model. Therefore, for every body $i$, we set a rectangle around the object bounded by it's minimum and maximum position according to the linearized path function $\gamma_i$ (see section 'The Model' for precise details), as follows.
+In the initial model, for every celestial body $i$, we test whether a collision takes place for every celestial body $j>i$. The Barnes Hut tree can be used to reduce the number collision tests in the model. Therefore, for every body $i$, we set a rectangle around the object bounded by it's minimum and maximum position according to the linearized path function $\gamma_i$ (see section \ref{sec:model} for precise details), as follows.
 \[
 \begin{array}{ll}
-\textbf{if } \vec{v}_{i,1} >= 0 &\\
-& x_{max,i} = \vec{x}_{i,1}+r_i+\vec{v}_{i,1}\Delta t\\
-& x_{min,i} = \vec{x}_{i,1}-r_i\\
+\textbf{if } \vec{v}_{i,1} \geq 0 &\\
+& x_{max,i} := \vec{x}_{i,1}+r_i+\vec{v}_{i,1}\Delta t\\
+& x_{min,i} := \vec{x}_{i,1}-r_i\\
 \textbf{else }\\
-& x_{max,i} = \vec{x}_{i,1}+r_i\\
-& x_{min,i} = \vec{x}_{i,1}-r_i+\vec{v}_{i,1}\Delta t\\
-\textbf{if } \vec{v}_{i,2} >= 0 & \\
-& y_{max,i} = \vec{x}_{i,2}+r_i+\vec{v}_{i,2}\Delta t\\
-& y_{min,i} = \vec{x}_{i,2}-r_i\\
+& x_{max,i} := \vec{x}_{i,1}+r_i\\
+& x_{min,i} := \vec{x}_{i,1}-r_i+\vec{v}_{i,1}\Delta t\\
+\textbf{if } \vec{v}_{i,2} \geq 0 & \\
+& y_{max,i} := \vec{x}_{i,2}+r_i+\vec{v}_{i,2}\Delta t\\
+& y_{min,i} := \vec{x}_{i,2}-r_i\\
 \textbf{else } & \\
-& y_{max,i} = \vec{x}_{i,2}+r_i\\
-& y_{min,i} = \vec{x}_{i,2}-r_i+\vec{v}_{i,2}\Delta t\\
+& y_{max,i} := \vec{x}_{i,2}+r_i\\
+& y_{min,i} := \vec{x}_{i,2}-r_i+\vec{v}_{i,2}\Delta t\\
 \end{array}
 \]
 For internal nodes of the tree, we take $x_{max}$ to be the maximum of the $x_{max,i}$ of the objects represented by the node. $x_{min},y_{max},y_{min}$ are defined similarly. Figure \ref{fig:grenzen} illustrates this principle.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\textwidth]{boundaries}
-  \caption{An illustration of two celestial bodies, with the above defined boundaries for the individual bodies (brown) and the node representing the two bodies (red).}
+  \caption{An illustration of two celestial bodies, with the above defined boundaries for the individual bodies (red) and the node representing the two bodies (orange).}
   \label{fig:grenzen}
 \end{figure}
 Similar to the Barnes Hut algorithm with forces, the collision algorithm recursively checks whether the boundaries of the current considered object and the current node overlap; if so, check it's children, if not, move on. After this process a list of bodies is set on which a collision test is performed. Similarly, one can easily check that the number of collision tests reduces to $\orde{N\log(N)}$ when this algorithm is used.\\
-\textbf{Remark.} Note that, in contrast to the force algorithm, the collision algorithm is an exact algorithm -- without loss of precision. That is, it produces the same result as the brute force algorithm. Thus, the collision algorithm doesn't need an extra parameter.
+
+\textbf{Remark.} Note that, in contrast to the force algorithm, the collision algorithm is an exact algorithm -- that is, it produces the same result as the brute force algorithm. Thus, the collision algorithm doesn't need an extra parameter.
 \subsection{Conclusion and Implementation}
 Reducing the number of calculations on Newton's equation can be done with the Barnes Hut algorithm, but not without loss of precision. However, even using a parameter such as $\theta=\frac{1}{2}$ practically suffices for most uses. We chose to use $\theta = \frac{1}{2}$ in our simulations. Since the Barnes Hut tree is built only once per time step, the number of calculations reduces from $\orde{N^2}$ to $\orde{N\log(N)}$.\\
 Furthermore, a variation on the Barnes Hut algorithm can be used to reduce the number of collision tests on any object. This goes without loss of precision and also has order of complexity $\orde{N\log N}$. We implemented this algorithm in our model as well.\\

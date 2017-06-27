@@ -24,7 +24,7 @@ with $m_i$, $\vec{r_i}$ the mass and position of $i$-th particle. We then set
 	   &=\vec{r_1}+\frac{m_1}{m_2}\vec{r_1}\\
 	   &=\vec{r_1}(1+\frac{m_1}{m_2}) 
 \end{align*}
-In which we used \ref{eq:CM} for the substitution. If we now consider the motion of particle 1:
+In which we used \eqref{eq:CM} for the substitution. If we now consider the motion of particle 1:
 \begin{align*}
 m_1\frac{d^2\vec{r_1}}{dt^2}=\vec{F_1}
 \end{align*}
@@ -33,23 +33,23 @@ Then by subsitution, we obtain:
 \frac{m_1\cdot m_2}{m_1+m_2}\cdot\frac{d^2 \vec{r}}{dt^2}&=\vec{F_1}\\
 \mu\frac{d^2 \vec{r}}{dt^2}&=\vec{F_1}
 \end{align*}
-The quantity $\mu=\frac{m_1m_2}{m_1+m_2}$ is known as the reduced mass. We have now transformed a two bodies problem into an one body problem, in which $\mu$ can be viewed as the mass of this new body. This one body system is equivalent to the original two bodies system, since knowing $\vec{r}$ would give us $r_1$ and $r_2$. \\
+The quantity $\mu=\frac{m_1m_2}{m_1+m_2}$ is known as the reduced mass. We have now transformed a two bodies problem into a one body problem, in which $\mu$ can be viewed as the mass of this new body. This one body system is equivalent to the original two bodies system, since knowing $\vec{r}$ would give us $r_1$ and $r_2$. \\
 \\
 By substituting $\mu$ into the total energy equation, we can also obtain an equivalent energy equation for the one body problem:
 \begin{align}
 E_{tot}=\frac{1}{2}\mu |\vec{v}|^2-\frac{GM_{tot}}{|\vec{r}|}
 \end{align}
-With $M_{tot}=m_1+m_2$. It is not surprising that the equivalent energy formula looks like the energy formula for one particle with mass $\mu$. Now that we have derived our formula. We will perform the simulation with a planet of mass $m=1M_{\oplus}$, and the sun has mass $M=3.33\cdot 10^5 M_{\oplus}$. Since $M\gg m$, and $m=1$ in earth mass unit(we will calculate energy/earth mass), we have that $M_{tot}\approx M$ and $\mu\approx 1$. Also $|\vec{r}|\approx |\vec{r}_{planet}|$.\\
+With $M_{tot}=m_1+m_2$. It is not surprising that the equivalent energy formula looks like the energy formula for one particle with mass $\mu$. Now that we have derived our formula, we will perform the simulation with a planet of mass $m=1M_{\oplus}$, and a star of mass $M=3.33\cdot 10^5 M_{\oplus}$. Since $M\gg m$, and $m=1$ in earth mass unit (we will calculate energy/earth mass), we have that $M_{tot}\approx M$ and $\mu\approx 1$. Also $|\vec{r}|\approx |\vec{r}_{planet}|$.\\
 \\
-After performing the simulation, it turns out that if the planet has a distance of more than $1$AU to the center of mass, that the energy is very well conserved and smooth, circular orbit is obtained(see Appendix). The most interesting case is when the distance is less than $1$ AU, because then we observed some inaccuracy in the numerical solution of the orbit. This is shown in Figure \ref{fig:Planet1AUdt1} 
+After performing the simulation, it turns out that if the planet has a distance of more than $1$AU to the center of mass, that the energy is very well conserved and smooth, circular orbit is obtained(see Appendix). The most interesting case is when the distance is less than $1$ AU, because then we observed some inaccuracy in the numerical solution of the orbit. This is shown in Figure \ref{fig:Planet1AUdt1}.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.6\textwidth]{Planeet_1AU_dt1_100jaar.eps}
-\caption{Orbit of a planet of 1 $M_{\oplus}$ with a distance less than 1AU from the sun, integrated with $dt=1$ month over $100$ years.}
+\caption{Orbit of a planet of 1 $M_{\oplus}$ with a distance less than 1AU from the star, integrated with $dt=1$ month over $100$ years.}
     \label{fig:Planet1AUdt1}
 \end{figure}
-\leavevmode
-\\
+%\leavevmode
+%\\
 Also, a calculation of energy shows that the energy is not exactly conserved:
 \begin{table}[htb]
 \centering
@@ -133,10 +133,10 @@ y position (AU)&   -3.8003&   -3.8859&   -3.9250\\ \hline
 For the order of the x position, denoted as $p_x$, the formula gives $p_x\approx 1.0782$.\\
 For the order of the y position, denoted as $p_y$, the formula gives $p_y\approx 1.1304$.\\ 
 
-This is very surprising result, because Leapfrog is known as a second order method. We do not know the reason yet.
+This is very surprising result, because Leapfrog is known as a second order method. We have no explanation for this result yet.
 \subsection{Comments about accuracy of our results}
-What does this analysis of two bodies says anything about our results with for example 1000 bodies? From the above observation, we saw that the integration is inaccurate for planets too close to the sun. Therefore, in our simulations with more bodies, we avoid this inaccuracy by conditioning the initial distance of each planets to the center of mass to be more than 1 AU, since we are integrating with $dt=1$. Of course, this comes with the price that our model is less realistic. Certainly, we could have chose a smaller $dt$ for planets close to the origin, but that would also require somewhat more programming work.\\
+What does this analysis of two bodies says about our results with for example 1000 bodies? From the above observation, we saw that the integration is inaccurate for planets too close to the sun. Therefore, in our simulations with more bodies, we avoid this inaccuracy by conditioning the initial distance of each planets to the center of mass to be more than 1 AU, since we are integrating with $dt=1$. Of course, this comes with the price that our model is less realistic. Certainly, we could have chose a smaller $dt$ for planets close to the origin, but that would also require somewhat more programming work.\\
 
-The circular orbit that we observed with only one planet implies that we are integrating correctly(there is still a error of order 1, but at least we obtained a reasonable solution). With more bodies, we will also have collisions, in which we used Euler Forwards to determine the condition for collisions. So we expect that in our results, the order of the error for the position of the bodies would still be 1.\\
+The circular orbit that we observed with only one planet implies that we are integrating correctly (there is still a error of order 1, but at least we obtained a reasonable solution). With more bodies, we will also have collisions, in which we used Euler Forwards to determine the condition for collisions. So we expect that in our results, the order of the error for the position of the bodies would still be 1.\\
 
 It would not be wise to try to calculate the total energy of a solar system for large $N$. First of all, although the total energy in the system is conserved, due to collisions between planets, the total energy would have other contribution factors than just kinetic energy and gravity potential energy, which makes it difficult to calculate. The second difficulty lies in the fact that the energy calculation, is just like the force, has complexity $\mathcal{O}(N^2)$, which requires huge amount of calculation for large $N$.

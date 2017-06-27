@@ -98,18 +98,18 @@ M_\theta (2^D-1) := c(\theta)
 \]
 so the number of calculations for every level is bounded by a constant.\\
 
-We have noted earlier that there is no upper bound for the number of levels. However, with the number of levels approximately $\orde{\log(N)}$, the total number of calculations for object $i$ should be $\orde{\log(N)}$. Therefore the total number of calculations on one time step is $\orde{N\log(N)}$, but again this is on average, not worst case.
+We have noted earlier that there is no upper bound for the number of levels. However, noting that the number of levels is approximately $\orde{\log(N)}$, the total number of calculations for object $i$ should be $\orde{\log(N)}$. Therefore the total number of calculations on one time step is $\orde{N\log(N)}$, but again this is on average, not worst case.
 \subsection{Analysis: Precision and the Size of the Error}
 As one can expect, the precision of the Barnes-Hut algorithm is solely dependent on its only parameter $\theta$. We will first make a few remarks.
 \begin{enumerate}
-\item Let $D$ be the dimension of the considered space, and suppose $\theta > \frac{1}{\sqrt{D}}$. Consider the condition $\frac{s}{d} < \theta$. This implies
+\item\label{maxparameter} Let $D$ be the dimension of the considered space, and suppose $\theta > \frac{1}{\sqrt{D}}$. Consider the condition $\frac{s}{d} < \theta$. This implies
 \[
 s < d\theta > \frac{d}{\sqrt{D}}
 \]
 Thus, $s\geq \frac{d}{\sqrt{D}}$ might hold. Suppose this is the case. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, this implies $s\geq d$. So, the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta \leq \frac{1}{\sqrt{D}}$ must hold. We will see later that strictly less applies.
-\item Note that the calculated force is always less than or equal to the actual force if the objects are aligned with respect to the object $a$ on which the force is calculated. If the objects are next to each other with respect to $a$ and have the same distance to $a$, however, the calculated force is greater due to the "head-tail" method. Usually, the calculated force is less than the actual force.
+\item\label{forceless} Note that the calculated force is always less than or equal to the actual force if the objects are aligned with respect to the object $a$ on which the force is calculated. If the objects are next to each other with respect to $a$ and have the same distance to $a$, however, the calculated force is greater due to the "head-tail" rule for addition of vectors. Because the latter effect is less than the former, usually, the calculated force is less than the actual force.
 
-\item Consider a subspace represented by a node, that contains two objects. Let $d_1$ be the distance from the considered object to the first object, and let $d_2$ be defined similarly. In addition, let $m_1$ be the mass of the first object and $m_2$ the mass of the second object. Consider the error in the force calculated
+\item\label{proofnomaximum} Consider a subspace represented by a node, that contains two objects. Let $d_1$ be the distance from the considered object to the first object, and let $d_2$ be defined similarly. In addition, let $m_1$ be the mass of the first object and $m_2$ the mass of the second object. Consider the error in the force calculated
 \[
 E(m_1,m_2,d_1,d_2) = \frac{m_1}{d_1^2}+\frac{m_2}{d_2^2}-\frac{m}{d^2}
 \]
@@ -157,7 +157,7 @@ Setting the discriminant to zero yields another equation
 11c^2-10c+11 = 0
 \end{equation}
 of which the discriminant is strictly less than zero, which implies no solution $c\in \R$.\\
-Thus, $\Delta d=0$ is the only solution, which implies that the error is smallest when $\Delta d=0$, which may be expected, but also that there is no other extremum, which proves there is no maximum in the error in terms of $\Delta d$.\hfill $\qedsymbol$
+Thus, $\Delta d=0$ is the only solution. Because the error is zero when $\Delta d = 0$, by remark \ref{forceless}, this is a minimum. Since there are no other extrema, there is no maximum in terms of $\Delta d$.\hfill $\qedsymbol$
 \item For simplicity, we can always take the situation as described above, since two objects in the same subspace can be exactly grouped into one at a place inside the subspace. So, we can assume a node contains two objects, for our error analysis. Furthermore, for simplicity, we only look at the error in the \textit{magnitude}, not the direction, since they are related by the shape of our subspaces.
 
 \end{enumerate}
@@ -171,7 +171,7 @@ and the error reduces to
 \[
 E = \frac{1}{(1+c)(1-\frac{c}{1+c}\Delta d)^2}+\frac{c}{(1+c)(1+\frac{1}{1+c}\Delta d)^2}-1
 \]
-Since we are interested in the supremum of the error, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark (1), we may assume $\theta < \frac{1}{\sqrt{D}}$, and therefore $\Delta d<1$.\\
+Since we are interested in the supremum of the error, by remark \ref{proofnomaximum}, we can take the limit $\Delta d \rightarrow \theta \sqrt{D}$. By remark \ref{maxparameter}, we may assume $\theta < \frac{1}{\sqrt{D}}$, and therefore $\Delta d<1$.\\
 Since $\Delta d$ is now fixed, we can take the derivative of the error to the ratio of mass $c$ in order to determine the supremum of the error given any parameter $\theta$. Instead, we use MATLABs \textit{patternsearch} function. The result for $D=2$ is given in Table \ref{tab:maxerror}.
 \begin{table}[h!]
 \centering

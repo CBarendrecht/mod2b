@@ -106,14 +106,11 @@ As one can expect, the precision of the Barnes-Hut algorithm is solely dependent
 \[
 s < d\theta > \frac{d}{\sqrt{D}}
 \]
-<<<<<<< HEAD
 Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Suppose this is the case. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, this implies $s\geq d$. So, the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta \leq \frac{1}{\sqrt{D}}$ must hold. We will see later that strictly less applies.
-\item Note that the calculated force is always less or equal the actual force if the objects are aligned with respect to the object $a$ the force is calculated on. If the objects are next to each other with respect to $a$ and have the same distance to $a$, the calculated force is greater due to the "head-tail" method. In general however, the calculated force is less than the actual force most of the time.
-=======
+\item Note that the calculated force is always less than or equal to the actual force if the objects are aligned with respect to the object $a$ on which the force is calculated. If the objects are next to each other with respect to $a$ and have the same distance to $a$, however, the calculated force is greater due to the "head-tail" method. Usually, the calculated force is less than the actual force.
 Thus, $s$ might be greater than $\frac{d}{\sqrt{D}}$. Noting that the distance between two objects in the same subspace is at most $\sqrt{Ds^2} = s\sqrt{D}$, which might imply $s\geq d$. So, it might be that the algorithm considers an object in the same subspace as to be sufficient far away. In this case the algorithm lets an object excert force on itself -- strictly forbidden. So $\theta$ must be smaller than $\frac{1}{\sqrt{D}}$. We will see later that strictly smaller applies.
 
 \item Note that the calculated force is always less than or equal to the actual force, if the objects are aligned with respect to the object $a$ on which the force is calculated on. If the objects are next to each other with respect to $a$ and have the same distance to $a$, however, the calculated force is greater due to the "head-tail" method. Usually, the calculated force is less than the actual force.
->>>>>>> a14ce9ed5a6ce7937933a8f50beee064c6f314e9
 \item Consider a subspace represented by a node, that contains two objects. Let $d_1$ be the distance from the considered object to the first object, and let $d_2$ be defined similarly. In addition, let $m_1$ be the mass of the first object and $m_2$ the mass of the second object. Consider the error in the force calculated
 \[
 E(m_1,m_2,d_1,d_2) = \frac{m_1}{d_1^2}+\frac{m_2}{d_2^2}-\frac{m}{d^2}
@@ -168,7 +165,7 @@ Thus, $\Delta d=0$ is the only solution, which implies that the error is smalles
 \end{enumerate}
 
 We can now start our error analysis.
-As in remark (3), assume there are two objects in the considered subspace, and let $m_1,m_2,d_1,d_2,m,d,c,\Delta d$ as in remark (3), and, without loss of generality, assume $m = d = 1$. By remark (3) we can assume $\Delta d$ has maximum value, which equals
+As in remark (3), assume there are two objects in the considered subspace, and let $m_1,m_2,d_1,d_2,m,d,c,\Delta d$ as in remark (3), and, without loss of generality, assume $m = d = 1$. By remark (3) we can assume $\Delta d$ has its maximum value, which equals
 \[
 \Delta d = s\sqrt{D} < d\theta \sqrt{D} = \theta\sqrt{D}
 \]
